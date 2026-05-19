@@ -1,0 +1,14 @@
+# SmartPT Documentation
+
+SmartPT documentation covers SmartPT Core, JIT Access, and AD Control for on-prem Local Active Directory environments.
+
+Primary site: https://docs.smartpt.co.il/
+Company site: https://smartpt.co.il/
+
+Key documentation areas:
+- SmartPT Core installation and licensing.
+- JIT Access roles, assignments, eligible activation, OTP verification, active sessions, and automatic removal from Active Directory groups.
+- AD Control tiered helpdesk operations, password reset, account unlock, OTP verification, temporary password delivery, protected users, protected groups, and Tier 0 protection.
+- Audit, troubleshooting, shared security model, privacy, terms, cookie policy, and accessibility statement.
+
+This static documentation site does not require login and does not include analytics or advertising tracking scripts.
