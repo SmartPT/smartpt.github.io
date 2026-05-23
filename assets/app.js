@@ -461,6 +461,7 @@ Verify service:      /verify</code></pre>
     ${jitDiagram()}
     <h2>What problem JIT solves</h2>
     <p>In many environments, administrative users remain in sensitive groups such as Domain Admins because they may need that access later. That creates standing privilege: an account has high-impact access even when there is no active business need. If the account is compromised, the attacker inherits that privilege immediately.</p>
+    ${standingPrivilegeDiagram()}
     <p>JIT changes the operating model. Instead of keeping users permanently in privileged AD groups, JIT Access adds group membership only when access is valid, then removes it automatically when the access window closes or an operator revokes it.</p>
     <h2>How JIT works</h2>
     <ul>
@@ -500,6 +501,7 @@ Verify service:      /verify</code></pre>
   `),
   'jit-access-model': page('Access Model, Licensing, and RBAC', 'JIT Access', `
     <p class="lead">JIT Access separates product access from privileged access. A user can sign in and still be blocked from JIT actions if the license assignment or RBAC role is missing.</p>
+    ${jitArchitectureDiagram()}
     <div class="table-wrap"><table><thead><tr><th>Layer</th><th>Purpose</th></tr></thead><tbody>
       <tr><td>Authentication</td><td>Confirms the signed-in Active Directory user.</td></tr>
       <tr><td>License validation</td><td>Confirms the JIT product license is active and the user is assigned to the product.</td></tr>
@@ -689,6 +691,7 @@ Verify service:      /verify</code></pre>
   'jit-eligible-otp': page('Eligible OTP Self-Service', 'JIT Access', `
     <p class="lead">Eligible OTP access lets an approved user activate temporary privileged access without holding standing membership in the target Active Directory group.</p>
     <p>The administrator prepares the access path. The user activates it only when needed, verifies with OTP, and receives a time-limited session. JIT Access removes access automatically when the session expires or when an administrator revokes it.</p>
+    ${eligibleOtpFlowDiagram()}
     <h2>End-to-end flow</h2>
     <ol>
       <li>A JIT administrator assigns a product license to the user.</li>
@@ -741,6 +744,7 @@ Verify service:      /verify</code></pre>
   `),
   'jit-sessions-revoke': page('Monitoring, Sessions, Extend, and Revoke', 'JIT Access', `
     <p class="lead">Active Sessions is the operations view for live privileged access. Use it to confirm who is elevated, which role is active, when access expires, and whether the session should be extended or revoked.</p>
+    ${jitOperationsFlowDiagram()}
     <figure class="doc-screenshot"><img src="./docs/jit/screenshots/sessions-joe-active-actions.png" alt="Joe active eligible session with extend and revoke actions highlighted"><figcaption>Jim can monitor Joe's active eligible session and see the available Extend and Revoke actions.</figcaption></figure>
     <h2>What this page solves</h2>
     <p>Temporary access is only useful when operators can see it while it is active. Active Sessions shows current privileged sessions and gives JIT administrators immediate action buttons for allowed sessions.</p>
@@ -770,6 +774,7 @@ Verify service:      /verify</code></pre>
   `),
   'jit-notifications-session-policy': page('Notifications and Session Policy', 'JIT Access', `
     <p class="lead">JIT Settings controls how session events are announced and how long portal sessions can remain active. Review these settings before enabling production roles.</p>
+    ${jitSettingsPolicyDiagram()}
     <h2>Notification recipients</h2>
     <p>Notification recipients define which administrators or operational mailboxes receive JIT session event emails.</p>
     <figure class="doc-screenshot"><img src="./docs/jit/screenshots/settings-notifications-highlight.png" alt="JIT notification recipients and session notification toggle highlighted"><figcaption>Use recipients and global notification enablement to control who receives session event emails.</figcaption></figure>
@@ -1219,6 +1224,83 @@ function jitDiagram() {
         <div class="diagram-box"><strong>Session</strong><span>Temporary AD membership with max duration and optional OTP.</span></div>
         <div class="diagram-box"><strong>Removal</strong><span>Backend removes access automatically or by admin revoke.</span></div>
       </div>
+    </div>
+  `;
+}
+
+function standingPrivilegeDiagram() {
+  return `
+    <div class="diagram" role="img" aria-label="Standing privilege compared with JIT Access">
+      <div class="eyebrow">Risk model</div>
+      <div class="diagram-lane">
+        <div class="diagram-box warning"><strong>Standing privilege</strong><span>User remains in a privileged AD group even when no task is active. A compromised account immediately inherits that access.</span></div>
+        <div class="diagram-arrow">-></div>
+        <div class="diagram-box good"><strong>JIT Access</strong><span>User is added to the mapped AD group only during an approved active session. Expiry or revoke removes membership automatically.</span></div>
+      </div>
+      <div class="diagram-note">Outcome: privileged access becomes time-bound, visible, and easier to audit.</div>
+    </div>
+  `;
+}
+
+function jitArchitectureDiagram() {
+  return `
+    <div class="diagram" role="img" aria-label="JIT Access architecture diagram">
+      <div class="eyebrow">Architecture</div>
+      <div class="diagram-grid five">
+        <div class="diagram-box"><strong>Users and admins</strong><span>JIT administrators, eligible users, and operators sign in with AD identity.</span></div>
+        <div class="diagram-box accent"><strong>JIT Portal</strong><span>Shows roles, assignments, active sessions, activation, and settings based on license and RBAC.</span></div>
+        <div class="diagram-box accent"><strong>JIT Backend</strong><span>Validates license, RBAC, assignment timing, OTP, session state, and audit records.</span></div>
+        <div class="diagram-box"><strong>Delivery and audit</strong><span>OTP delivery, SMTP notifications, activity records, and correlation IDs support operations.</span></div>
+        <div class="diagram-box good"><strong>Active Directory</strong><span>Existing groups remain the privilege boundary. JIT adds and removes temporary membership.</span></div>
+      </div>
+      <div class="diagram-note">The browser is not the authority for privileged access. Enforcement happens in the backend and Active Directory.</div>
+    </div>
+  `;
+}
+
+function eligibleOtpFlowDiagram() {
+  return `
+    <div class="diagram" role="img" aria-label="Eligible OTP self-service flow">
+      <div class="eyebrow">Eligible OTP flow</div>
+      <div class="diagram-grid five">
+        <div class="diagram-box"><strong>Admin prepares</strong><span>Assign product license, create Eligible assignment, and map the role to an AD group.</span></div>
+        <div class="diagram-box"><strong>Joe signs in</strong><span>Joe sees only Activate Access and his own eligible assignment.</span></div>
+        <div class="diagram-box accent"><strong>OTP verify</strong><span>OTP is sent through configured channels using AD-sourced contact attributes.</span></div>
+        <div class="diagram-box good"><strong>Session active</strong><span>JIT Access starts a time-limited session and adds Joe to the mapped AD group.</span></div>
+        <div class="diagram-box"><strong>Monitor/remove</strong><span>Jim monitors the session. Expiry or revoke removes group membership.</span></div>
+      </div>
+      <div class="diagram-note">Eligible OTP is not an approval workflow. The approval decision happens when the administrator creates the assignment.</div>
+    </div>
+  `;
+}
+
+function jitOperationsFlowDiagram() {
+  return `
+    <div class="diagram" role="img" aria-label="JIT operations flow for active sessions">
+      <div class="eyebrow">Operations flow</div>
+      <div class="diagram-grid five">
+        <div class="diagram-box"><strong>Session starts</strong><span>Manual, Scheduled, or Eligible activation creates a live privileged session.</span></div>
+        <div class="diagram-box accent"><strong>Monitor</strong><span>Active Sessions shows user, role, type, start, end, remaining time, and status.</span></div>
+        <div class="diagram-box"><strong>Extend</strong><span>Eligible or manual sessions can be extended when the business task still requires access.</span></div>
+        <div class="diagram-box warning"><strong>Revoke</strong><span>Administrator stops access early when the task is done, incorrect, or risky.</span></div>
+        <div class="diagram-box good"><strong>Audit</strong><span>Extension, revoke, expiration, and notification events are recorded for review.</span></div>
+      </div>
+    </div>
+  `;
+}
+
+function jitSettingsPolicyDiagram() {
+  return `
+    <div class="diagram" role="img" aria-label="JIT settings and policy flow">
+      <div class="eyebrow">Settings and policy</div>
+      <div class="diagram-grid five">
+        <div class="diagram-box"><strong>License</strong><span>Controls who can consume JIT product access.</span></div>
+        <div class="diagram-box"><strong>RBAC</strong><span>Controls who can administer roles, assignments, sessions, and settings.</span></div>
+        <div class="diagram-box accent"><strong>OTP policy</strong><span>Controls delivery channel, expiry, retry, and activation verification behavior.</span></div>
+        <div class="diagram-box accent"><strong>Notifications</strong><span>Recipients and event toggles control manual, eligible, extend, and revoke emails.</span></div>
+        <div class="diagram-box good"><strong>Session policy</strong><span>Max session, idle timeout, SMTP, and group overrides shape operational behavior.</span></div>
+      </div>
+      <div class="diagram-note">Configure settings before mapping high-privilege AD groups such as Domain Admins.</div>
     </div>
   `;
 }
