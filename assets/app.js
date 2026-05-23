@@ -24,10 +24,11 @@ const navGroups = [
   {
     title: 'JIT Access',
     items: [
-      ['jit-overview', 'Overview'],
+      ['jit-overview', 'Getting Started'],
+      ['jit-portal-overview', 'Portal Overview'],
+      ['jit-settings', 'JIT Settings'],
       ['jit-admin', 'Admin Guide'],
       ['jit-user', 'User Guide'],
-      ['jit-settings', 'Roles and Assignments'],
       ['jit-security', 'Security Model']
     ]
   },
@@ -56,7 +57,8 @@ const pageMeta = {
   installation: 'Install SmartPT Core on IIS with Local Active Directory integration, product portals, backend applications, service identity, and activation guidance.',
   licensing: 'SmartPT Core licensing, server-bound activation, mTLS client certificate behavior, subscription states, and add-on user unit guidance.',
   downloads: 'Download SmartPT Core activation wizard packages and review release packaging guidance for customer deployments.',
-  'jit-overview': 'JIT Access documentation for temporary Active Directory group membership, manual access, scheduled access, eligible self-service, OTP verification, and automatic removal.',
+  'jit-overview': 'Getting started with SmartPT JIT, standing privilege risk, temporary Active Directory group membership, roles, assignments, and supported access types.',
+  'jit-portal-overview': 'JIT portal overview covering dashboard status cards, quick actions, JIT Access overview, roles, assignments, active sessions, and settings.',
   'jit-admin': 'JIT administrator guide covering roles, AD group mapping, assignments, active sessions, emergency revocation, and audit review.',
   'jit-user': 'JIT user guide for eligible self-service access with OTP verification from Active Directory-sourced contact details.',
   'jit-settings': 'JIT roles and assignments guide covering role fields, access modes, schedules, OTP settings, duration limits, and enforcement behavior.',
@@ -433,40 +435,101 @@ Verify service:      /verify</code></pre>
     </ul>
     <div class="callout success">Design outcome: operators can support users inside defined boundaries while privileged identities remain protected from routine reset, unlock, and group workflows.</div>
   `),
-  'jit-overview': page('JIT Access overview', 'JIT Access', `
-    <p class="lead">JIT Access replaces standing privileged Active Directory group membership with temporary, auditable, policy-driven access.</p>
+  'jit-overview': page('Getting Started with SmartPT JIT', 'JIT Access', `
+    <p class="lead">SmartPT JIT reduces standing privilege in Active Directory by making privileged group membership temporary, visible, and controlled by policy.</p>
     <div class="tag-list">
       <span class="tag">Manual access</span>
       <span class="tag">Scheduled access</span>
-      <span class="tag">Eligible self-service</span>
-      <span class="tag">OTP verification</span>
-      <span class="tag">Auto removal</span>
-      <span class="tag">Audit trail</span>
+      <span class="tag">Eligible OTP</span>
+      <span class="tag">Temporary AD membership</span>
+      <span class="tag">Automatic expiration</span>
     </div>
     ${jitDiagram()}
-    <h2>Core principles</h2>
+    <h2>What problem JIT solves</h2>
+    <p>In many environments, administrative users remain in sensitive groups such as Domain Admins because they may need that access later. That creates standing privilege: an account has high-impact access even when there is no active business need. If the account is compromised, the attacker inherits that privilege immediately.</p>
+    <p>JIT changes the operating model. Instead of keeping users permanently in privileged AD groups, SmartPT adds group membership only when access is valid, then removes it automatically when the access window closes or an operator revokes it.</p>
+    <h2>How JIT works</h2>
     <ul>
-      <li>JIT is enforced server-side only.</li>
-      <li>Active Directory group membership is the enforcement boundary.</li>
-      <li>All privileged access is time-bound.</li>
-      <li>Privilege removal is automatic and corrective.</li>
-      <li>Manual AD changes are reconciled by policy.</li>
-      <li>JIT has no password-reset capability.</li>
+      <li><b>JIT roles</b> define the privileged access profile. A role maps to one or more existing Active Directory groups and defines which access methods are allowed.</li>
+      <li><b>Assignments</b> define who can receive a role, how access is activated, and when access is valid.</li>
+      <li>The role does not grant access by itself. Access becomes active only through an assignment.</li>
     </ul>
-    <h2>What JIT gives the customer</h2>
-    <div class="table-wrap"><table><thead><tr><th>Need</th><th>How JIT handles it</th></tr></thead><tbody>
-      <tr><td>Reduce 24/7 admin membership</td><td>Users are added to privileged AD groups only during an approved active session.</td></tr>
-      <tr><td>Control Domain Admin-style access</td><td>Each JIT role maps to existing AD group DNs such as Domain Admins, Account Operators, or custom admin groups.</td></tr>
-      <tr><td>Support planned maintenance</td><td>Scheduled assignments grant and remove access during defined days and time windows.</td></tr>
-      <tr><td>Allow self-service without standing access</td><td>Eligible assignments let approved users activate access after OTP verification.</td></tr>
-      <tr><td>Prove who had access and when</td><td>Role changes, assignment changes, activation, expiration, extension, and revocation are audited.</td></tr>
+    <h2>Temporary AD group membership</h2>
+    <p>When a JIT assignment becomes active, the backend can add the target user to the AD group mapped by the role. When the assignment expires, closes, or is revoked, the backend removes that group membership.</p>
+    <p>This gives operators a controlled way to provide privileged access without converting users into permanent members of sensitive AD groups.</p>
+    <h2>Supported assignment types</h2>
+    <div class="table-wrap"><table><thead><tr><th>Assignment type</th><th>Use case</th></tr></thead><tbody>
+      <tr><td>Manual</td><td>Administrator-granted access for urgent work, incidents, or short operational tasks.</td></tr>
+      <tr><td>Scheduled</td><td>Planned access during approved days and time windows, such as recurring maintenance.</td></tr>
+      <tr><td>Eligible OTP</td><td>Self-service activation for approved users with OTP verification.</td></tr>
     </tbody></table></div>
-    <h2>What JIT does not do</h2>
+    <h2>No approval workflow in this release</h2>
+    <div class="callout warning">This release does not include an approval workflow. Assignments are created and managed by administrators. Eligible OTP controls user activation and verification, but it is not an approval request process.</div>
+    <h2>Recommended learning order</h2>
+    <ol>
+      <li>Getting Started with SmartPT JIT.</li>
+      <li>JIT Portal Overview.</li>
+      <li>JIT Settings Overview.</li>
+      <li>Creating a JIT Role.</li>
+      <li>Creating a JIT Assignment.</li>
+      <li>Assignment Options: Manual, Scheduled, and Eligible OTP.</li>
+      <li>Monitoring Active Sessions and Revoke.</li>
+      <li>Troubleshooting.</li>
+    </ol>
+    <h2>What to configure next</h2>
+    <ol>
+      <li>Confirm the JIT portal is licensed and the signed-in administrator has JIT administration rights.</li>
+      <li>Review the JIT dashboard and access workspace.</li>
+      <li>Confirm which existing AD groups should be managed by JIT.</li>
+      <li>Create roles only after the AD group mapping and duration limits are clear.</li>
+      <li>Create assignments only after the intended operating model is known.</li>
+    </ol>
+  `),
+  'jit-portal-overview': page('JIT Portal Overview', 'JIT Access', `
+    <p class="lead">The SmartPT JIT portal is the operator workspace for temporary privileged access. It gives administrators one place to confirm license readiness, open the access console, manage settings, review roles and assignments, and monitor active privileged sessions.</p>
+    <div class="callout">Screenshots were captured from the local JIT portal in dark mode at 1920x1080.</div>
+    <h2>Dashboard overview</h2>
+    <p>The dashboard is the first readiness view after sign-in. Use it to confirm that the JIT environment is active before changing access.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/dashboard-overview.png" alt="JIT dashboard overview in dark mode"><figcaption>Dashboard status cards and quick actions.</figcaption></figure>
+    <h3>JIT Status cards</h3>
+    <div class="table-wrap"><table><thead><tr><th>Card</th><th>Purpose</th></tr></thead><tbody>
+      <tr><td>License</td><td>Confirms whether the JIT license is active.</td></tr>
+      <tr><td>Licensed identities</td><td>Shows the total number of users available under the current license.</td></tr>
+      <tr><td>Signed in as</td><td>Confirms the current administrator or operator context.</td></tr>
+      <tr><td>Available licensed users</td><td>Shows remaining user capacity before additional users must be licensed.</td></tr>
+    </tbody></table></div>
+    <h3>Quick Actions</h3>
     <ul>
-      <li>JIT does not reset passwords.</li>
-      <li>JIT does not replace Active Directory; it controls temporary membership in existing AD groups.</li>
-      <li>JIT does not let users enter their own OTP phone or email. Contact attributes come from AD.</li>
+      <li><b>Open Access Console</b> opens the JIT workspace for roles, assignments, sessions, and overview metrics.</li>
+      <li><b>Settings</b> opens JIT configuration and access assignment settings.</li>
+      <li><b>Add Licensed Users</b> increases licensed user allocation when supported by the current license.</li>
+      <li><b>Reduce Licensed Users</b> reduces licensed user allocation when supported by the current license.</li>
     </ul>
+    <h2>JIT Access overview</h2>
+    <p>The Overview tab summarizes configured access and current activity. Use it before and after changes to confirm the environment state.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/jit-access-overview.png" alt="JIT access overview in dark mode"><figcaption>JIT Access overview metrics.</figcaption></figure>
+    <h2>Roles</h2>
+    <p>Roles define privileged access profiles. A role maps to one or more existing Active Directory groups and controls which access methods are allowed.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/roles-list.png" alt="JIT roles list in dark mode"><figcaption>Configured JIT role inventory.</figcaption></figure>
+    <h2>Assignments</h2>
+    <p>Assignments connect users to roles. This is where administrators define who can receive privileged access and when that access is valid.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/assignments-list.png" alt="JIT assignments list in dark mode"><figcaption>Assignments table for user, role, type, status, details, and actions.</figcaption></figure>
+    <p>This release does not include an approval workflow. Assignment creation is an administrator action.</p>
+    <h2>Active Sessions</h2>
+    <p>Active Sessions is the real-time monitoring view for current privileged access. Use it to confirm who is elevated, which role granted access, start time, expiration, and whether access should be revoked early.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/active-sessions.png" alt="JIT active sessions in dark mode"><figcaption>Live privileged access monitoring.</figcaption></figure>
+    <h2>Settings</h2>
+    <p>Settings is the administrative configuration area for licensed identities, JIT administrator role assignments, product settings, notification settings, and shared session policy.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/settings-overview.png" alt="JIT settings overview in dark mode"><figcaption>JIT license, role assignment, notification, and session settings.</figcaption></figure>
+    <h2>Recommended navigation flow</h2>
+    <ol>
+      <li>Start at Dashboard and confirm license and administrator readiness.</li>
+      <li>Open JIT Access > Overview to review the current environment state.</li>
+      <li>Review Roles to confirm the access profiles available.</li>
+      <li>Review Assignments to understand who can receive access.</li>
+      <li>Review Active Sessions to monitor live privilege.</li>
+      <li>Review Settings before changing license, role assignment, notification, or session policy.</li>
+    </ol>
   `),
   'jit-admin': page('JIT admin guide', 'JIT Access', `
     <p class="lead">JIT administrators create roles, map AD groups, assign users, review active sessions, and revoke access when needed.</p>

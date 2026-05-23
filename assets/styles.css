@@ -263,6 +263,23 @@ h1, h2, h3 { color: var(--ink); line-height: 1.08; }
 }
 .warning { border-left-color: #f59e0b; background: #fff8e6; }
 .success { border-left-color: var(--green); background: #ecfdf5; }
+.doc-screenshot {
+  margin: 1.2rem 0 1.6rem;
+}
+.doc-screenshot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #07111f;
+  box-shadow: 0 20px 54px rgba(15,23,42,.16);
+}
+.doc-screenshot figcaption {
+  margin-top: .55rem;
+  color: var(--muted);
+  font-size: .9rem;
+}
 .table-wrap { overflow-x: auto; margin: 1rem 0; }
 table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 18px; overflow: hidden; }
 th, td { border-bottom: 1px solid var(--line); padding: .85rem; text-align: left; vertical-align: top; }
