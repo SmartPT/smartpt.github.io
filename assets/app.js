@@ -1,4 +1,4 @@
-const releaseDate = 'May 16, 2026';
+const releaseDate = 'May 23, 2026';
 
 const navGroups = [
   {
@@ -9,6 +9,17 @@ const navGroups = [
       ['installation', 'Installation'],
       ['licensing', 'Licensing'],
       ['downloads', 'Downloads']
+    ]
+  },
+  {
+    title: 'SmartPT Console',
+    items: [
+      ['core-getting-started', 'Getting Started'],
+      ['core-portal-overview', 'Portal Overview'],
+      ['core-license-mtls', 'License and mTLS'],
+      ['core-access-model', 'Access Model'],
+      ['core-settings-overview', 'Settings Overview'],
+      ['core-shared-2fa-reset', 'Shared 2FA Reset']
     ]
   },
   {
@@ -69,6 +80,12 @@ const pageMeta = {
   installation: 'Install SmartPT Core on IIS with Local Active Directory integration, product portals, backend applications, service identity, and activation guidance.',
   licensing: 'SmartPT Core licensing, server-bound activation, mTLS client certificate behavior, subscription states, and add-on user unit guidance.',
   downloads: 'Download SmartPT Core activation wizard packages and review release packaging guidance for customer deployments.',
+  'core-getting-started': 'Getting started with SmartPT Console, the root on-prem control plane for product status, Core license, shared 2FA, RBAC, and product entry.',
+  'core-portal-overview': 'SmartPT Console portal overview covering Overview, product status, Recent Activity, and administrator-only Settings.',
+  'core-license-mtls': 'SmartPT Console license, product status, mTLS client certificate, certificate renewal, and fail-closed access behavior.',
+  'core-access-model': 'SmartPT Console access model covering Domain Admin fallback, administrative groups, viewer groups, and session policy.',
+  'core-settings-overview': 'SmartPT Console Settings overview for root RBAC, shared 2FA reset, license visibility, mTLS status, and subscription action.',
+  'core-shared-2fa-reset': 'Shared 2FA and reset MFA guide for searching a user, reviewing enrollment state, and forcing re-enrollment.',
   'jit-overview': 'Getting started with JIT Access, standing privilege risk, temporary Active Directory group membership, roles, assignments, and supported access types.',
   'jit-access-model': 'JIT Access model covering product license assignment, internal RBAC roles, JIT roles, and JIT assignments.',
   'jit-portal-overview': 'JIT portal overview covering dashboard status cards, quick actions, JIT Access overview, roles, assignments, active sessions, and settings.',
@@ -101,7 +118,7 @@ const pageMeta = {
   'ad-control-operator': 'AD Control operator guide for searching users, resetting passwords, unlocking accounts, updating profile attributes, and controlled group management.',
   'ad-control-settings': 'AD Control settings reference for password options, unlock options, OTP delivery, password delivery, protected identities, notifications, SMTP, and session policy.',
   'ad-control-security': 'AD Control security model for tier boundaries, protected identity exclusion, verified workflows, role enforcement, and audit records.',
-  'security-model': 'Shared SmartPT security model for on-prem operation, AD-sourced identity data, backend authorization, license enforcement, and auditability.',
+  'security-model': 'Shared SmartPT security model for on-prem operation, AD-sourced identity data, backend authorization, Core license and mTLS enforcement, shared MFA, logs, and auditability.',
   audit: 'Audit and compliance guidance for SmartPT Core, JIT Access, AD Control, correlation IDs, sensitive event records, and safe logging.',
   troubleshooting: 'Troubleshooting guide for SmartPT access assignment, sessions, OTP delivery, protected users, JIT removal, and license validation.',
   privacy: 'SmartPT documentation site privacy notice covering static docs use, downloads, external links, and customer-controlled product data.',
@@ -244,6 +261,150 @@ Verify service:      /verify</code></pre>
         <p>Validate the package in staging before sharing with customers. Keep checksums and version notes with each production release.</p>
       </article>
     </div>
+  `),
+  'core-getting-started': page('Getting Started with SmartPT Console', 'SmartPT Console', `
+    <p class="lead">SmartPT Console is the root portal for a SmartPT server. It gives administrators one place to confirm product availability, review license and certificate health, manage root portal access, reset shared two-factor enrollment, and open the product consoles.</p>
+    <div class="tag-list"><span class="tag">Root control plane</span><span class="tag">License status</span><span class="tag">Shared 2FA</span><span class="tag">Product visibility</span></div>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/console-overview.png" alt="SmartPT Console overview in dark mode"><figcaption>SmartPT Console is the server entry point for Core status and product access.</figcaption></figure>
+    <h2>What SmartPT Console solves</h2>
+    <p>SmartPT deployments include multiple local portals and backend services. The Console gives administrators a single place to answer operational questions before entering product-specific workflows.</p>
+    <ul>
+      <li>Is the Core license active?</li>
+      <li>Are JIT Access and AD Control reachable?</li>
+      <li>Who can administer the root portal?</li>
+      <li>Is shared two-factor enrollment working?</li>
+      <li>Is the mTLS client certificate healthy?</li>
+    </ul>
+    <div class="diagram">
+      <div class="diagram-grid five">
+        <div class="diagram-box accent"><strong>Administrator</strong><span>Signs in with an AD account.</span></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-box"><strong>SmartPT Console</strong><span>Shows Core status, access, 2FA, and product entry.</span></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-box good"><strong>Product portals</strong><span>JIT Access and AD Control keep privileged actions in dedicated consoles.</span></div>
+      </div>
+      <div class="diagram-note">The Console organizes the environment. It does not replace product RBAC or product workflow enforcement.</div>
+    </div>
+    <h2>Recommended order</h2>
+    <ol>
+      <li>Confirm the Core license is <strong>ACTIVE</strong>.</li>
+      <li>Confirm certificate renewal status is healthy.</li>
+      <li>Confirm JIT Access and AD Control show as reachable.</li>
+      <li>Add the correct administrative group for Console access.</li>
+      <li>Review session lifetime and idle timeout.</li>
+      <li>Test shared two-factor reset with a non-production user.</li>
+    </ol>
+  `),
+  'core-portal-overview': page('SmartPT Console Portal Overview', 'SmartPT Console', `
+    <p class="lead">The SmartPT Console portal is split into Overview, Recent Activity, and Settings. The exact tabs depend on the signed-in user's access level.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/console-overview.png" alt="SmartPT Console overview in dark mode"><figcaption>Overview confirms server state, signed-in user, access level, and product entry points.</figcaption></figure>
+    <h2>Overview</h2>
+    <div class="table-wrap"><table><thead><tr><th>Area</th><th>Purpose</th></tr></thead><tbody>
+      <tr><td>Products</td><td>Counts installed product portals visible from the Console.</td></tr>
+      <tr><td>User</td><td>Shows the signed-in identity.</td></tr>
+      <tr><td>Access</td><td>Shows whether the user is Administrator or Viewer.</td></tr>
+      <tr><td>Architecture</td><td>Explains the root control plane boundary.</td></tr>
+      <tr><td>Installed product consoles</td><td>Opens JIT Access and AD Control.</td></tr>
+    </tbody></table></div>
+    <h2>Product status</h2>
+    <p>Product cards show whether each portal is reachable from the Core server. This is a fast operational check before entering JIT Access or AD Control.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/product-status-highlight.png" alt="SmartPT Console product status highlighted"><figcaption>Product status confirms portal reachability.</figcaption></figure>
+    <h2>Recent activity</h2>
+    <p>Recent Activity shows meaningful administrative actions from SmartPT Core and product portals. Use it for quick operational review and correlation ID lookup.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/recent-activity-highlight.png" alt="SmartPT Console recent activity highlighted"><figcaption>Recent Activity gives administrators a short operational history across Core and product portals.</figcaption></figure>
+    <h2>Settings</h2>
+    <p>Settings is available only to Console administrators. It controls root portal access, Console session policy, shared two-factor reset, license visibility, mTLS status, support links, and subscription cancellation.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/settings-overview.png" alt="SmartPT Console settings overview"><figcaption>Settings is the root administration workspace for SmartPT Console.</figcaption></figure>
+  `),
+  'core-license-mtls': page('License, Product Status, and mTLS', 'SmartPT Console', `
+    <p class="lead">SmartPT Console owns the shared server subscription view. Product portals keep their own operational workflows, but Core license validation is the first gate before access is allowed.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/license-mtls-highlight.png" alt="SmartPT Console license and mTLS status highlighted"><figcaption>The license panel shows active state, certificate health, renewal status, and subscription action.</figcaption></figure>
+    <h2>License behavior</h2>
+    <p>The Console validates the SmartPT Core license before authenticated API access. If the license is not active, access fails closed and the user is directed to license recovery.</p>
+    <div class="table-wrap"><table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td>Status</td><td>Current Core license state. Product access should be tested only when this is ACTIVE.</td></tr>
+      <tr><td>Serial</td><td>Server-bound subscription identifier. Do not expose this value in public screenshots.</td></tr>
+      <tr><td>Certificate</td><td>Client certificate thumbprint used for mTLS validation.</td></tr>
+      <tr><td>Last validated</td><td>Last successful runtime license check.</td></tr>
+      <tr><td>Certificate renewal</td><td>Renewal health and certificate expiration status.</td></tr>
+    </tbody></table></div>
+    <h2>Product status</h2>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/product-status-highlight.png" alt="SmartPT Console product status highlighted"><figcaption>Portal reachability is checked from the Core server.</figcaption></figure>
+    <p>Product status confirms portal reachability. It does not prove that every workflow is fully healthy. For workflow failures, check the product-specific health, backend service, policy, and audit logs.</p>
+    <h2>mTLS model</h2>
+    <ul>
+      <li>The private key stays on the customer server.</li>
+      <li>Runtime validation uses the configured license endpoint and installed client certificate.</li>
+      <li>If certificate renewal becomes unhealthy, check the certificate store, private-key access, outbound connectivity, and renewal state.</li>
+    </ul>
+  `),
+  'core-access-model': page('Access Model, RBAC, and Admin Groups', 'SmartPT Console', `
+    <p class="lead">SmartPT Console access is controlled by Active Directory identity, group membership, and the built-in Domain Admin fallback.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/settings-rbac-session-highlight.png" alt="SmartPT Console RBAC and session settings highlighted"><figcaption>Administrative groups, viewer groups, and session limits are configured from Settings.</figcaption></figure>
+    <h2>Access levels</h2>
+    <div class="table-wrap"><table><thead><tr><th>Access level</th><th>Who gets it</th><th>What it can do</th></tr></thead><tbody>
+      <tr><td>Administrator</td><td>Domain Admins or configured Administrative groups</td><td>View products, view activity, manage settings, reset shared 2FA, and view license/mTLS status.</td></tr>
+      <tr><td>Viewer</td><td>Configured Viewer groups</td><td>View the Console without managing settings.</td></tr>
+      <tr><td>None</td><td>Users outside allowed groups</td><td>Access is denied.</td></tr>
+    </tbody></table></div>
+    <div class="callout">Domain Admins always retain administrative access. Day-to-day administration should use approved AD groups.</div>
+    <h2>Administrative groups</h2>
+    <p>Add an AD group when non-Domain Admin operators should administer SmartPT Console. For example, an <code>it-admin</code> group can be granted Console administrator access.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/rbac-it-admin-highlight.png" alt="it-admin group search highlighted in SmartPT Console"><figcaption>Administrative group search validates against Active Directory before a group is added.</figcaption></figure>
+    <h2>Recommended practice</h2>
+    <ul>
+      <li>Use a dedicated AD group for SmartPT Console administrators.</li>
+      <li>Keep product-specific roles inside JIT Access and AD Control.</li>
+      <li>Do not use Console access as a substitute for product RBAC.</li>
+      <li>Review group membership regularly.</li>
+    </ul>
+  `),
+  'core-settings-overview': page('SmartPT Console Settings Overview', 'SmartPT Console', `
+    <p class="lead">Settings is the administrative area for root portal access, shared two-factor recovery, license visibility, mTLS status, and subscription actions.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/settings-overview.png" alt="SmartPT Console settings overview"><figcaption>Settings combines root access, shared 2FA, license, mTLS, support links, and subscription action.</figcaption></figure>
+    <h2>Portal access settings</h2>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/settings-rbac-session-highlight.png" alt="SmartPT Console portal access settings highlighted"><figcaption>Start with approved admin and viewer groups, then review Console session limits.</figcaption></figure>
+    <div class="table-wrap"><table><thead><tr><th>Setting</th><th>Purpose</th></tr></thead><tbody>
+      <tr><td>Administrative groups</td><td>AD groups that receive Console administrator access.</td></tr>
+      <tr><td>Viewer groups</td><td>AD groups that receive read-only Console visibility.</td></tr>
+      <tr><td>Maximum session lifetime</td><td>Hard limit for a Console session.</td></tr>
+      <tr><td>Idle timeout</td><td>Inactivity limit for a Console session.</td></tr>
+    </tbody></table></div>
+    <h2>Shared two-factor access</h2>
+    <p>Shared Two-Factor Access lets an administrator inspect and reset a user's shared authenticator enrollment. Use it when the authenticator is lost, replaced, or re-enrollment is required.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/shared-2fa-avi-reset-highlight.png" alt="Shared 2FA reset highlighted for Avi"><figcaption>Reset two-factor clears enrollment and requires setup again on the next sign-in.</figcaption></figure>
+    <h2>License and billing</h2>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/license-mtls-highlight.png" alt="SmartPT Console license mTLS and cancellation highlighted"><figcaption>License and Billing shows Core license state, mTLS health, renewal status, and subscription action.</figcaption></figure>
+    <div class="callout warning">Use subscription cancellation carefully. It affects the shared Core subscription and can block access to JIT Access and AD Control when the license is no longer active.</div>
+  `),
+  'core-shared-2fa-reset': page('Shared 2FA and Reset MFA', 'SmartPT Console', `
+    <p class="lead">SmartPT Console can reset a user's shared two-factor enrollment. This is used when a user loses the authenticator app, changes device, or must be forced to re-enroll.</p>
+    <div class="diagram">
+      <div class="diagram-grid five">
+        <div class="diagram-box accent"><strong>User signs in</strong><span>Core or product portal starts the session.</span></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-box"><strong>Shared 2FA</strong><span>SmartPT Verify handles TOTP enrollment or verification.</span></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-box good"><strong>Continue</strong><span>Successful verification allows the user to continue to the permitted portal.</span></div>
+      </div>
+      <div class="diagram-note">Passing 2FA does not grant product permission. Product RBAC and licensing are still enforced separately.</div>
+    </div>
+    <h2>Reset MFA for a user</h2>
+    <ol>
+      <li>Sign in to SmartPT Console as a Console administrator.</li>
+      <li>Open <strong>Settings</strong>.</li>
+      <li>In <strong>Shared Two-Factor Access</strong>, search for the AD user.</li>
+      <li>Select the user and review enrollment status.</li>
+      <li>Select <strong>Reset two-factor</strong> only when re-enrollment is required.</li>
+    </ol>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/shared-2fa-avi-reset-highlight.png" alt="Shared 2FA reset highlighted for Avi"><figcaption>Avi is selected. The administrator can see enrollment state and the reset action.</figcaption></figure>
+    <h2>Before reset</h2>
+    <ul>
+      <li>Confirm the target user is correct.</li>
+      <li>Confirm the request is approved by the customer's process.</li>
+      <li>Confirm the user understands they will need to enroll again.</li>
+      <li>Do not reset 2FA as a workaround for missing product RBAC or license assignment.</li>
+    </ul>
   `),
   'ad-control-getting-started': page('Getting Started with AD Control', 'AD Control', `
     <p class="lead">AD Control gives support teams a controlled way to reset passwords, unlock accounts, update selected user attributes, and manage approved group membership without exposing Tier 0 accounts to routine helpdesk work.</p>
@@ -1159,21 +1320,53 @@ Verify service:      /verify</code></pre>
     <p>JIT audits role management, assignment creation, activation, expiration, revocation, OTP sent, OTP verified, OTP failed, and policy violations.</p>
   `),
   'security-model': page('Shared security model', 'Security', `
-    <p class="lead">SmartPT products share the same operating principle: customer-controlled on-prem deployment, AD-sourced identity data, server-side enforcement, and auditability.</p>
+    <p class="lead">SmartPT products share the same operating principle: customer-controlled on-prem deployment, AD-sourced identity data, Core license enforcement, shared MFA where enabled, server-side authorization, and auditability.</p>
     <div class="cards">
-      <article class="card"><h3>On-prem control</h3><p>Product portals and backends run in the customer environment.</p></article>
+      <article class="card"><h3>On-prem control</h3><p>Product portals, backends, logs, and configuration run in the customer environment.</p></article>
       <article class="card"><h3>AD as source</h3><p>Users, groups, phone, and email attributes come from Active Directory.</p></article>
-      <article class="card"><h3>Backend authority</h3><p>UI visibility does not replace backend authorization and policy checks.</p></article>
+      <article class="card"><h3>Backend authority</h3><p>UI visibility does not replace backend authorization, license, MFA, and policy checks.</p></article>
+    </div>
+    <div class="diagram">
+      <div class="diagram-grid five">
+        <div class="diagram-box accent"><strong>Active Directory</strong><span>Identity, groups, mail, and mobile attributes.</span></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-box"><strong>SmartPT Core</strong><span>License, mTLS certificate, root RBAC, shared MFA recovery, and product visibility.</span></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-box good"><strong>Product backends</strong><span>JIT Access and AD Control enforce product roles, policy, actions, and audit.</span></div>
+      </div>
+      <div class="diagram-note">SmartPT Console is the control plane. Product portals remain the authority for product-specific privileged actions.</div>
     </div>
     <h2>Shared controls</h2>
     <ul>
-      <li>Windows authentication and product sessions.</li>
-      <li>Role-based access and feature gating.</li>
-      <li>License enforcement before product use.</li>
-      <li>Shared two-factor verification where enforced by product settings.</li>
+      <li>Active Directory authentication and product sessions.</li>
+      <li>Role-based access and feature gating in each product backend.</li>
+      <li>Core license and mTLS certificate validation before product use.</li>
+      <li>Shared two-factor verification where enforced by SmartPT settings.</li>
       <li>Correlation IDs in API responses and audit events.</li>
-      <li>No OTP code or generated password in audit logs.</li>
+      <li>No OTP code, generated password, SMTP secret, private key, or authenticator secret in audit logs.</li>
     </ul>
+    <h2>Shared MFA model</h2>
+    <p>SmartPT shared two-factor verification is handled through the SmartPT Verify service. A successful MFA challenge allows the user to continue to the requested portal, but it does not grant product permission by itself.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/shared-2fa-avi-reset-highlight.png" alt="Shared 2FA reset in SmartPT Console"><figcaption>Console administrators can reset a user's shared MFA enrollment when re-enrollment is required.</figcaption></figure>
+    <ul>
+      <li>MFA is a second factor, not a replacement for RBAC.</li>
+      <li>Product access still requires license and role assignment.</li>
+      <li>Reset MFA only clears enrollment and requires the user to enroll again on the next sign-in.</li>
+      <li>MFA recovery should be treated as an administrative security action.</li>
+    </ul>
+    <h2>Logs and audit boundaries</h2>
+    <p>SmartPT logs should support investigation without exposing secrets. Use correlation IDs, actor, target, action, result, and timestamp to connect UI errors, backend decisions, and audit entries.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/recent-activity-highlight.png" alt="SmartPT Console recent activity and audit visibility"><figcaption>Recent Activity provides quick operational visibility across Core and product portals.</figcaption></figure>
+    <div class="table-wrap"><table><thead><tr><th>Area</th><th>What should be logged</th><th>What should not be logged</th></tr></thead><tbody>
+      <tr><td>Authentication</td><td>Sign-in success/failure, actor, result, timestamp, correlation ID.</td><td>Passwords or authenticator secrets.</td></tr>
+      <tr><td>MFA</td><td>Enrollment complete, verification result, reset action, actor, target.</td><td>TOTP code, shared signing key, QR secret.</td></tr>
+      <tr><td>JIT Access</td><td>Role, assignment, activation, extension, revoke, expiration, OTP events.</td><td>OTP value or privileged credentials.</td></tr>
+      <tr><td>AD Control</td><td>Password reset, unlock, profile update, group changes, OTP events.</td><td>Generated password value after the shown-once moment.</td></tr>
+      <tr><td>Core license</td><td>License status, validation result, mTLS renewal health, cancellation action.</td><td>Private key material or full certificate secret material.</td></tr>
+    </tbody></table></div>
+    <h2>Fail-closed behavior</h2>
+    <p>If Core license validation is not active, SmartPT access should fail closed. Administrators should restore license state or certificate health from SmartPT Console before validating JIT Access or AD Control workflows.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/license-mtls-highlight.png" alt="SmartPT Console license and mTLS status highlighted"><figcaption>License and mTLS health are shared control-plane checks before product use.</figcaption></figure>
   `),
   'audit': page('Audit and compliance', 'Operations', `
     <p class="lead">Audit records help administrators review sensitive actions, configuration changes, and enforcement results.</p>
