@@ -1,6 +1,6 @@
 # JIT Portal Overview
 
-The SmartPT JIT portal is the operator workspace for temporary privileged access. It gives administrators one place to confirm license readiness, open the access console, manage settings, review roles and assignments, and monitor active privileged sessions.
+The JIT Portal is the operator workspace for temporary privileged access. It gives administrators one place to confirm license readiness, open the access console, manage settings, review roles and assignments, and monitor active privileged sessions.
 
 The screenshots in this guide were captured from the local JIT portal in dark mode at 1920x1080.
 
@@ -133,4 +133,3 @@ For onboarding, use this sequence:
 6. Review **Settings** before changing license, role assignment, notification, or session policy.
 
 Next, configure roles and assignments only after the AD group mapping, assignment model, and duration limits are clear.
-

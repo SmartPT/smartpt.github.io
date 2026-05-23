@@ -2,7 +2,7 @@
 
 Eligible OTP access lets an approved user activate temporary privileged access without holding standing membership in the target Active Directory group.
 
-The administrator prepares the access path. The user activates it only when needed, verifies with OTP, and receives a time-limited session. SmartPT then removes access automatically when the session expires or when an administrator revokes it.
+The administrator prepares the access path. The user activates it only when needed, verifies with OTP, and receives a time-limited session. JIT Access then removes access automatically when the session expires or when an administrator revokes it.
 
 ## What This Flow Solves
 
@@ -17,9 +17,9 @@ For example, an operator may be allowed to use an IT administration role during 
 3. The administrator creates an Eligible assignment for the user.
 4. The user signs in to the JIT portal.
 5. The user opens **Activate Access** and starts the assigned role.
-6. SmartPT sends OTP to an AD-sourced delivery channel, such as WhatsApp/mobile.
+6. JIT Access sends OTP to an AD-sourced delivery channel, such as WhatsApp/mobile.
 7. The user verifies the OTP.
-8. SmartPT activates the session and adds the user to the mapped AD group.
+8. JIT Access activates the session and adds the user to the mapped AD group.
 9. A JIT administrator monitors the active session.
 10. Access expires automatically or can be revoked early.
 
@@ -48,6 +48,10 @@ The assignment connects the user to the role. The assignment remains inactive un
 
 The user signs in with their own account and sees only the access they are allowed to activate.
 
+![Joe activation-only portal](./screenshots/eligible-joe-activation-only.png)
+
+Joe does not see administrator settings, roles, assignments, or session management. His portal is limited to **Activate Access**, product links, docs, support, and sign out.
+
 ![Joe active eligible access](./screenshots/eligible-joe-access-active.png)
 
 When the role is inactive, the user sees an **Activate** option. Opening it shows the OTP activation dialog. The user selects the allowed delivery channel, sends OTP, enters the code, and verifies.
@@ -63,7 +67,7 @@ Important behavior:
 
 ## Active Session Monitoring
 
-After OTP verification, SmartPT creates an active JIT session. The administrator can confirm it under **JIT Access > Active Sessions**.
+After OTP verification, JIT Access creates an active JIT session. The administrator can confirm it under **JIT Access > Active Sessions**.
 
 ![Joe active session visible to Jim](./screenshots/eligible-admin-active-session.png)
 
@@ -80,9 +84,9 @@ The active session view shows:
 
 ## What Happens in Active Directory
 
-When OTP verification succeeds, SmartPT adds the user to the AD group mapped by the JIT role.
+When OTP verification succeeds, JIT Access adds the user to the AD group mapped by the JIT role.
 
-When the session expires or is revoked, SmartPT removes the user from that AD group. The backend enforces this behavior server-side. The browser is not the authority for access.
+When the session expires or is revoked, JIT Access removes the user from that AD group. The backend enforces this behavior server-side. The browser is not the authority for access.
 
 ## No Approval Workflow
 

@@ -1,6 +1,6 @@
 # Access Model, Licensing, and RBAC
 
-SmartPT JIT separates product access from privileged access.
+JIT Access separates product access from privileged access.
 
 A user can authenticate to the portal and still be blocked from JIT actions if the license assignment or RBAC role is missing. This is intentional. JIT controls sensitive Active Directory group membership, so access is granted only after the product license, session, and internal permissions are valid.
 

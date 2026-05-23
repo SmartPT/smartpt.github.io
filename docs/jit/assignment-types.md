@@ -1,6 +1,6 @@
 # Assignment Types
 
-SmartPT JIT supports three assignment types: Manual, Scheduled, and Eligible.
+JIT Access supports three assignment types: Manual, Scheduled, and Eligible.
 
 Use the assignment type to match the operational need. The same JIT role can support more than one assignment type if the role allows it.
 

@@ -1,14 +1,14 @@
-# Getting Started with SmartPT JIT
+# Getting Started with JIT Access
 
-SmartPT JIT reduces standing privilege in Active Directory by making privileged group membership temporary, visible, and controlled by policy.
+JIT Access reduces standing privilege in Active Directory by making privileged group membership temporary, visible, and controlled by policy.
 
 In many environments, administrative users remain in sensitive groups such as Domain Admins because they may need that access later. That creates standing privilege: an account has high-impact access even when there is no active business need. If the account is compromised, the attacker inherits that privilege immediately.
 
-JIT changes the operating model. Instead of keeping users permanently in privileged AD groups, SmartPT adds group membership only when access is valid, then removes it automatically when the access window closes or an operator revokes it.
+JIT changes the operating model. Instead of keeping users permanently in privileged AD groups, JIT Access adds group membership only when access is valid, then removes it automatically when the access window closes or an operator revokes it.
 
 ## How JIT Works
 
-SmartPT JIT is built around two main objects:
+JIT Access is built around two main objects:
 
 - **JIT roles** define the privileged access profile. A role maps to one or more existing Active Directory groups and defines which access methods are allowed.
 - **Assignments** define who can receive a role, how access is activated, and when access is valid.
@@ -23,7 +23,7 @@ This gives operators a controlled way to provide privileged access without conve
 
 ## Supported Assignment Types
 
-SmartPT JIT supports three assignment models:
+JIT Access supports three assignment models:
 
 | Assignment type | Use case |
 | --- | --- |
@@ -41,7 +41,7 @@ Assignments are created and managed by administrators. Eligible OTP controls use
 
 Use this order when onboarding administrators:
 
-1. **Getting Started with SmartPT JIT** - understand the security model and terminology.
+1. **Getting Started with JIT Access** - understand the security model and terminology.
 2. **Access Model, Licensing, and RBAC** - understand the difference between product access, product permissions, JIT roles, and active privilege.
 3. **JIT Portal Overview** - learn the dashboard, workspace, and monitoring areas.
 4. **JIT Settings Overview** - review licensing, administrator access, OTP, notifications, SMTP, and shared settings.

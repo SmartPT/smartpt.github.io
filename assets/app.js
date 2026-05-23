@@ -31,7 +31,9 @@ const navGroups = [
       ['jit-roles', 'Creating Roles'],
       ['jit-assignments', 'Creating Assignments'],
       ['jit-assignment-types', 'Assignment Types'],
-      ['jit-eligible-otp', 'Eligible OTP']
+      ['jit-eligible-otp', 'Eligible OTP'],
+      ['jit-sessions-revoke', 'Sessions and Revoke'],
+      ['jit-notifications-session-policy', 'Notifications and Policy']
     ]
   },
   {
@@ -59,14 +61,16 @@ const pageMeta = {
   installation: 'Install SmartPT Core on IIS with Local Active Directory integration, product portals, backend applications, service identity, and activation guidance.',
   licensing: 'SmartPT Core licensing, server-bound activation, mTLS client certificate behavior, subscription states, and add-on user unit guidance.',
   downloads: 'Download SmartPT Core activation wizard packages and review release packaging guidance for customer deployments.',
-  'jit-overview': 'Getting started with SmartPT JIT, standing privilege risk, temporary Active Directory group membership, roles, assignments, and supported access types.',
-  'jit-access-model': 'SmartPT JIT access model covering product license assignment, internal RBAC roles, JIT roles, and JIT assignments.',
+  'jit-overview': 'Getting started with JIT Access, standing privilege risk, temporary Active Directory group membership, roles, assignments, and supported access types.',
+  'jit-access-model': 'JIT Access model covering product license assignment, internal RBAC roles, JIT roles, and JIT assignments.',
   'jit-portal-overview': 'JIT portal overview covering dashboard status cards, quick actions, JIT Access overview, roles, assignments, active sessions, and settings.',
   'jit-settings-overview': 'JIT settings overview covering licensed users, RBAC role assignments, product settings, notifications, SMTP, and session policy.',
-  'jit-roles': 'Create SmartPT JIT roles that map to existing Active Directory groups and define allowed access methods, OTP, and duration limits.',
-  'jit-assignments': 'Create SmartPT JIT assignments that connect users to roles for eligible, scheduled, or manual privileged access.',
-  'jit-assignment-types': 'Assignment type guide for choosing Manual, Scheduled, or Eligible OTP access in SmartPT JIT.',
+  'jit-roles': 'Create JIT roles that map to existing Active Directory groups and define allowed access methods, OTP, and duration limits.',
+  'jit-assignments': 'Create JIT assignments that connect users to roles for eligible, scheduled, or manual privileged access.',
+  'jit-assignment-types': 'Assignment type guide for choosing Manual, Scheduled, or Eligible OTP access in JIT Access.',
   'jit-eligible-otp': 'Eligible OTP self-service guide covering administrator setup, user activation, WhatsApp/mobile OTP verification, active sessions, and automatic removal.',
+  'jit-sessions-revoke': 'Operations guide for monitoring active JIT sessions, extending Joe eligible access, and using revoke safely.',
+  'jit-notifications-session-policy': 'JIT Settings guide for notification recipients, session event emails, session policy, SMTP, and group overrides.',
   'jit-admin': 'JIT administrator guide covering roles, AD group mapping, assignments, active sessions, emergency revocation, and audit review.',
   'jit-user': 'JIT user guide for eligible self-service access with OTP verification from Active Directory-sourced contact details.',
   'jit-settings': 'JIT roles and assignments guide covering role fields, access modes, schedules, OTP settings, duration limits, and enforcement behavior.',
@@ -443,8 +447,8 @@ Verify service:      /verify</code></pre>
     </ul>
     <div class="callout success">Design outcome: operators can support users inside defined boundaries while privileged identities remain protected from routine reset, unlock, and group workflows.</div>
   `),
-  'jit-overview': page('Getting Started with SmartPT JIT', 'JIT Access', `
-    <p class="lead">SmartPT JIT reduces standing privilege in Active Directory by making privileged group membership temporary, visible, and controlled by policy.</p>
+  'jit-overview': page('Getting Started with JIT Access', 'JIT Access', `
+    <p class="lead">JIT Access reduces standing privilege in Active Directory by making privileged group membership temporary, visible, and controlled by policy.</p>
     <div class="tag-list">
       <span class="tag">Manual access</span>
       <span class="tag">Scheduled access</span>
@@ -455,7 +459,7 @@ Verify service:      /verify</code></pre>
     ${jitDiagram()}
     <h2>What problem JIT solves</h2>
     <p>In many environments, administrative users remain in sensitive groups such as Domain Admins because they may need that access later. That creates standing privilege: an account has high-impact access even when there is no active business need. If the account is compromised, the attacker inherits that privilege immediately.</p>
-    <p>JIT changes the operating model. Instead of keeping users permanently in privileged AD groups, SmartPT adds group membership only when access is valid, then removes it automatically when the access window closes or an operator revokes it.</p>
+    <p>JIT changes the operating model. Instead of keeping users permanently in privileged AD groups, JIT Access adds group membership only when access is valid, then removes it automatically when the access window closes or an operator revokes it.</p>
     <h2>How JIT works</h2>
     <ul>
       <li><b>JIT roles</b> define the privileged access profile. A role maps to one or more existing Active Directory groups and defines which access methods are allowed.</li>
@@ -475,7 +479,7 @@ Verify service:      /verify</code></pre>
     <div class="callout warning">This release does not include an approval workflow. Assignments are created and managed by administrators. Eligible OTP controls user activation and verification, but it is not an approval request process.</div>
     <h2>Recommended learning order</h2>
     <ol>
-      <li>Getting Started with SmartPT JIT.</li>
+      <li>Getting Started with JIT Access.</li>
       <li>Access Model, Licensing, and RBAC.</li>
       <li>JIT Portal Overview.</li>
       <li>Settings Overview.</li>
@@ -493,7 +497,7 @@ Verify service:      /verify</code></pre>
     </ol>
   `),
   'jit-access-model': page('Access Model, Licensing, and RBAC', 'JIT Access', `
-    <p class="lead">SmartPT JIT separates product access from privileged access. A user can sign in and still be blocked from JIT actions if the license assignment or RBAC role is missing.</p>
+    <p class="lead">JIT Access separates product access from privileged access. A user can sign in and still be blocked from JIT actions if the license assignment or RBAC role is missing.</p>
     <div class="table-wrap"><table><thead><tr><th>Layer</th><th>Purpose</th></tr></thead><tbody>
       <tr><td>Authentication</td><td>Confirms the signed-in Active Directory user.</td></tr>
       <tr><td>License validation</td><td>Confirms the JIT product license is active and the user is assigned to the product.</td></tr>
@@ -523,7 +527,7 @@ Verify service:      /verify</code></pre>
     <div class="callout">Operational rule: keep license assignment, RBAC role assignment, JIT role mapping, and JIT assignment separate. This keeps product access, administrative permission, and privileged AD group membership clear and auditable.</div>
   `),
   'jit-portal-overview': page('JIT Portal Overview', 'JIT Access', `
-    <p class="lead">The SmartPT JIT portal is the operator workspace for temporary privileged access. It gives administrators one place to confirm license readiness, open the access console, manage settings, review roles and assignments, and monitor active privileged sessions.</p>
+    <p class="lead">The JIT Portal is the operator workspace for temporary privileged access. It gives administrators one place to confirm license readiness, open the access console, manage settings, review roles and assignments, and monitor active privileged sessions.</p>
     <div class="callout">Screenshots were captured from the local JIT portal in dark mode at 1920x1080.</div>
     <h2>Dashboard overview</h2>
     <p>The dashboard is the first readiness view after sign-in. Use it to confirm that the JIT environment is active before changing access.</p>
@@ -588,7 +592,7 @@ Verify service:      /verify</code></pre>
     <div class="callout success">Recommended practice: confirm product licensing, RBAC, SMTP, and session policy before mapping highly privileged AD groups.</div>
   `),
   'jit-roles': page('Creating JIT Roles', 'JIT Access', `
-    <p class="lead">JIT roles define the privileged access profile. A role maps SmartPT JIT to one or more existing Active Directory groups and defines which assignment types are allowed.</p>
+    <p class="lead">JIT roles define the privileged access profile. A role maps JIT Access to one or more existing Active Directory groups and defines which assignment types are allowed.</p>
     <figure class="doc-screenshot"><img src="./docs/jit/screenshots/roles-list.png" alt="JIT roles list in dark mode"><figcaption>Roles inventory before creating access profiles.</figcaption></figure>
     <h2>Before creating a role</h2>
     <ul>
@@ -646,7 +650,7 @@ Verify service:      /verify</code></pre>
     <div class="callout warning">This release does not include an approval workflow. Assignment creation is an administrator action.</div>
   `),
   'jit-assignment-types': page('Assignment Types', 'JIT Access', `
-    <p class="lead">SmartPT JIT supports three assignment types: Manual, Scheduled, and Eligible. Choose the assignment type based on how access should start.</p>
+    <p class="lead">JIT Access supports three assignment types: Manual, Scheduled, and Eligible. Choose the assignment type based on how access should start.</p>
     <h2>Manual</h2>
     <p>Manual access is administrator-granted and starts immediately.</p>
     <ul>
@@ -682,7 +686,7 @@ Verify service:      /verify</code></pre>
   `),
   'jit-eligible-otp': page('Eligible OTP Self-Service', 'JIT Access', `
     <p class="lead">Eligible OTP access lets an approved user activate temporary privileged access without holding standing membership in the target Active Directory group.</p>
-    <p>The administrator prepares the access path. The user activates it only when needed, verifies with OTP, and receives a time-limited session. SmartPT removes access automatically when the session expires or when an administrator revokes it.</p>
+    <p>The administrator prepares the access path. The user activates it only when needed, verifies with OTP, and receives a time-limited session. JIT Access removes access automatically when the session expires or when an administrator revokes it.</p>
     <h2>End-to-end flow</h2>
     <ol>
       <li>A JIT administrator assigns a product license to the user.</li>
@@ -690,9 +694,9 @@ Verify service:      /verify</code></pre>
       <li>The administrator creates an Eligible assignment for the user.</li>
       <li>The user signs in to the JIT portal.</li>
       <li>The user opens Activate Access and starts the assigned role.</li>
-      <li>SmartPT sends OTP to an AD-sourced delivery channel, such as WhatsApp/mobile.</li>
+      <li>JIT Access sends OTP to an AD-sourced delivery channel, such as WhatsApp/mobile.</li>
       <li>The user verifies the OTP.</li>
-      <li>SmartPT activates the session and adds the user to the mapped AD group.</li>
+      <li>JIT Access activates the session and adds the user to the mapped AD group.</li>
       <li>A JIT administrator monitors the active session.</li>
       <li>Access expires automatically or can be revoked early.</li>
     </ol>
@@ -709,6 +713,7 @@ Verify service:      /verify</code></pre>
     <figure class="doc-screenshot"><img src="./docs/jit/screenshots/eligible-admin-assignment-list.png" alt="Eligible assignment for Joe in dark mode"><figcaption>Eligible assignment remains inactive until the user activates it.</figcaption></figure>
     <h2>User activation</h2>
     <p>The user signs in with their own account and sees only the access they are allowed to activate.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/eligible-joe-activation-only.png" alt="Joe activation-only JIT portal in dark mode with yellow annotation"><figcaption>Joe sees only activation access, not administrator settings or management tabs.</figcaption></figure>
     <figure class="doc-screenshot"><img src="./docs/jit/screenshots/eligible-joe-access-active.png" alt="Joe eligible access after OTP activation in dark mode"><figcaption>After verification, the eligible assignment shows an active access window.</figcaption></figure>
     <ul>
       <li>OTP contact details come from Active Directory.</li>
@@ -719,10 +724,10 @@ Verify service:      /verify</code></pre>
       <li>OTP does not create permanent AD group membership.</li>
     </ul>
     <h2>Active session monitoring</h2>
-    <p>After OTP verification, SmartPT creates an active JIT session. The administrator can confirm it under JIT Access > Active Sessions.</p>
+    <p>After OTP verification, JIT Access creates an active JIT session. The administrator can confirm it under JIT Access > Active Sessions.</p>
     <figure class="doc-screenshot"><img src="./docs/jit/screenshots/eligible-admin-active-session.png" alt="Joe active JIT session visible to Jim in dark mode"><figcaption>Jim can monitor Joe's active eligible session and revoke access if needed.</figcaption></figure>
     <h2>What happens in Active Directory</h2>
-    <p>When OTP verification succeeds, SmartPT adds the user to the AD group mapped by the JIT role. When the session expires or is revoked, SmartPT removes the user from that AD group. The backend enforces this behavior server-side.</p>
+    <p>When OTP verification succeeds, JIT Access adds the user to the AD group mapped by the JIT role. When the session expires or is revoked, JIT Access removes the user from that AD group. The backend enforces this behavior server-side.</p>
     <h2>No approval workflow</h2>
     <div class="callout warning">Eligible OTP is not an approval workflow in this release. The approval decision happens before activation when an administrator creates the eligible assignment.</div>
     <h2>Operational checks</h2>
@@ -731,6 +736,60 @@ Verify service:      /verify</code></pre>
       <tr><td>OTP cannot be sent</td><td>Confirm AD mobile/mail attributes, enabled channel, SMTP fallback, and messaging service connectivity.</td></tr>
       <tr><td>Activation succeeds but access is not visible</td><td>Confirm mapped AD group DN, backend service identity rights, Active Sessions, and audit events.</td></tr>
     </tbody></table></div>
+  `),
+  'jit-sessions-revoke': page('Monitoring, Sessions, Extend, and Revoke', 'JIT Access', `
+    <p class="lead">Active Sessions is the operations view for live privileged access. Use it to confirm who is elevated, which role is active, when access expires, and whether the session should be extended or revoked.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/sessions-joe-active-actions.png" alt="Joe active eligible session with extend and revoke actions highlighted"><figcaption>Jim can monitor Joe's active eligible session and see the available Extend and Revoke actions.</figcaption></figure>
+    <h2>What this page solves</h2>
+    <p>Temporary access is only useful when operators can see it while it is active. Active Sessions shows current privileged sessions and gives JIT administrators immediate action buttons for allowed sessions.</p>
+    <h2>What Active Sessions shows</h2>
+    <ul>
+      <li>User account.</li>
+      <li>JIT role.</li>
+      <li>Assignment type.</li>
+      <li>Start time, end time, and remaining time.</li>
+      <li>Current status.</li>
+      <li>Available actions.</li>
+    </ul>
+    <h2>Extend a session</h2>
+    <p>Use Extend only when the business task is still active and the user still needs privileged access.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/sessions-joe-extend-modal.png" alt="Extend Joe session modal with audit reason highlighted"><figcaption>The extension dialog records additional minutes and an audit reason.</figcaption></figure>
+    <p>The reason is important. It gives the audit trail enough context to explain why the original access window was not enough.</p>
+    <h2>Revoke a session</h2>
+    <p>Use Revoke when access should stop before the scheduled or configured end time. Revoking a session ends the active JIT session and removes the user from the AD group mapped by the role.</p>
+    <div class="callout warning">Do not revoke a production session unless the user has completed the task, the access was opened by mistake, or there is a security reason to stop it immediately.</div>
+    <h2>Operational checks</h2>
+    <ul>
+      <li>Before extending, confirm the user is still working on the approved task.</li>
+      <li>Keep the extension short and enter a clear reason.</li>
+      <li>Before revoking, confirm the correct user and role.</li>
+      <li>Review the session list again after revoke.</li>
+    </ul>
+  `),
+  'jit-notifications-session-policy': page('Notifications and Session Policy', 'JIT Access', `
+    <p class="lead">JIT Settings controls how session events are announced and how long portal sessions can remain active. Review these settings before enabling production roles.</p>
+    <h2>Notification recipients</h2>
+    <p>Notification recipients define which administrators or operational mailboxes receive JIT session event emails.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/settings-notifications-highlight.png" alt="JIT notification recipients and session notification toggle highlighted"><figcaption>Use recipients and global notification enablement to control who receives session event emails.</figcaption></figure>
+    <h2>Session event notifications</h2>
+    <p>Session event toggles decide which events should generate email notifications.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/settings-notification-events-highlight.png" alt="JIT session event notification toggles highlighted"><figcaption>Manual start, Eligible OTP activation, extension, and revoke can be controlled separately.</figcaption></figure>
+    <ul>
+      <li>Manual session start.</li>
+      <li>Eligible OTP activation.</li>
+      <li>Session extension.</li>
+      <li>Session revoke.</li>
+    </ul>
+    <h2>Session policy and SMTP</h2>
+    <p>System / Session settings define shared portal session behavior and mail delivery configuration.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/settings-session-policy-highlight.png" alt="JIT session policy SMTP and group override settings highlighted"><figcaption>Session policy, SMTP delivery, and group override settings are managed from JIT Settings.</figcaption></figure>
+    <ul>
+      <li><b>Max session minutes</b> controls the longest portal session window.</li>
+      <li><b>Idle timeout minutes</b> controls how long an inactive portal session remains valid.</li>
+      <li><b>Global Email (SMTP)</b> controls shared mail delivery for notifications and email fallback.</li>
+      <li><b>Group overrides</b> allow different session limits for specific groups when configured.</li>
+    </ul>
+    <div class="callout">Recommended practice: start with a small recipient list, verify delivery, and test notifications with a non-production role before relying on production session alerts.</div>
   `),
   'jit-admin': page('JIT admin guide', 'JIT Access', `
     <p class="lead">JIT administrators create roles, map AD groups, assign users, review active sessions, and revoke access when needed.</p>
@@ -940,7 +999,7 @@ Verify service:      /verify</code></pre>
     </ul>
   `),
   'release-notes': page('Release notes', 'Operations', `
-    <p class="lead">This documentation site was generated from the current SmartPT JIT and AD Control implementation and docs available on ${releaseDate}.</p>
+    <p class="lead">This documentation site was generated from the current JIT Access and AD Control implementation and docs available on ${releaseDate}.</p>
     <h2>Included in this documentation release</h2>
     <ul>
       <li>SmartPT Core installation and licensing guide.</li>

@@ -1,6 +1,6 @@
 # Creating JIT Roles
 
-JIT roles define the privileged access profile. A role maps SmartPT JIT to one or more existing Active Directory groups and defines which assignment types are allowed.
+JIT roles define the privileged access profile. A role maps JIT Access to one or more existing Active Directory groups and defines which assignment types are allowed.
 
 A role does not grant access by itself. Access starts only when a user receives an assignment and the assignment becomes active.
 
