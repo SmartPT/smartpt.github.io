@@ -14,11 +14,18 @@ const navGroups = [
   {
     title: 'AD Control',
     items: [
-      ['ad-control-overview', 'Overview'],
-      ['ad-control-admin', 'Admin Guide'],
-      ['ad-control-operator', 'Operator Guide'],
-      ['ad-control-settings', 'Settings'],
-      ['ad-control-security', 'Security Model']
+      ['ad-control-getting-started', 'Getting Started'],
+      ['ad-control-access-model', 'Access Model'],
+      ['ad-control-portal-overview', 'Portal Overview'],
+      ['ad-control-settings-overview', 'Settings Overview'],
+      ['ad-control-protected-identities', 'Protected Users and Groups'],
+      ['ad-control-operator-console', 'Operator Console'],
+      ['ad-control-password-reset', 'Password Reset'],
+      ['ad-control-account-unlock', 'Account Unlock'],
+      ['ad-control-profile-updates', 'Profile Updates'],
+      ['ad-control-group-management', 'Group Management'],
+      ['ad-control-troubleshooting', 'Troubleshooting'],
+      ['ad-control-security-model', 'Security Model']
     ]
   },
   {
@@ -78,6 +85,18 @@ const pageMeta = {
   'jit-settings': 'JIT roles and assignments guide covering role fields, access modes, schedules, OTP settings, duration limits, and enforcement behavior.',
   'jit-security': 'JIT security model for server-side authorization, AD group enforcement, OTP storage, session reconciliation, and audit controls.',
   'ad-control-overview': 'AD Control documentation for tiered Active Directory support, Tier 0 protection, protected users and groups, password reset, account unlock, and OTP verification.',
+  'ad-control-getting-started': 'Getting started with AD Control, tiered helpdesk operations, protected identities, OTP verification, and customer onboarding order.',
+  'ad-control-access-model': 'AD Control access model covering operator licenses, role assignments, settings access, Tier 1, Tier 2, and target users.',
+  'ad-control-portal-overview': 'AD Control portal overview covering Dashboard, operator console, Settings, product links, and role-based visibility.',
+  'ad-control-settings-overview': 'AD Control settings overview covering access assignments, protected identities, OTP, password and unlock options, SMTP, and session policy.',
+  'ad-control-protected-identities': 'Protected users and groups in AD Control, including Tier 0 protection and operator search blocking.',
+  'ad-control-operator-console': 'AD Control operator console guide for user search, selected user details, and role-based actions.',
+  'ad-control-password-reset': 'AD Control password reset workflows covering direct reset, verified OTP reset, generated passwords, and audit behavior.',
+  'ad-control-account-unlock': 'AD Control account unlock workflows covering direct unlock and verified OTP unlock.',
+  'ad-control-profile-updates': 'AD Control Tier 2 profile update guide for supported Active Directory user attributes.',
+  'ad-control-group-management': 'AD Control controlled group management guide for Tier 2 direct and nested group workflows.',
+  'ad-control-troubleshooting': 'AD Control troubleshooting for access assignment, protected search, OTP delivery, SMTP, IIS, and backend issues.',
+  'ad-control-security-model': 'AD Control security model for license and RBAC enforcement, protected identities, OTP handling, and backend audit controls.',
   'ad-control-admin': 'AD Control administrator guide covering license assignments, operator roles, settings access, protected users, protected groups, and support group configuration.',
   'ad-control-operator': 'AD Control operator guide for searching users, resetting passwords, unlocking accounts, updating profile attributes, and controlled group management.',
   'ad-control-settings': 'AD Control settings reference for password options, unlock options, OTP delivery, password delivery, protected identities, notifications, SMTP, and session policy.',
@@ -225,6 +244,120 @@ Verify service:      /verify</code></pre>
         <p>Validate the package in staging before sharing with customers. Keep checksums and version notes with each production release.</p>
       </article>
     </div>
+  `),
+  'ad-control-getting-started': page('Getting Started with AD Control', 'AD Control', `
+    <p class="lead">AD Control gives support teams a controlled way to reset passwords, unlock accounts, update selected user attributes, and manage approved group membership without exposing Tier 0 accounts to routine helpdesk work.</p>
+    <div class="tag-list"><span class="tag">Tier 1 / Tier 2</span><span class="tag">Protected identities</span><span class="tag">OTP verification</span><span class="tag">Audit-ready</span></div>
+    ${adControlArchitectureDiagram()}
+    ${adControlDiagram()}
+    ${adControlTierDiagram()}
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/dashboard-jim-settings-access.jpg" alt="AD Control dashboard in dark mode"><figcaption>AD Control is role-aware. Jim has settings access for administration.</figcaption></figure>
+    <h2>What AD Control solves</h2>
+    <ul><li>Helpdesk users should not need broad Active Directory rights.</li><li>Password reset and unlock should not become paths to Tier 0 exposure.</li><li>Protected identities should stay hidden from routine operator workflows.</li><li>Verified actions should use OTP sent to AD-sourced contact details.</li><li>Sensitive actions should create audit records with correlation IDs.</li></ul>
+    <h2>Documentation example users</h2>
+    <div class="table-wrap"><table><thead><tr><th>User</th><th>Role</th><th>Purpose</th></tr></thead><tbody><tr><td>jim</td><td>Settings administrator</td><td>Full AD Control settings access.</td></tr><tr><td>david</td><td>Helpdesk (Tier 1)</td><td>Can support standard users such as avi.</td></tr><tr><td>sara</td><td>Advanced Support (Tier 2)</td><td>Can support standard users and use Tier 2 actions.</td></tr><tr><td>avi</td><td>Managed user</td><td>Target user. No AD Control license required.</td></tr><tr><td>joe</td><td>Protected user</td><td>Hidden from Tier operators after protection is configured.</td></tr></tbody></table></div>
+    <div class="callout">Only operators need AD Control product licenses. Target users such as avi do not need a license to be managed.</div>
+  `),
+  'ad-control-access-model': page('Access Model, Licensing, and RBAC', 'AD Control', `
+    <p class="lead">Operators need a product license and one role. The users they manage do not need a license.</p>
+    ${adControlTierDiagram()}
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/settings-access-assignments-highlight.jpg" alt="AD Control access assignments highlighted in dark mode"><figcaption>Access Assignments binds a licensed operator to one AD Control role.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/settings-tier-role-options.jpg" alt="AD Control tier role options in dark mode"><figcaption>Tier options are Helpdesk (Tier 1) and Advanced Support (Tier 2).</figcaption></figure>
+    <h2>Access layers</h2>
+    <div class="table-wrap"><table><thead><tr><th>Layer</th><th>Controls</th></tr></thead><tbody><tr><td>Product license</td><td>Whether the operator consumes an AD Control seat.</td></tr><tr><td>Role assignment</td><td>What the operator can do in the portal.</td></tr><tr><td>Settings access</td><td>Who can manage licenses, RBAC, protection, OTP, SMTP, and policy.</td></tr><tr><td>Protection rules</td><td>Which users and groups are blocked from routine support workflows.</td></tr></tbody></table></div>
+    <h2>Example configuration</h2>
+    <ul><li>david has a license and the Helpdesk (Tier 1) role.</li><li>sara has a license and the Advanced Support (Tier 2) role.</li><li>avi is a managed target user and does not need a product license.</li><li>jim has settings access and can manage protected users, protected groups, roles, and policy.</li></ul>
+    <h2>Tier options</h2>
+    <ul><li><b>Helpdesk (Tier 1):</b> routine operators who reset passwords and unlock standard users.</li><li><b>Advanced Support (Tier 2):</b> operators who also update profile fields and manage approved group membership.</li></ul>
+  `),
+  'ad-control-portal-overview': page('Portal Overview', 'AD Control', `
+    <p class="lead">The AD Control portal is split between Dashboard, the operator support console, and Settings. Visible tabs depend on the signed-in user.</p>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/david-dashboard.jpg" alt="David AD Control dashboard in dark mode"><figcaption>David has operator access and sees the support workspace entry point.</figcaption></figure>
+    <div class="table-wrap"><table><thead><tr><th>Area</th><th>Purpose</th></tr></thead><tbody><tr><td>Dashboard</td><td>Shows the signed-in context and available next action.</td></tr><tr><td>AD Control</td><td>Operator console for user search and allowed actions.</td></tr><tr><td>Settings</td><td>Administrative configuration for licenses, RBAC, protected identities, OTP, SMTP, and session policy.</td></tr></tbody></table></div>
+    <p>David and Sara do not see Settings. Jim can manage Settings. This keeps administrative configuration separate from day-to-day operator work.</p>
+  `),
+  'ad-control-settings-overview': page('Settings Overview', 'AD Control', `
+    <p class="lead">AD Control Settings is the administrative area for product access, role assignment, protected identities, OTP policy, password/unlock behavior, SMTP, and session policy.</p>
+    ${adControlSettingsFlowDiagram()}
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/settings-access-assignments-highlight.jpg" alt="AD Control settings access assignments highlighted"><figcaption>Start with Access Assignments so each operator has one license and one tier.</figcaption></figure>
+    <h2>Settings sections</h2>
+    <ul><li>Access Assignments for operator licenses and roles.</li><li>AD Control View Settings for support groups, protected users, and protected groups.</li><li>OTP policy for TTL, send limits, resend windows, and failed attempts.</li><li>Password and unlock options for direct and verified workflows.</li><li>Global Email (SMTP) and session policy.</li></ul>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/settings-policy-delivery-highlight.jpg" alt="AD Control OTP SMTP and session policy settings highlighted"><figcaption>Review OTP, SMTP, and session policy before production rollout.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/settings-all-policy-areas-highlight.jpg" alt="AD Control all important settings areas highlighted"><figcaption>Settings controls access, protection, OTP limits, workflow methods, SMTP, and session behavior.</figcaption></figure>
+    <h2>What administrators can configure</h2>
+    <div class="table-wrap"><table><thead><tr><th>Setting area</th><th>Controls</th></tr></thead><tbody>
+      <tr><td>Access Assignments</td><td>Operator license assignment, tier role, role change, and removal.</td></tr>
+      <tr><td>Support groups</td><td>AD groups that can receive AD Control view/settings permissions.</td></tr>
+      <tr><td>Protected users</td><td>Specific accounts hidden from Tier 1 and Tier 2 workflows.</td></tr>
+      <tr><td>Protected groups</td><td>Groups whose direct and nested members are treated as protected.</td></tr>
+      <tr><td>OTP and verification</td><td>TTL, resend limits, send window, and failed attempt limits.</td></tr>
+      <tr><td>Password and unlock methods</td><td>Direct reset, verified reset, direct unlock, verified unlock, complexity, and custom length.</td></tr>
+      <tr><td>Notifications and SMTP</td><td>Auditor email, templates, relay host, sender, TLS, auth reference, and timeout.</td></tr>
+      <tr><td>Session policy</td><td>Portal maximum session and idle timeout.</td></tr>
+    </tbody></table></div>
+    <div class="callout">Yellow callouts mark Settings areas that administrators should review first. Non-settings screenshots are left unmarked.</div>
+  `),
+  'ad-control-protected-identities': page('Protected Users and Groups', 'AD Control', `
+    <p class="lead">Protected identities are the main safety boundary in AD Control. Tier 0 users are protected by default, and administrators can add protected users and protected groups.</p>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/settings-protection-highlight.jpg" alt="AD Control protected users and groups highlighted"><figcaption>Jim can add protected users and protected groups from Settings.</figcaption></figure>
+    <ul><li>joe is configured as a protected user.</li><li>it-admin is configured as a protected group.</li><li>david and sara can manage avi.</li><li>david and sara cannot search or manage Tier 0/protected accounts such as jim or joe.</li></ul>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/david-protected-user-search.jpg" alt="David cannot manage protected Joe in dark mode"><figcaption>Protected users do not become routine Tier 1 targets.</figcaption></figure>
+  `),
+  'ad-control-operator-console': page('Operator Support Console', 'AD Control', `
+    <p class="lead">Operators use the AD Control tab to search Active Directory users and run only the actions allowed by their assigned role.</p>
+    ${adControlOperatorFlowDiagram()}
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/david-avi-selected.jpg" alt="David selected Avi in AD Control dark mode"><figcaption>The selected user panel shows identity, status, contact attributes, and allowed actions.</figcaption></figure>
+    <h2>Search behavior</h2>
+    <ul><li>Search supports samAccountName, UPN, or display name.</li><li>Protected users and protected group members do not appear to Tier operators.</li><li>If a user is missing, check protection rules before treating it as a directory issue.</li></ul>
+    <div class="table-wrap"><table><thead><tr><th>User</th><th>Role</th><th>Visible workflow</th></tr></thead><tbody><tr><td>david</td><td>Helpdesk (Tier 1)</td><td>Reset password and unlock standard users.</td></tr><tr><td>sara</td><td>Advanced Support (Tier 2)</td><td>Reset/unlock plus profile and group actions.</td></tr></tbody></table></div>
+  `),
+  'ad-control-password-reset': page('Password Reset Workflows', 'AD Control', `
+    <p class="lead">AD Control supports direct reset and verified reset. Administrators decide which methods are enabled in Settings.</p>
+    ${adControlResetFlowDiagram()}
+    <h2>Direct reset</h2><p>Direct reset is an administrator-approved helpdesk action. It runs immediately and is audited.</p>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/david-reset-password-direct.jpg" alt="David direct password reset modal in dark mode"><figcaption>Direct reset runs immediately when policy allows it.</figcaption></figure>
+    <h2>Verified reset</h2><p>Verified reset requires OTP before the password reset completes. OTP delivery uses AD-sourced contact attributes.</p>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/david-reset-password-otp.jpg" alt="David verified password reset OTP modal in dark mode"><figcaption>Verified reset requires the operator to send and enter OTP before reset.</figcaption></figure>
+    <div class="callout warning">Generated passwords are shown once. Copy or deliver the password immediately using the approved workflow.</div>
+  `),
+  'ad-control-account-unlock': page('Account Unlock Workflows', 'AD Control', `
+    <p class="lead">AD Control supports direct unlock and verified unlock for locked Active Directory users.</p>
+    ${adControlUnlockFlowDiagram()}
+    <p>The unlock button appears when the selected user is locked and the operator has account unlock permission.</p>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/avi-locked-status-highlight.jpg" alt="Avi locked status highlighted in AD Control"><figcaption>The unlock workflow appears only when the selected user is locked.</figcaption></figure>
+    <h2>Direct unlock</h2>
+    <p>Direct unlock runs immediately when enabled by policy. It records the actor, target, result, and correlation ID.</p>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/avi-unlock-direct-modal.jpg" alt="Avi direct unlock modal in AD Control"><figcaption>Direct unlock runs without OTP when the policy allows direct unlock.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/avi-unlock-direct-complete.jpg" alt="Avi unlock complete in AD Control"><figcaption>After unlock, Avi is available for normal support workflows.</figcaption></figure>
+    <h2>Verified unlock flow</h2>
+    <ol><li>Search and select the locked user.</li><li>Choose Unlock.</li><li>Select the verification channel.</li><li>Send OTP.</li><li>Enter the OTP provided by the user.</li><li>Verify and unlock.</li></ol>
+    <p>Administrators can enable or disable direct unlock and verified unlock from Settings.</p>
+  `),
+  'ad-control-profile-updates': page('Profile Updates', 'AD Control', `
+    <p class="lead">Advanced Support (Tier 2) operators can update selected Active Directory profile attributes for standard users.</p>
+    ${adControlTier2FlowDiagram()}
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/sara-profile-update.jpg" alt="Sara profile update panel in dark mode"><figcaption>Sara can update selected user profile fields for Avi.</figcaption></figure>
+    <ul><li>Phone</li><li>Mobile</li><li>Title</li><li>Department</li><li>Company</li><li>Office</li><li>Description</li></ul>
+    <p>Protected users and Tier 0 identities remain blocked from this workflow.</p>
+  `),
+  'ad-control-group-management': page('Controlled Group Management', 'AD Control', `
+    <p class="lead">Advanced Support (Tier 2) operators can manage approved group membership for standard users.</p>
+    ${adControlGroupFlowDiagram()}
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/sara-group-management.jpg" alt="Sara group management panel in dark mode"><figcaption>Sara can review direct and nested groups and use allowed group actions.</figcaption></figure>
+    <p>Administrators control which groups can be added or removed. Protected groups and privileged groups should not be available for routine Tier 2 operations.</p>
+  `),
+  'ad-control-troubleshooting': page('AD Control Troubleshooting', 'AD Control', `
+    <p class="lead">Use this page when access, search, OTP, reset, unlock, profile, group, SMTP, or settings behavior does not match expectations.</p>
+    <h2>Operator cannot access AD Control</h2><ul><li>Confirm the user has an AD Control license assignment.</li><li>Confirm the user has one operator role.</li><li>Confirm the license has available seats.</li><li>Confirm the user is signing in with the expected AD identity.</li></ul>
+    <h2>Target user does not appear in search</h2><ul><li>Confirm the target exists in Active Directory.</li><li>Confirm the target is not Tier 0.</li><li>Confirm the target is not a protected user.</li><li>Confirm the target is not a member of a protected group.</li></ul>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/sara-tier0-search-blocked.jpg" alt="Sara cannot manage a Tier 0 account in dark mode"><figcaption>Tier 0 and protected users are blocked from routine operator workflows.</figcaption></figure>
+    <h2>IIS or backend issue</h2><p>Check that the AD Control frontend <code>/adc</code> and backend <code>/adc-backend</code> IIS applications are running. The backend is designed to run with the pre-installed gMSA/service identity.</p>
+  `),
+  'ad-control-security-model': page('AD Control Security Model', 'AD Control', `
+    <p class="lead">AD Control reduces unsafe helpdesk operations without giving every operator broad Active Directory permissions.</p>
+    ${adControlArchitectureDiagram()}
+    <ul><li>Product license and role assignment for operators.</li><li>Server-side permission checks for every sensitive action.</li><li>Tier 0 and protected identity filtering.</li><li>OTP verification for verified reset and unlock workflows.</li><li>AD-sourced email/mobile attributes for OTP delivery.</li><li>Audit records with correlation IDs.</li><li>No OTP codes or generated passwords in audit logs.</li></ul>
+    <div class="callout success">Successful OTP verification does not bypass protected identity rules. Protection is enforced before sensitive actions run.</div>
   `),
   'ad-control-overview': page('AD Control overview', 'AD Control', `
     <p class="lead">AD Control gives support teams a safer way to handle Active Directory user operations with tier boundaries, user verification, protected identities, and audit records.</p>
@@ -1182,6 +1315,12 @@ Verify service:      /verify</code></pre>
   `)
 };
 
+pages['ad-control-overview'] = pages['ad-control-getting-started'];
+pages['ad-control-admin'] = pages['ad-control-settings-overview'];
+pages['ad-control-operator'] = pages['ad-control-operator-console'];
+pages['ad-control-settings'] = pages['ad-control-settings-overview'];
+pages['ad-control-security'] = pages['ad-control-security-model'];
+
 function page(title, eyebrow, body) {
   return { title, eyebrow, body: `<section class="doc"><div class="eyebrow">${eyebrow}</div><h1>${title}</h1>${body}</section>` };
 }
@@ -1209,6 +1348,126 @@ function adControlDiagram() {
         <div class="diagram-box"><strong>Verify when required</strong><span>OTP can be sent to AD-sourced email, mobile, or both.</span></div>
         <div class="diagram-box"><strong>Run action</strong><span>Reset, unlock, profile update, or controlled group operation.</span></div>
         <div class="diagram-box"><strong>Audit</strong><span>Action, target, actor, result, and correlation ID are recorded.</span></div>
+      </div>
+    </div>
+  `;
+}
+
+function adControlArchitectureDiagram() {
+  return `
+    <div class="diagram" role="img" aria-label="AD Control architecture diagram">
+      <div class="eyebrow">Architecture</div>
+      <div class="diagram-grid five">
+        <div class="diagram-box"><strong>Operators</strong><span>David and Sara sign in with Active Directory identity.</span></div>
+        <div class="diagram-box accent"><strong>AD Control Portal</strong><span>Shows Dashboard, support console, and Settings according to role.</span></div>
+        <div class="diagram-box accent"><strong>Backend</strong><span>Enforces license, RBAC, protection rules, OTP policy, and workflow settings.</span></div>
+        <div class="diagram-box good"><strong>Active Directory</strong><span>Source of users, groups, contact attributes, lock state, and password operations.</span></div>
+        <div class="diagram-box"><strong>Audit and delivery</strong><span>Writes correlation IDs and sends OTP or notifications through configured channels.</span></div>
+      </div>
+      <div class="diagram-note">The browser never decides access. The backend validates every sensitive action before touching Active Directory.</div>
+    </div>
+  `;
+}
+
+function adControlTierDiagram() {
+  return `
+    <div class="diagram" role="img" aria-label="AD Control tier model">
+      <div class="eyebrow">Tier model</div>
+      <div class="diagram-grid">
+        <div class="diagram-box"><strong>Helpdesk (Tier 1)</strong><span>Password reset and account unlock for standard users.</span></div>
+        <div class="diagram-box accent"><strong>Advanced Support (Tier 2)</strong><span>Tier 1 actions plus profile updates and controlled group membership.</span></div>
+        <div class="diagram-box warning"><strong>Protected identities</strong><span>Tier 0, protected users, and protected group members stay hidden from routine workflows.</span></div>
+        <div class="diagram-box good"><strong>Settings administrator</strong><span>Manages licenses, roles, protected users, protected groups, OTP, SMTP, and session policy.</span></div>
+      </div>
+      <div class="diagram-note">Target users such as avi do not need AD Control licenses. Only operators such as david and sara consume operator seats.</div>
+    </div>
+  `;
+}
+
+function adControlSettingsFlowDiagram() {
+  return `
+    <div class="diagram" role="img" aria-label="AD Control settings flow">
+      <div class="eyebrow">Settings flow</div>
+      <div class="diagram-grid five">
+        <div class="diagram-box"><strong>Assign access</strong><span>Give operators one license and one tier role.</span></div>
+        <div class="diagram-box warning"><strong>Protect identities</strong><span>Add protected users and groups before broad operator rollout.</span></div>
+        <div class="diagram-box accent"><strong>Set workflow policy</strong><span>Choose direct or verified reset and unlock behavior.</span></div>
+        <div class="diagram-box"><strong>Configure delivery</strong><span>Review OTP limits, auditor email, templates, mobile delivery, and SMTP.</span></div>
+        <div class="diagram-box good"><strong>Operate safely</strong><span>Test with standard users and audit sensitive actions.</span></div>
+      </div>
+    </div>
+  `;
+}
+
+function adControlResetFlowDiagram() {
+  return `
+    <div class="diagram" role="img" aria-label="AD Control password reset flow">
+      <div class="eyebrow">Password reset flow</div>
+      <div class="diagram-grid five">
+        <div class="diagram-box"><strong>Search</strong><span>Operator searches for a standard, non-protected user.</span></div>
+        <div class="diagram-box"><strong>Select action</strong><span>Choose direct reset or verified reset based on policy.</span></div>
+        <div class="diagram-box accent"><strong>Verify OTP</strong><span>Verified reset sends OTP to AD-sourced email or mobile.</span></div>
+        <div class="diagram-box good"><strong>Reset</strong><span>Backend resets the password and shows the generated value once.</span></div>
+        <div class="diagram-box"><strong>Audit</strong><span>Actor, target, result, reason, and correlation ID are recorded.</span></div>
+      </div>
+    </div>
+  `;
+}
+
+function adControlUnlockFlowDiagram() {
+  return `
+    <div class="diagram" role="img" aria-label="AD Control account unlock flow">
+      <div class="eyebrow">Unlock flow</div>
+      <div class="diagram-grid five">
+        <div class="diagram-box"><strong>Search</strong><span>Operator searches and selects a locked standard user.</span></div>
+        <div class="diagram-box warning"><strong>Locked state</strong><span>Unlock appears only when the target account is locked.</span></div>
+        <div class="diagram-box accent"><strong>Direct or verified</strong><span>Policy decides whether unlock can run now or requires OTP.</span></div>
+        <div class="diagram-box good"><strong>Unlock</strong><span>Backend unlocks the AD account using delegated service identity.</span></div>
+        <div class="diagram-box"><strong>Audit</strong><span>Actor, target, method, result, and correlation ID are recorded.</span></div>
+      </div>
+    </div>
+  `;
+}
+
+function adControlOperatorFlowDiagram() {
+  return `
+    <div class="diagram" role="img" aria-label="AD Control operator console flow">
+      <div class="eyebrow">Operator flow</div>
+      <div class="diagram-grid five">
+        <div class="diagram-box"><strong>Search user</strong><span>Operator searches by samAccountName, UPN, or display name.</span></div>
+        <div class="diagram-box warning"><strong>Protection check</strong><span>Tier 0, protected users, and protected group members are hidden or blocked.</span></div>
+        <div class="diagram-box"><strong>Selected user</strong><span>Allowed targets show status, lock state, contact details, and password age.</span></div>
+        <div class="diagram-box accent"><strong>Allowed actions</strong><span>Tier 1 sees reset/unlock. Tier 2 also sees profile and groups.</span></div>
+        <div class="diagram-box good"><strong>Audit</strong><span>Searches and sensitive actions are recorded with correlation IDs.</span></div>
+      </div>
+    </div>
+  `;
+}
+
+function adControlTier2FlowDiagram() {
+  return `
+    <div class="diagram" role="img" aria-label="AD Control profile update flow">
+      <div class="eyebrow">Profile update flow</div>
+      <div class="diagram-grid">
+        <div class="diagram-box"><strong>Sara signs in</strong><span>Advanced Support role enables Tier 2 actions.</span></div>
+        <div class="diagram-box"><strong>Select Avi</strong><span>Avi is a standard, non-protected target user.</span></div>
+        <div class="diagram-box accent"><strong>Update fields</strong><span>Phone, mobile, title, department, company, office, and description.</span></div>
+        <div class="diagram-box good"><strong>Audit result</strong><span>Backend records the update action and correlation ID.</span></div>
+      </div>
+    </div>
+  `;
+}
+
+function adControlGroupFlowDiagram() {
+  return `
+    <div class="diagram" role="img" aria-label="AD Control controlled group management flow">
+      <div class="eyebrow">Group management flow</div>
+      <div class="diagram-grid five">
+        <div class="diagram-box"><strong>Sara signs in</strong><span>Tier 2 role allows group membership workflow.</span></div>
+        <div class="diagram-box"><strong>Select Avi</strong><span>Target must not be Tier 0 or protected.</span></div>
+        <div class="diagram-box accent"><strong>Allowed group check</strong><span>Backend permits only configured non-protected groups.</span></div>
+        <div class="diagram-box good"><strong>Add or remove</strong><span>Backend updates Active Directory group membership.</span></div>
+        <div class="diagram-box"><strong>Audit</strong><span>Group, actor, target, result, and correlation ID are recorded.</span></div>
       </div>
     </div>
   `;
