@@ -30,7 +30,8 @@ const navGroups = [
       ['jit-settings-overview', 'Settings Overview'],
       ['jit-roles', 'Creating Roles'],
       ['jit-assignments', 'Creating Assignments'],
-      ['jit-assignment-types', 'Assignment Types']
+      ['jit-assignment-types', 'Assignment Types'],
+      ['jit-eligible-otp', 'Eligible OTP']
     ]
   },
   {
@@ -65,6 +66,7 @@ const pageMeta = {
   'jit-roles': 'Create SmartPT JIT roles that map to existing Active Directory groups and define allowed access methods, OTP, and duration limits.',
   'jit-assignments': 'Create SmartPT JIT assignments that connect users to roles for eligible, scheduled, or manual privileged access.',
   'jit-assignment-types': 'Assignment type guide for choosing Manual, Scheduled, or Eligible OTP access in SmartPT JIT.',
+  'jit-eligible-otp': 'Eligible OTP self-service guide covering administrator setup, user activation, WhatsApp/mobile OTP verification, active sessions, and automatic removal.',
   'jit-admin': 'JIT administrator guide covering roles, AD group mapping, assignments, active sessions, emergency revocation, and audit review.',
   'jit-user': 'JIT user guide for eligible self-service access with OTP verification from Active Directory-sourced contact details.',
   'jit-settings': 'JIT roles and assignments guide covering role fields, access modes, schedules, OTP settings, duration limits, and enforcement behavior.',
@@ -677,6 +679,58 @@ Verify service:      /verify</code></pre>
       <tr><td>Manager or security approval before activation</td><td>Not supported in this release</td></tr>
     </tbody></table></div>
     <div class="callout">Practical recommendation: start with Manual for first validation, then add Scheduled for recurring operations, and use Eligible OTP only after license assignment, RBAC, OTP delivery, and session monitoring have been tested.</div>
+  `),
+  'jit-eligible-otp': page('Eligible OTP Self-Service', 'JIT Access', `
+    <p class="lead">Eligible OTP access lets an approved user activate temporary privileged access without holding standing membership in the target Active Directory group.</p>
+    <p>The administrator prepares the access path. The user activates it only when needed, verifies with OTP, and receives a time-limited session. SmartPT removes access automatically when the session expires or when an administrator revokes it.</p>
+    <h2>End-to-end flow</h2>
+    <ol>
+      <li>A JIT administrator assigns a product license to the user.</li>
+      <li>The administrator creates or confirms a JIT role that allows Eligible access and requires OTP.</li>
+      <li>The administrator creates an Eligible assignment for the user.</li>
+      <li>The user signs in to the JIT portal.</li>
+      <li>The user opens Activate Access and starts the assigned role.</li>
+      <li>SmartPT sends OTP to an AD-sourced delivery channel, such as WhatsApp/mobile.</li>
+      <li>The user verifies the OTP.</li>
+      <li>SmartPT activates the session and adds the user to the mapped AD group.</li>
+      <li>A JIT administrator monitors the active session.</li>
+      <li>Access expires automatically or can be revoked early.</li>
+    </ol>
+    <h2>Administrator setup</h2>
+    <ul>
+      <li>Assign the user a JIT product license.</li>
+      <li>Create or confirm a JIT role.</li>
+      <li>Enable Allow eligible on the role.</li>
+      <li>Enable OTP required when verification is required.</li>
+      <li>Map the role to the existing AD group that should be controlled.</li>
+      <li>Create an Eligible assignment for the target user.</li>
+    </ul>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/eligible-admin-role-list.png" alt="Eligible JIT role configured in dark mode"><figcaption>Eligible role with OTP behavior and time limits.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/eligible-admin-assignment-list.png" alt="Eligible assignment for Joe in dark mode"><figcaption>Eligible assignment remains inactive until the user activates it.</figcaption></figure>
+    <h2>User activation</h2>
+    <p>The user signs in with their own account and sees only the access they are allowed to activate.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/eligible-joe-access-active.png" alt="Joe eligible access after OTP activation in dark mode"><figcaption>After verification, the eligible assignment shows an active access window.</figcaption></figure>
+    <ul>
+      <li>OTP contact details come from Active Directory.</li>
+      <li>The user cannot type a new phone number or email address.</li>
+      <li>WhatsApp/mobile delivery uses the configured mobile channel.</li>
+      <li>Email can be used only when enabled and available.</li>
+      <li>OTP verification starts the privileged session.</li>
+      <li>OTP does not create permanent AD group membership.</li>
+    </ul>
+    <h2>Active session monitoring</h2>
+    <p>After OTP verification, SmartPT creates an active JIT session. The administrator can confirm it under JIT Access > Active Sessions.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/eligible-admin-active-session.png" alt="Joe active JIT session visible to Jim in dark mode"><figcaption>Jim can monitor Joe's active eligible session and revoke access if needed.</figcaption></figure>
+    <h2>What happens in Active Directory</h2>
+    <p>When OTP verification succeeds, SmartPT adds the user to the AD group mapped by the JIT role. When the session expires or is revoked, SmartPT removes the user from that AD group. The backend enforces this behavior server-side.</p>
+    <h2>No approval workflow</h2>
+    <div class="callout warning">Eligible OTP is not an approval workflow in this release. The approval decision happens before activation when an administrator creates the eligible assignment.</div>
+    <h2>Operational checks</h2>
+    <div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
+      <tr><td>Eligible access does not appear</td><td>Confirm product license assignment, Eligible assignment, enabled role, and matching samAccountName.</td></tr>
+      <tr><td>OTP cannot be sent</td><td>Confirm AD mobile/mail attributes, enabled channel, SMTP fallback, and messaging service connectivity.</td></tr>
+      <tr><td>Activation succeeds but access is not visible</td><td>Confirm mapped AD group DN, backend service identity rights, Active Sessions, and audit events.</td></tr>
+    </tbody></table></div>
   `),
   'jit-admin': page('JIT admin guide', 'JIT Access', `
     <p class="lead">JIT administrators create roles, map AD groups, assign users, review active sessions, and revoke access when needed.</p>
