@@ -80,7 +80,7 @@ const pageMeta = {
   installation: 'Install SmartPT Core on IIS with Local Active Directory integration, product portals, backend applications, service identity, and activation guidance.',
   licensing: 'SmartPT Core licensing, server-bound activation, mTLS client certificate behavior, subscription states, and add-on user unit guidance.',
   downloads: 'Download SmartPT Core activation wizard packages and review release packaging guidance for customer deployments.',
-  'core-getting-started': 'Getting started with SmartPT Console, the root on-prem control plane for product status, Core license, shared 2FA, RBAC, and product entry.',
+  'core-getting-started': 'Getting started with SmartPT Console, the on-prem portal for product status, Core license, shared 2FA, RBAC, and product entry.',
   'core-portal-overview': 'SmartPT Console portal overview covering Overview, product status, Recent Activity, and administrator-only Settings.',
   'core-license-mtls': 'SmartPT Console license, product status, mTLS client certificate, certificate renewal, and fail-closed access behavior.',
   'core-access-model': 'SmartPT Console access model covering Domain Admin fallback, administrative groups, viewer groups, and session policy.',
@@ -94,7 +94,7 @@ const pageMeta = {
   'jit-assignments': 'Create JIT assignments that connect users to roles for eligible, scheduled, or manual privileged access.',
   'jit-assignment-types': 'Assignment type guide for choosing Manual, Scheduled, or Eligible OTP access in JIT Access.',
   'jit-eligible-otp': 'Eligible OTP self-service guide covering administrator setup, user activation, WhatsApp/mobile OTP verification, active sessions, and automatic removal.',
-  'jit-sessions-revoke': 'Operations guide for monitoring active JIT sessions, extending Joe eligible access, and using revoke safely.',
+  'jit-sessions-revoke': 'Operations guide for monitoring active JIT sessions, extending approved access when needed, and revoking access before expiration.',
   'jit-notifications-session-policy': 'JIT Settings guide for notification recipients, session event emails, session policy, SMTP, and group overrides.',
   'jit-troubleshooting': 'JIT troubleshooting guide for portal access, missing assignments, OTP limits, revoke behavior, SMTP notifications, service identity, and IIS application pools.',
   'jit-admin': 'JIT administrator guide covering roles, AD group mapping, assignments, active sessions, emergency revocation, and audit review.',
@@ -108,18 +108,18 @@ const pageMeta = {
   'ad-control-settings-overview': 'AD Control settings overview covering access assignments, protected identities, OTP, password and unlock options, SMTP, and session policy.',
   'ad-control-protected-identities': 'Protected users and groups in AD Control, including Tier 0 protection and operator search blocking.',
   'ad-control-operator-console': 'AD Control operator console guide for user search, selected user details, and role-based actions.',
-  'ad-control-password-reset': 'AD Control password reset workflows covering direct reset, verified OTP reset, generated passwords, and audit behavior.',
-  'ad-control-account-unlock': 'AD Control account unlock workflows covering direct unlock and verified OTP unlock.',
+  'ad-control-password-reset': 'AD Control password reset guide covering direct reset, OTP-verified reset, generated passwords shown once, and audit records.',
+  'ad-control-account-unlock': 'AD Control account unlock guide covering direct unlock and OTP-verified unlock.',
   'ad-control-profile-updates': 'AD Control Tier 2 profile update guide for supported Active Directory user attributes.',
-  'ad-control-group-management': 'AD Control controlled group management guide for Tier 2 direct and nested group workflows.',
+  'ad-control-group-management': 'AD Control controlled group management guide for Tier 2 direct and nested group membership changes.',
   'ad-control-troubleshooting': 'AD Control troubleshooting for access assignment, protected search, OTP delivery, SMTP, IIS, and backend issues.',
   'ad-control-security-model': 'AD Control security model for license and RBAC enforcement, protected identities, OTP handling, and backend audit controls.',
   'ad-control-admin': 'AD Control administrator guide covering license assignments, operator roles, settings access, protected users, protected groups, and support group configuration.',
   'ad-control-operator': 'AD Control operator guide for searching users, resetting passwords, unlocking accounts, updating profile attributes, and controlled group management.',
   'ad-control-settings': 'AD Control settings reference for password options, unlock options, OTP delivery, password delivery, protected identities, notifications, SMTP, and session policy.',
-  'ad-control-security': 'AD Control security model for tier boundaries, protected identity exclusion, verified workflows, role enforcement, and audit records.',
+  'ad-control-security': 'AD Control security model for tier boundaries, protected identity exclusion, OTP-verified reset and unlock actions, role enforcement, and audit records.',
   'security-model': 'Shared SmartPT security model for on-prem operation, AD-sourced identity data, backend authorization, Core license and mTLS enforcement, shared MFA, logs, and auditability.',
-  audit: 'Audit and compliance guidance for SmartPT Core, JIT Access, AD Control, correlation IDs, sensitive event records, and safe logging.',
+  audit: 'Audit and compliance guidance for SmartPT Core, JIT Access, AD Control, correlation IDs, sensitive event records, and logs that exclude secrets.',
   troubleshooting: 'Troubleshooting guide for SmartPT access assignment, sessions, OTP delivery, protected users, JIT removal, and license validation.',
   privacy: 'SmartPT documentation site privacy notice covering static docs use, downloads, external links, and customer-controlled product data.',
   terms: 'SmartPT documentation site terms for using customer guides, downloads, release materials, and product documentation.',
@@ -146,13 +146,13 @@ const pages = {
             </div>
           </div>
           <div class="hero-card">
-            <div class="eyebrow">Control flow</div>
-            <div class="hero-flow" aria-label="SmartPT control flow">
-              <div class="flow-node"><b>Risk</b><span>Standing access, unsafe support actions, vishing, and uncontrolled AD changes.</span></div>
+            <div class="eyebrow">Operating model</div>
+            <div class="hero-flow" aria-label="SmartPT operating model">
+              <div class="flow-node"><b>Risk</b><span>Permanent admin access, unsafe password resets, and uncontrolled AD changes.</span></div>
               <div class="arrow">-></div>
-              <div class="flow-node"><b>SmartPT</b><span>Verify, limit, activate, tier, protect, and audit.</span></div>
+              <div class="flow-node"><b>SmartPT</b><span>Use the portal to verify users, assign roles, limit access, and block protected identities.</span></div>
               <div class="arrow">-></div>
-              <div class="flow-node"><b>Outcome</b><span>Lower privilege exposure and clearer helpdesk control.</span></div>
+              <div class="flow-node"><b>Outcome</b><span>Operators perform approved actions without broad direct AD permissions.</span></div>
             </div>
           </div>
         </div>
@@ -163,15 +163,15 @@ const pages = {
         <div class="cards">
           <article class="card">
             <h3>SmartPT Core</h3>
-            <p>The on-prem base platform, licensing layer, activation flow, and shared subscription model for JIT and AD Control.</p>
+            <p>The on-prem portal for activation, licensing, mTLS certificate validation, shared MFA recovery, and product entry.</p>
           </article>
           <article class="card">
             <h3>JIT Access</h3>
-            <p>Temporary, policy-driven Active Directory group membership for privileged roles. Supports manual, scheduled, and eligible OTP-based access.</p>
+            <p>Temporary Local Active Directory group membership for approved roles. Supports manual, scheduled, and Eligible OTP access.</p>
           </article>
           <article class="card">
             <h3>AD Control</h3>
-            <p>Tiered support operations for password reset, account unlock, profile updates, group actions, protected users, and Tier 0 protection.</p>
+            <p>Tiered Helpdesk actions for password reset, account unlock, approved profile updates, controlled group changes, and protected identity blocking.</p>
           </article>
         </div>
         ${architectureDiagram()}
@@ -216,7 +216,7 @@ AD Control backend:  /adc-backend
 JIT frontend:        /jit
 JIT backend:         /JIT-Backend
 Verify service:      /verify</code></pre>
-    <div class="callout warning">Do not grant broad Domain Admin permissions to the application pool identity. Delegate only the AD actions required for the configured product workflows.</div>
+    <div class="callout warning">Do not grant broad Domain Admin permissions to the application pool identity. Delegate only the AD actions required for the configured product features.</div>
   `),
   'licensing': page('Licensing', 'SmartPT Core', `
     <p class="lead">SmartPT Core uses a server-bound license and client certificate model. Licensing is enforced before product access is granted.</p>
@@ -263,11 +263,11 @@ Verify service:      /verify</code></pre>
     </div>
   `),
   'core-getting-started': page('Getting Started with SmartPT Console', 'SmartPT Console', `
-    <p class="lead">SmartPT Console is the root portal for a SmartPT server. It gives administrators one place to confirm product availability, review license and certificate health, manage root portal access, reset shared two-factor enrollment, and open the product consoles.</p>
-    <div class="tag-list"><span class="tag">Root control plane</span><span class="tag">License status</span><span class="tag">Shared 2FA</span><span class="tag">Product visibility</span></div>
+    <p class="lead">SmartPT Console runs inside the customer environment. It gives administrators one place to confirm product availability, review license and certificate health, manage root portal access, reset shared two-factor enrollment, and open the product consoles.</p>
+    <div class="tag-list"><span class="tag">On-prem portal</span><span class="tag">License status</span><span class="tag">Shared 2FA</span><span class="tag">Product visibility</span></div>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/console-overview.png" alt="SmartPT Console overview in dark mode"><figcaption>SmartPT Console is the server entry point for Core status and product access.</figcaption></figure>
     <h2>What SmartPT Console solves</h2>
-    <p>SmartPT deployments include multiple local portals and backend services. The Console gives administrators a single place to answer operational questions before entering product-specific workflows.</p>
+    <p>SmartPT deployments include SmartPT Core, JIT Access, AD Control, and SmartPT Verify. The Console gives administrators a single place to answer operational questions before entering a product portal.</p>
     <ul>
       <li>Is the Core license active?</li>
       <li>Are JIT Access and AD Control reachable?</li>
@@ -283,7 +283,7 @@ Verify service:      /verify</code></pre>
         <div class="diagram-arrow">→</div>
         <div class="diagram-box good"><strong>Product portals</strong><span>JIT Access and AD Control keep privileged actions in dedicated consoles.</span></div>
       </div>
-      <div class="diagram-note">The Console organizes the environment. It does not replace product RBAC or product workflow enforcement.</div>
+      <div class="diagram-note">The Console organizes the environment. JIT Access and AD Control still enforce their own roles, policies, and audit logs.</div>
     </div>
     <h2>Recommended order</h2>
     <ol>
@@ -303,21 +303,21 @@ Verify service:      /verify</code></pre>
       <tr><td>Products</td><td>Counts installed product portals visible from the Console.</td></tr>
       <tr><td>User</td><td>Shows the signed-in identity.</td></tr>
       <tr><td>Access</td><td>Shows whether the user is Administrator or Viewer.</td></tr>
-      <tr><td>Architecture</td><td>Explains the root control plane boundary.</td></tr>
+      <tr><td>Architecture</td><td>Explains what SmartPT Console manages and what remains inside each product portal.</td></tr>
       <tr><td>Installed product consoles</td><td>Opens JIT Access and AD Control.</td></tr>
     </tbody></table></div>
     <h2>Product status</h2>
     <p>Product cards show whether each portal is reachable from the Core server. This is a fast operational check before entering JIT Access or AD Control.</p>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/product-status-highlight.png" alt="SmartPT Console product status highlighted"><figcaption>Product status confirms portal reachability.</figcaption></figure>
     <h2>Recent activity</h2>
-    <p>Recent Activity shows meaningful administrative actions from SmartPT Core and product portals. Use it for quick operational review and correlation ID lookup.</p>
+    <p>Recent Activity shows sign-ins, settings changes, password resets, unlocks, JIT assignments, session changes, and revoke events. Use it for quick operational review and correlation ID lookup.</p>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/recent-activity-highlight.png" alt="SmartPT Console recent activity highlighted"><figcaption>Recent Activity gives administrators a short operational history across Core and product portals.</figcaption></figure>
     <h2>Settings</h2>
     <p>Settings is available only to Console administrators. It controls root portal access, Console session policy, shared two-factor reset, license visibility, mTLS status, support links, and subscription cancellation.</p>
-    <figure class="doc-screenshot"><img src="./docs/core/screenshots/settings-overview.png" alt="SmartPT Console settings overview"><figcaption>Settings is the root administration workspace for SmartPT Console.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/settings-overview.png" alt="SmartPT Console settings overview"><figcaption>Settings manages Console access, shared MFA reset, session limits, license status, and mTLS status.</figcaption></figure>
   `),
   'core-license-mtls': page('License, Product Status, and mTLS', 'SmartPT Console', `
-    <p class="lead">SmartPT Console owns the shared server subscription view. Product portals keep their own operational workflows, but Core license validation is the first gate before access is allowed.</p>
+    <p class="lead">SmartPT Console shows the shared server subscription status. Product portals keep their own operational actions, but SmartPT Core license validation is checked before product access is allowed.</p>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/license-mtls-highlight.png" alt="SmartPT Console license and mTLS status highlighted"><figcaption>The license panel shows active state, certificate health, renewal status, and subscription action.</figcaption></figure>
     <h2>License behavior</h2>
     <p>The Console validates the SmartPT Core license before authenticated API access. If the license is not active, access fails closed and the user is directed to license recovery.</p>
@@ -330,7 +330,7 @@ Verify service:      /verify</code></pre>
     </tbody></table></div>
     <h2>Product status</h2>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/product-status-highlight.png" alt="SmartPT Console product status highlighted"><figcaption>Portal reachability is checked from the Core server.</figcaption></figure>
-    <p>Product status confirms portal reachability. It does not prove that every workflow is fully healthy. For workflow failures, check the product-specific health, backend service, policy, and audit logs.</p>
+    <p>Product status confirms that the portal URL is reachable. It does not prove that every action can run. For action failures, check product health, backend service status, policy, permissions, and audit logs.</p>
     <h2>mTLS model</h2>
     <ul>
       <li>The private key stays on the customer server.</li>
@@ -407,29 +407,29 @@ Verify service:      /verify</code></pre>
     </ul>
   `),
   'ad-control-getting-started': page('Getting Started with AD Control', 'AD Control', `
-    <p class="lead">AD Control gives support teams a controlled way to reset passwords, unlock accounts, update selected user attributes, and manage approved group membership without exposing Tier 0 accounts to routine helpdesk work.</p>
-    <div class="tag-list"><span class="tag">Tier 1 / Tier 2</span><span class="tag">Protected identities</span><span class="tag">OTP verification</span><span class="tag">Audit-ready</span></div>
+    <p class="lead">AD Control lets Helpdesk operators reset passwords and unlock standard users through the SmartPT portal without giving them broad direct Active Directory permissions.</p>
+    <div class="tag-list"><span class="tag">Tier 1 / Tier 2</span><span class="tag">Protected identities</span><span class="tag">OTP verification</span><span class="tag">Audit logs</span></div>
     ${adControlArchitectureDiagram()}
     ${adControlDiagram()}
     ${adControlTierDiagram()}
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/dashboard-jim-settings-access.jpg" alt="AD Control dashboard in dark mode"><figcaption>AD Control is role-aware. Jim has settings access for administration.</figcaption></figure>
     <h2>What AD Control solves</h2>
-    <ul><li>Helpdesk users should not need broad Active Directory rights.</li><li>Password reset and unlock should not become paths to Tier 0 exposure.</li><li>Protected identities should stay hidden from routine operator workflows.</li><li>Verified actions should use OTP sent to AD-sourced contact details.</li><li>Sensitive actions should create audit records with correlation IDs.</li></ul>
+    <ul><li>Tier 1 can reset passwords and unlock standard users through the SmartPT portal.</li><li>Tier 1 cannot change phone numbers, edit profile attributes, or manage groups.</li><li>OTP verification uses the phone number already stored in Active Directory.</li><li>Protected users, Protected Groups, and Tier 0 identities are blocked from Helpdesk actions.</li><li>Every password reset, unlock, profile update, group change, and settings change is written to audit logs with actor, target, result, and correlation ID.</li></ul>
     <h2>Documentation example users</h2>
     <div class="table-wrap"><table><thead><tr><th>User</th><th>Role</th><th>Purpose</th></tr></thead><tbody><tr><td>jim</td><td>Settings administrator</td><td>Full AD Control settings access.</td></tr><tr><td>david</td><td>Helpdesk (Tier 1)</td><td>Can support standard users such as avi.</td></tr><tr><td>sara</td><td>Advanced Support (Tier 2)</td><td>Can support standard users and use Tier 2 actions.</td></tr><tr><td>avi</td><td>Managed user</td><td>Target user. No AD Control license required.</td></tr><tr><td>joe</td><td>Protected user</td><td>Hidden from Tier operators after protection is configured.</td></tr></tbody></table></div>
     <div class="callout">Only operators need AD Control product licenses. Target users such as avi do not need a license to be managed.</div>
   `),
   'ad-control-access-model': page('Access Model, Licensing, and RBAC', 'AD Control', `
-    <p class="lead">Operators need a product license and one role. The users they manage do not need a license.</p>
+    <p class="lead">AD Control separates operators from target users. Operators need a product license and one role. The users they manage do not need a license.</p>
     ${adControlTierDiagram()}
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/settings-access-assignments-highlight.jpg" alt="AD Control access assignments highlighted in dark mode"><figcaption>Access Assignments binds a licensed operator to one AD Control role.</figcaption></figure>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/settings-tier-role-options.jpg" alt="AD Control tier role options in dark mode"><figcaption>Tier options are Helpdesk (Tier 1) and Advanced Support (Tier 2).</figcaption></figure>
     <h2>Access layers</h2>
-    <div class="table-wrap"><table><thead><tr><th>Layer</th><th>Controls</th></tr></thead><tbody><tr><td>Product license</td><td>Whether the operator consumes an AD Control seat.</td></tr><tr><td>Role assignment</td><td>What the operator can do in the portal.</td></tr><tr><td>Settings access</td><td>Who can manage licenses, RBAC, protection, OTP, SMTP, and policy.</td></tr><tr><td>Protection rules</td><td>Which users and groups are blocked from routine support workflows.</td></tr></tbody></table></div>
+    <div class="table-wrap"><table><thead><tr><th>Layer</th><th>Controls</th></tr></thead><tbody><tr><td>Product license</td><td>Whether the operator consumes an AD Control seat.</td></tr><tr><td>Role assignment</td><td>Whether the operator is Tier 1 or Tier 2.</td></tr><tr><td>Settings access</td><td>Who can manage licenses, RBAC, protection, OTP, SMTP, and policy.</td></tr><tr><td>Protection rules</td><td>Which users and groups are blocked from Helpdesk actions.</td></tr></tbody></table></div>
     <h2>Example configuration</h2>
     <ul><li>david has a license and the Helpdesk (Tier 1) role.</li><li>sara has a license and the Advanced Support (Tier 2) role.</li><li>avi is a managed target user and does not need a product license.</li><li>jim has settings access and can manage protected users, protected groups, roles, and policy.</li></ul>
     <h2>Tier options</h2>
-    <ul><li><b>Helpdesk (Tier 1):</b> routine operators who reset passwords and unlock standard users.</li><li><b>Advanced Support (Tier 2):</b> operators who also update profile fields and manage approved group membership.</li></ul>
+    <ul><li><b>Helpdesk (Tier 1):</b> resets passwords and unlocks standard users. Tier 1 cannot change phone numbers, edit profile attributes, or manage groups.</li><li><b>Advanced Support (Tier 2):</b> can use additional approved profile and group actions through SmartPT RBAC. Tier 2 is still blocked from protected users and Tier 0 identities.</li></ul>
   `),
   'ad-control-portal-overview': page('Portal Overview', 'AD Control', `
     <p class="lead">The AD Control portal is split between Dashboard, the operator support console, and Settings. Visible tabs depend on the signed-in user.</p>
@@ -442,14 +442,14 @@ Verify service:      /verify</code></pre>
     ${adControlSettingsFlowDiagram()}
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/settings-access-assignments-highlight.jpg" alt="AD Control settings access assignments highlighted"><figcaption>Start with Access Assignments so each operator has one license and one tier.</figcaption></figure>
     <h2>Settings sections</h2>
-    <ul><li>Access Assignments for operator licenses and roles.</li><li>AD Control View Settings for support groups, protected users, and protected groups.</li><li>OTP policy for TTL, send limits, resend windows, and failed attempts.</li><li>Password and unlock options for direct and verified workflows.</li><li>Global Email (SMTP) and session policy.</li></ul>
+    <ul><li>Access Assignments for operator licenses and roles.</li><li>AD Control View Settings for support groups, protected users, and protected groups.</li><li>OTP policy for TTL, send limits, resend windows, and failed attempts.</li><li>Password and unlock options for direct actions and OTP-verified actions.</li><li>Global Email (SMTP) and session policy.</li></ul>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/settings-policy-delivery-highlight.jpg" alt="AD Control OTP SMTP and session policy settings highlighted"><figcaption>Review OTP, SMTP, and session policy before production rollout.</figcaption></figure>
-    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/settings-all-policy-areas-highlight.jpg" alt="AD Control all important settings areas highlighted"><figcaption>Settings controls access, protection, OTP limits, workflow methods, SMTP, and session behavior.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/settings-all-policy-areas-highlight.jpg" alt="AD Control all important settings areas highlighted"><figcaption>Settings controls access, protected identities, OTP limits, direct and OTP-verified actions, SMTP, and session behavior.</figcaption></figure>
     <h2>What administrators can configure</h2>
     <div class="table-wrap"><table><thead><tr><th>Setting area</th><th>Controls</th></tr></thead><tbody>
       <tr><td>Access Assignments</td><td>Operator license assignment, tier role, role change, and removal.</td></tr>
       <tr><td>Support groups</td><td>AD groups that can receive AD Control view/settings permissions.</td></tr>
-      <tr><td>Protected users</td><td>Specific accounts hidden from Tier 1 and Tier 2 workflows.</td></tr>
+      <tr><td>Protected users</td><td>Specific accounts hidden from Tier 1 and Tier 2 search and actions.</td></tr>
       <tr><td>Protected groups</td><td>Groups whose direct and nested members are treated as protected.</td></tr>
       <tr><td>OTP and verification</td><td>TTL, resend limits, send window, and failed attempt limits.</td></tr>
       <tr><td>Password and unlock methods</td><td>Direct reset, verified reset, direct unlock, verified unlock, complexity, and custom length.</td></tr>
@@ -459,10 +459,10 @@ Verify service:      /verify</code></pre>
     <div class="callout">Yellow callouts mark Settings areas that administrators should review first. Non-settings screenshots are left unmarked.</div>
   `),
   'ad-control-protected-identities': page('Protected Users and Groups', 'AD Control', `
-    <p class="lead">Protected identities are the main safety boundary in AD Control. Tier 0 users are protected by default, and administrators can add protected users and protected groups.</p>
+    <p class="lead">Protected identities are blocked from Helpdesk actions. Tier 0 users are protected by default, and administrators can add protected users and protected groups.</p>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/settings-protection-highlight.jpg" alt="AD Control protected users and groups highlighted"><figcaption>Jim can add protected users and protected groups from Settings.</figcaption></figure>
     <ul><li>joe is configured as a protected user.</li><li>it-admin is configured as a protected group.</li><li>david and sara can manage avi.</li><li>david and sara cannot search or manage Tier 0/protected accounts such as jim or joe.</li></ul>
-    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/david-protected-user-search.jpg" alt="David cannot manage protected Joe in dark mode"><figcaption>Protected users do not become routine Tier 1 targets.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/david-protected-user-search.jpg" alt="David cannot manage protected Joe in dark mode"><figcaption>Protected users are blocked from Tier 1 search and actions.</figcaption></figure>
   `),
   'ad-control-operator-console': page('Operator Support Console', 'AD Control', `
     <p class="lead">Operators use the AD Control tab to search Active Directory users and run only the actions allowed by their assigned role.</p>
@@ -470,7 +470,7 @@ Verify service:      /verify</code></pre>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/david-avi-selected.jpg" alt="David selected Avi in AD Control dark mode"><figcaption>The selected user panel shows identity, status, contact attributes, and allowed actions.</figcaption></figure>
     <h2>Search behavior</h2>
     <ul><li>Search supports samAccountName, UPN, or display name.</li><li>Protected users and protected group members do not appear to Tier operators.</li><li>If a user is missing, check protection rules before treating it as a directory issue.</li></ul>
-    <div class="table-wrap"><table><thead><tr><th>User</th><th>Role</th><th>Visible workflow</th></tr></thead><tbody><tr><td>david</td><td>Helpdesk (Tier 1)</td><td>Reset password and unlock standard users.</td></tr><tr><td>sara</td><td>Advanced Support (Tier 2)</td><td>Reset/unlock plus profile and group actions.</td></tr></tbody></table></div>
+    <div class="table-wrap"><table><thead><tr><th>User</th><th>Role</th><th>Allowed actions</th></tr></thead><tbody><tr><td>david</td><td>Helpdesk (Tier 1)</td><td>Reset passwords and unlock standard users. Cannot edit profile attributes, change phone numbers, or manage groups.</td></tr><tr><td>sara</td><td>Advanced Support (Tier 2)</td><td>Tier 1 actions plus approved profile updates and controlled group actions.</td></tr></tbody></table></div>
   `),
   'ad-control-password-reset': page('Password Reset Workflows', 'AD Control', `
     <p class="lead">AD Control supports direct reset and verified reset. Administrators decide which methods are enabled in Settings.</p>
@@ -479,17 +479,17 @@ Verify service:      /verify</code></pre>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/david-reset-password-direct.jpg" alt="David direct password reset modal in dark mode"><figcaption>Direct reset runs immediately when policy allows it.</figcaption></figure>
     <h2>Verified reset</h2><p>Verified reset requires OTP before the password reset completes. OTP delivery uses AD-sourced contact attributes.</p>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/david-reset-password-otp.jpg" alt="David verified password reset OTP modal in dark mode"><figcaption>Verified reset requires the operator to send and enter OTP before reset.</figcaption></figure>
-    <div class="callout warning">Generated passwords are shown once. Copy or deliver the password immediately using the approved workflow.</div>
+    <div class="callout warning">Generated passwords are shown once. Copy or deliver the password immediately using the approved customer process.</div>
   `),
   'ad-control-account-unlock': page('Account Unlock Workflows', 'AD Control', `
     <p class="lead">AD Control supports direct unlock and verified unlock for locked Active Directory users.</p>
     ${adControlUnlockFlowDiagram()}
     <p>The unlock button appears when the selected user is locked and the operator has account unlock permission.</p>
-    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/avi-locked-status-highlight.jpg" alt="Avi locked status highlighted in AD Control"><figcaption>The unlock workflow appears only when the selected user is locked.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/avi-locked-status-highlight.jpg" alt="Avi locked status highlighted in AD Control"><figcaption>The unlock action appears only when the selected user is locked.</figcaption></figure>
     <h2>Direct unlock</h2>
     <p>Direct unlock runs immediately when enabled by policy. It records the actor, target, result, and correlation ID.</p>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/avi-unlock-direct-modal.jpg" alt="Avi direct unlock modal in AD Control"><figcaption>Direct unlock runs without OTP when the policy allows direct unlock.</figcaption></figure>
-    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/avi-unlock-direct-complete.jpg" alt="Avi unlock complete in AD Control"><figcaption>After unlock, Avi is available for normal support workflows.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/avi-unlock-direct-complete.jpg" alt="Avi unlock complete in AD Control"><figcaption>After unlock, Avi is available for standard Helpdesk actions.</figcaption></figure>
     <h2>Verified unlock flow</h2>
     <ol><li>Search and select the locked user.</li><li>Choose Unlock.</li><li>Select the verification channel.</li><li>Send OTP.</li><li>Enter the OTP provided by the user.</li><li>Verify and unlock.</li></ol>
     <p>Administrators can enable or disable direct unlock and verified unlock from Settings.</p>
@@ -499,29 +499,29 @@ Verify service:      /verify</code></pre>
     ${adControlTier2FlowDiagram()}
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/sara-profile-update.jpg" alt="Sara profile update panel in dark mode"><figcaption>Sara can update selected user profile fields for Avi.</figcaption></figure>
     <ul><li>Phone</li><li>Mobile</li><li>Title</li><li>Department</li><li>Company</li><li>Office</li><li>Description</li></ul>
-    <p>Protected users and Tier 0 identities remain blocked from this workflow.</p>
+    <p>Protected users and Tier 0 identities remain blocked from profile updates.</p>
   `),
   'ad-control-group-management': page('Controlled Group Management', 'AD Control', `
     <p class="lead">Advanced Support (Tier 2) operators can manage approved group membership for standard users.</p>
     ${adControlGroupFlowDiagram()}
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/sara-group-management.jpg" alt="Sara group management panel in dark mode"><figcaption>Sara can review direct and nested groups and use allowed group actions.</figcaption></figure>
-    <p>Administrators control which groups can be added or removed. Protected groups and privileged groups should not be available for routine Tier 2 operations.</p>
+    <p>Administrators control which groups can be added or removed. Protected groups and privileged groups should not be available for standard Tier 2 group changes.</p>
   `),
   'ad-control-troubleshooting': page('AD Control Troubleshooting', 'AD Control', `
     <p class="lead">Use this page when access, search, OTP, reset, unlock, profile, group, SMTP, or settings behavior does not match expectations.</p>
     <h2>Operator cannot access AD Control</h2><ul><li>Confirm the user has an AD Control license assignment.</li><li>Confirm the user has one operator role.</li><li>Confirm the license has available seats.</li><li>Confirm the user is signing in with the expected AD identity.</li></ul>
     <h2>Target user does not appear in search</h2><ul><li>Confirm the target exists in Active Directory.</li><li>Confirm the target is not Tier 0.</li><li>Confirm the target is not a protected user.</li><li>Confirm the target is not a member of a protected group.</li></ul>
-    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/sara-tier0-search-blocked.jpg" alt="Sara cannot manage a Tier 0 account in dark mode"><figcaption>Tier 0 and protected users are blocked from routine operator workflows.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/sara-tier0-search-blocked.jpg" alt="Sara cannot manage a Tier 0 account in dark mode"><figcaption>Tier 0 and protected users are blocked from operator actions.</figcaption></figure>
     <h2>IIS or backend issue</h2><p>Check that the AD Control frontend <code>/adc</code> and backend <code>/adc-backend</code> IIS applications are running. The backend is designed to run with the pre-installed gMSA/service identity.</p>
   `),
   'ad-control-security-model': page('AD Control Security Model', 'AD Control', `
-    <p class="lead">AD Control reduces unsafe helpdesk operations without giving every operator broad Active Directory permissions.</p>
+    <p class="lead">AD Control lets operators perform approved password reset, unlock, profile, and group actions without giving every operator broad direct Active Directory permissions.</p>
     ${adControlArchitectureDiagram()}
-    <ul><li>Product license and role assignment for operators.</li><li>Server-side permission checks for every sensitive action.</li><li>Tier 0 and protected identity filtering.</li><li>OTP verification for verified reset and unlock workflows.</li><li>AD-sourced email/mobile attributes for OTP delivery.</li><li>Audit records with correlation IDs.</li><li>No OTP codes or generated passwords in audit logs.</li></ul>
+    <ul><li>Product license and role assignment for operators.</li><li>Server-side permission checks for every sensitive action.</li><li>Tier 0 and protected identity filtering.</li><li>OTP verification for password reset and account unlock when policy requires it.</li><li>AD-sourced email/mobile attributes for OTP delivery.</li><li>Audit records with actor, target, result, and correlation ID.</li><li>No OTP codes or generated passwords in audit logs.</li></ul>
     <div class="callout success">Successful OTP verification does not bypass protected identity rules. Protection is enforced before sensitive actions run.</div>
   `),
   'ad-control-overview': page('AD Control overview', 'AD Control', `
-    <p class="lead">AD Control gives support teams a safer way to handle Active Directory user operations with tier boundaries, user verification, protected identities, and audit records.</p>
+    <p class="lead">AD Control lets support teams reset passwords, unlock accounts, update approved profile fields, and manage approved groups through SmartPT RBAC instead of broad direct AD permissions.</p>
     <div class="tag-list">
       <span class="tag">Tier 1 / Tier 2 support</span>
       <span class="tag">Tier 0 protection</span>
@@ -535,8 +535,8 @@ Verify service:      /verify</code></pre>
     <ul>
       <li>Reduces helpdesk exposure to vishing and social-engineering attempts.</li>
       <li>Limits which operators can see and change sensitive users.</li>
-      <li>Keeps protected and Tier 0 identities out of routine operator workflows.</li>
-      <li>Supports verified password reset and verified account unlock using AD-sourced contact details.</li>
+      <li>Keeps protected users and Tier 0 identities out of Helpdesk search and actions.</li>
+      <li>Supports OTP-verified password reset and account unlock using contact details already stored in Active Directory.</li>
       <li>Audits actions without storing OTP codes or generated passwords.</li>
     </ul>
     <h2>Main operating areas</h2>
@@ -587,7 +587,7 @@ Verify service:      /verify</code></pre>
       <li>Use AD search/autocomplete so added users and groups are valid directory objects.</li>
       <li>Test with a Tier operator account and confirm protected users do not appear in search.</li>
     </ol>
-    <div class="callout">Protected groups are designed for high-risk identities and sensitive admin groups. Treat them the same way as Tier 0 protection for routine support workflows.</div>
+    <div class="callout">Protected groups are designed for high-risk identities and sensitive admin groups. Treat them the same way as Tier 0 protection for Helpdesk actions.</div>
     <h2>Settings change checklist</h2>
     <ul>
       <li>Validate settings before saving.</li>
@@ -611,10 +611,10 @@ Verify service:      /verify</code></pre>
     <h2>Search behavior</h2>
     <ul>
       <li>Search supports allowed AD users by samAccountName, UPN, or display name where available.</li>
-      <li>Tier 0 users, protected users, and members of protected groups do not appear to routine Tier operators.</li>
+      <li>Tier 0 users, protected users, and members of protected groups do not appear to Tier 1 or Tier 2 operators.</li>
       <li>If a user cannot be found, confirm whether the user is protected before treating it as a directory problem.</li>
     </ul>
-    <h2>Verified reset workflow</h2>
+    <h2>OTP-verified password reset</h2>
     <ol>
       <li>Search and select the target user.</li>
       <li>Choose Reset password.</li>
@@ -623,7 +623,7 @@ Verify service:      /verify</code></pre>
       <li>Enter the OTP provided by the user.</li>
       <li>Complete reset and give the temporary password through the approved channel.</li>
     </ol>
-    <h2>Direct reset workflow</h2>
+    <h2>Direct password reset</h2>
     <ol>
       <li>Search and select the target user.</li>
       <li>Choose Reset password.</li>
@@ -632,7 +632,7 @@ Verify service:      /verify</code></pre>
       <li>Complete the reset.</li>
       <li>Copy once, email the password, or send it to the phone when those delivery actions are available.</li>
     </ol>
-    <h2>Verified unlock workflow</h2>
+    <h2>OTP-verified account unlock</h2>
     <ol>
       <li>Search and select the target user.</li>
       <li>Choose Unlock account.</li>
@@ -641,7 +641,7 @@ Verify service:      /verify</code></pre>
       <li>Enter the OTP provided by the user.</li>
       <li>Complete unlock and review the result.</li>
     </ol>
-    <h2>Direct unlock workflow</h2>
+    <h2>Direct account unlock</h2>
     <ol>
       <li>Search and select the target user.</li>
       <li>Choose Unlock account.</li>
@@ -649,13 +649,13 @@ Verify service:      /verify</code></pre>
       <li>Enter the operational reason.</li>
       <li>Complete unlock.</li>
     </ol>
-    <h2>Profile and group workflows</h2>
+    <h2>Profile and group actions</h2>
     <ul>
       <li>Profile updates are limited to allowed fields such as phone, mobile, title, department, company, office, and description.</li>
       <li>Group add/remove actions are limited to allowed groups configured by administrators.</li>
       <li>Protected groups should not be available as routine add/remove targets for Tier operators.</li>
     </ul>
-    <div class="callout warning">Generated passwords are shown once. Copy or deliver the password immediately using the approved workflow.</div>
+    <div class="callout warning">Generated passwords are shown once. Copy or deliver the password immediately using the approved customer process.</div>
   `),
   'ad-control-settings': page('AD Control settings', 'AD Control', `
     <p class="lead">AD Control settings are JSON-backed and managed through the Settings page by administrators.</p>
@@ -667,14 +667,14 @@ Verify service:      /verify</code></pre>
       <li><b>Direct unlock:</b> allows immediate account unlock without user verification.</li>
       <li><b>Verified unlock:</b> requires OTP verification before unlock.</li>
       <li><b>Complex passwords:</b> allows forced complex password resets when needed.</li>
-      <li><b>WhatsApp/mobile delivery:</b> controls mobile delivery for OTP and temporary password workflows.</li>
+      <li><b>WhatsApp/mobile delivery:</b> controls mobile delivery for OTP and temporary passwords.</li>
     </ul>
     <h2>Reset and unlock method rules</h2>
     <ul>
       <li>By default, direct password reset, verified password reset, direct unlock, and verified unlock can be enabled.</li>
       <li>Administrators can turn off methods according to policy, but the portal must retain at least one password reset path and one unlock path.</li>
       <li>If <b>Change password at next sign-in</b> is enabled, individual reset dialogs do not need a separate checkbox for that behavior.</li>
-      <li>Verified workflows use 6-digit numeric OTP codes.</li>
+      <li>OTP-verified password reset and unlock actions use 6-digit numeric OTP codes.</li>
       <li>Temporary passwords can be delivered by email or mobile only after the reset succeeds and only when the target user has the required AD attributes.</li>
     </ul>
     <h2>OTP and delivery settings</h2>
@@ -687,7 +687,7 @@ Verify service:      /verify</code></pre>
     </tbody></table></div>
     <h2>Notification and SMTP settings</h2>
     <ul>
-      <li>Auditor notification address controls who receives sensitive workflow notifications.</li>
+      <li>Auditor notification address controls who receives sensitive action notifications.</li>
       <li>Email subject and body templates should describe the action without exposing OTP codes or temporary passwords in logs.</li>
       <li>SMTP settings should be validated from the Settings page after changes.</li>
       <li>Secrets should be protected by the server configuration and not exposed in audit records.</li>
@@ -697,7 +697,7 @@ Verify service:      /verify</code></pre>
       <li>Tier 0 users are protected by default.</li>
       <li>Protected users stay hidden from Tier 1 and Tier 2 search and actions.</li>
       <li>Protected groups protect direct and nested members.</li>
-      <li>Protected groups are treated like Tier 0 for routine support workflows.</li>
+      <li>Protected groups are treated like Tier 0 for Helpdesk search and actions.</li>
     </ul>
     <h2>Access and role settings</h2>
     <ul>
@@ -710,19 +710,19 @@ Verify service:      /verify</code></pre>
     <p>System settings include maximum session minutes and idle timeout minutes. Expired sessions require the user to sign in again.</p>
   `),
   'ad-control-security': page('AD Control security model', 'AD Control', `
-    <p class="lead">AD Control is designed to reduce unsafe helpdesk operations without giving every operator broad Active Directory permissions.</p>
+    <p class="lead">AD Control keeps password reset, account unlock, profile updates, and group changes inside SmartPT RBAC instead of giving every operator broad direct Active Directory permissions.</p>
     <h2>Core controls</h2>
     <ul>
       <li>Windows authentication and product session enforcement.</li>
       <li>License assignment and one operator role required.</li>
       <li>Role-based UI visibility backed by server authorization.</li>
-      <li>Tier 0 and protected group exclusion from routine workflows.</li>
+      <li>Tier 0 and protected group exclusion from Helpdesk search and actions.</li>
       <li>OTP values and generated passwords are never stored in audit logs.</li>
       <li>Every sensitive action includes a correlation ID and audit record.</li>
     </ul>
     <h2>Tier and protection behavior</h2>
     <ul>
-      <li>Tier 0 identities are excluded from routine Tier operator search and actions.</li>
+      <li>Tier 0 identities are excluded from Tier 1 and Tier 2 search and actions.</li>
       <li>Protected users are manually selected identities that should be excluded even if they are not Tier 0.</li>
       <li>Protected groups extend protection to group members, including nested members by design.</li>
       <li>Allowed groups limit which group memberships a support operator can add or remove.</li>
@@ -741,7 +741,7 @@ Verify service:      /verify</code></pre>
       <li>When configured, reset passwords are automatically marked to require change at next sign-in.</li>
       <li>Audit records must never include generated passwords.</li>
     </ul>
-    <div class="callout success">Design outcome: operators can support users inside defined boundaries while privileged identities remain protected from routine reset, unlock, and group workflows.</div>
+    <div class="callout success">Result: operators can support standard users while protected users and Tier 0 identities remain blocked from reset, unlock, profile, and group actions.</div>
   `),
   'jit-overview': page('Getting Started with JIT Access', 'JIT Access', `
     <p class="lead">JIT Access reduces standing privilege in Active Directory by making privileged group membership temporary, visible, and controlled by policy.</p>
@@ -772,8 +772,8 @@ Verify service:      /verify</code></pre>
       <tr><td>Scheduled</td><td>Planned access during approved days and time windows, such as recurring maintenance.</td></tr>
       <tr><td>Eligible OTP</td><td>Self-service activation for approved users with OTP verification.</td></tr>
     </tbody></table></div>
-    <h2>No approval workflow in this release</h2>
-    <div class="callout warning">This release does not include an approval workflow. Assignments are created and managed by administrators. Eligible OTP controls user activation and verification, but it is not an approval request process.</div>
+    <h2>No in-product approval queue in this release</h2>
+    <div class="callout warning">This release does not include an in-product approval queue. Administrators approve access by creating assignments. Eligible OTP controls user activation and verification, but it does not collect approval requests.</div>
     <h2>Recommended learning order</h2>
     <ol>
       <li>Getting Started with JIT Access.</li>
@@ -853,7 +853,7 @@ Verify service:      /verify</code></pre>
     <h2>Assignments</h2>
     <p>Assignments connect users to roles. This is where administrators define who can receive privileged access and when that access is valid.</p>
     <figure class="doc-screenshot"><img src="./docs/jit/screenshots/assignments-list.png" alt="JIT assignments list in dark mode"><figcaption>Assignments table for user, role, type, status, details, and actions.</figcaption></figure>
-    <p>This release does not include an approval workflow. Assignment creation is an administrator action.</p>
+    <p>This release does not include an in-product approval queue. Assignment creation is the administrator approval step.</p>
     <h2>Active Sessions</h2>
     <p>Active Sessions is the real-time monitoring view for current privileged access. Use it to confirm who is elevated, which role granted access, start time, expiration, and whether access should be revoked early.</p>
     <figure class="doc-screenshot"><img src="./docs/jit/screenshots/active-sessions.png" alt="JIT active sessions in dark mode"><figcaption>Live privileged access monitoring.</figcaption></figure>
@@ -877,7 +877,7 @@ Verify service:      /verify</code></pre>
     <h2>Licensed Users</h2>
     <p>Licensed Users defines which Active Directory users are assigned to the JIT product. Assigning a user license allows the user to consume one licensed identity. It does not automatically make the user a JIT administrator and does not grant privileged AD group membership.</p>
     <h2>Role Assignments</h2>
-    <p>Role Assignments define product permissions inside JIT. A user normally needs both a product license and a matching role assignment before the portal enables the relevant workflow.</p>
+    <p>Role Assignments define product permissions inside JIT. A user normally needs both a product license and a matching role assignment before the portal enables the relevant action.</p>
     <h2>JIT Product Settings</h2>
     <ul>
       <li><b>Eligible requester groups</b> limit who can request or activate eligible access.</li>
@@ -945,7 +945,7 @@ Verify service:      /verify</code></pre>
     <p>Eligible assignments let approved users activate access themselves after OTP verification. Access starts only after successful verification and expires automatically.</p>
     <h2>Revoke</h2>
     <p>Revoking an assignment removes active access or prevents the assignment from being used again, depending on assignment state. Use revoke when access is no longer needed, was configured incorrectly, or must be stopped early.</p>
-    <div class="callout warning">This release does not include an approval workflow. Assignment creation is an administrator action.</div>
+    <div class="callout warning">This release does not include an in-product approval queue. Assignment creation is the administrator approval step.</div>
   `),
   'jit-assignment-types': page('Assignment Types', 'JIT Access', `
     <p class="lead">JIT Access supports three assignment types: Manual, Scheduled, and Eligible. Choose the assignment type based on how access should start.</p>
@@ -1027,8 +1027,8 @@ Verify service:      /verify</code></pre>
     <figure class="doc-screenshot"><img src="./docs/jit/screenshots/eligible-admin-active-session.png" alt="Joe active JIT session visible to Jim in dark mode"><figcaption>Jim can monitor Joe's active eligible session and revoke access if needed.</figcaption></figure>
     <h2>What happens in Active Directory</h2>
     <p>When OTP verification succeeds, JIT Access adds the user to the AD group mapped by the JIT role. When the session expires or is revoked, JIT Access removes the user from that AD group. The backend enforces this behavior server-side.</p>
-    <h2>No approval workflow</h2>
-    <div class="callout warning">Eligible OTP is not an approval workflow in this release. The approval decision happens before activation when an administrator creates the eligible assignment.</div>
+    <h2>No in-product approval queue</h2>
+    <div class="callout warning">Eligible OTP does not collect approval requests in this release. The approval decision happens before activation when an administrator creates the eligible assignment.</div>
     <h2>Operational checks</h2>
     <div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
       <tr><td>Eligible access does not appear</td><td>Confirm product license assignment, Eligible assignment, enabled role, and matching samAccountName.</td></tr>
@@ -1313,7 +1313,7 @@ Verify service:      /verify</code></pre>
     <ul>
       <li>JIT backend must run under a dedicated service identity.</li>
       <li>JIT permissions must be limited to the AD groups it manages.</li>
-      <li>JIT RBAC is internal to the product and is evaluated on each API request.</li>
+      <li>JIT RBAC is enforced by the backend on each API request.</li>
       <li>AD group membership is used for privilege enforcement, not for granting arbitrary JIT admin UI rights.</li>
     </ul>
     <h2>Audit events</h2>
@@ -1334,7 +1334,7 @@ Verify service:      /verify</code></pre>
         <div class="diagram-arrow">→</div>
         <div class="diagram-box good"><strong>Product backends</strong><span>JIT Access and AD Control enforce product roles, policy, actions, and audit.</span></div>
       </div>
-      <div class="diagram-note">SmartPT Console is the control plane. Product portals remain the authority for product-specific privileged actions.</div>
+      <div class="diagram-note">SmartPT Core validates license, mTLS certificate health, and product entry. Product portals still enforce product-specific privileged actions.</div>
     </div>
     <h2>Shared controls</h2>
     <ul>
@@ -1365,14 +1365,14 @@ Verify service:      /verify</code></pre>
       <tr><td>Core license</td><td>License status, validation result, mTLS renewal health, cancellation action.</td><td>Private key material or full certificate secret material.</td></tr>
     </tbody></table></div>
     <h2>Fail-closed behavior</h2>
-    <p>If Core license validation is not active, SmartPT access should fail closed. Administrators should restore license state or certificate health from SmartPT Console before validating JIT Access or AD Control workflows.</p>
+    <p>If Core license validation is not active, SmartPT access should fail closed. Administrators should restore license state or certificate health from SmartPT Console before validating JIT Access or AD Control actions.</p>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/license-mtls-highlight.png" alt="SmartPT Console license and mTLS status highlighted"><figcaption>License and mTLS health are shared control-plane checks before product use.</figcaption></figure>
   `),
   'audit': page('Audit and compliance', 'Operations', `
     <p class="lead">Audit records help administrators review sensitive actions, configuration changes, and enforcement results.</p>
     <h2>Audit principles</h2>
     <ul>
-      <li>Every sensitive workflow should record actor, target, action, result, timestamp, and correlation ID.</li>
+      <li>Every sensitive action should record actor, target, action, result, timestamp, and correlation ID.</li>
       <li>Generated passwords, OTP codes, SMTP secrets, and private keys are not logged.</li>
       <li>Configuration changes should be recorded with a safe diff summary.</li>
       <li>Audit export can use JSONL or CSV when enabled for administrators.</li>
@@ -1450,7 +1450,7 @@ Verify service:      /verify</code></pre>
     <ul>
       <li>Customers are responsible for Active Directory permissions, service identities, delegated rights, backup, recovery, and operational approval processes.</li>
       <li>Customers should not map high-privilege AD groups to JIT roles until add/remove behavior has been tested.</li>
-      <li>Customers should not grant broad Domain Admin permissions to application pool identities when delegated rights can meet the workflow requirement.</li>
+      <li>Customers should not grant broad Domain Admin permissions to application pool identities when delegated rights can meet the product requirement.</li>
     </ul>
     <h2>Downloads</h2>
     <p>Installer packages and setup files should be downloaded only from SmartPT-approved sources. Verify release version, source, and checksum when release metadata is provided.</p>
@@ -1534,7 +1534,7 @@ function architectureDiagram() {
 
 function adControlDiagram() {
   return `
-    <div class="diagram" role="img" aria-label="AD Control workflow diagram">
+    <div class="diagram" role="img" aria-label="AD Control operating model diagram">
       <div class="eyebrow">AD Control flow</div>
       <div class="diagram-grid">
         <div class="diagram-box"><strong>Search user</strong><span>Operators only see users allowed by tier and protection rules.</span></div>
@@ -1553,7 +1553,7 @@ function adControlArchitectureDiagram() {
       <div class="diagram-grid five">
         <div class="diagram-box"><strong>Operators</strong><span>David and Sara sign in with Active Directory identity.</span></div>
         <div class="diagram-box accent"><strong>AD Control Portal</strong><span>Shows Dashboard, support console, and Settings according to role.</span></div>
-        <div class="diagram-box accent"><strong>Backend</strong><span>Enforces license, RBAC, protection rules, OTP policy, and workflow settings.</span></div>
+        <div class="diagram-box accent"><strong>Backend</strong><span>Enforces license, RBAC, protection rules, OTP policy, and action settings.</span></div>
         <div class="diagram-box good"><strong>Active Directory</strong><span>Source of users, groups, contact attributes, lock state, and password operations.</span></div>
         <div class="diagram-box"><strong>Audit and delivery</strong><span>Writes correlation IDs and sends OTP or notifications through configured channels.</span></div>
       </div>
@@ -1569,7 +1569,7 @@ function adControlTierDiagram() {
       <div class="diagram-grid">
         <div class="diagram-box"><strong>Helpdesk (Tier 1)</strong><span>Password reset and account unlock for standard users.</span></div>
         <div class="diagram-box accent"><strong>Advanced Support (Tier 2)</strong><span>Tier 1 actions plus profile updates and controlled group membership.</span></div>
-        <div class="diagram-box warning"><strong>Protected identities</strong><span>Tier 0, protected users, and protected group members stay hidden from routine workflows.</span></div>
+        <div class="diagram-box warning"><strong>Protected identities</strong><span>Tier 0, protected users, and protected group members stay hidden from Helpdesk search and actions.</span></div>
         <div class="diagram-box good"><strong>Settings administrator</strong><span>Manages licenses, roles, protected users, protected groups, OTP, SMTP, and session policy.</span></div>
       </div>
       <div class="diagram-note">Target users such as avi do not need AD Control licenses. Only operators such as david and sara consume operator seats.</div>
@@ -1584,9 +1584,9 @@ function adControlSettingsFlowDiagram() {
       <div class="diagram-grid five">
         <div class="diagram-box"><strong>Assign access</strong><span>Give operators one license and one tier role.</span></div>
         <div class="diagram-box warning"><strong>Protect identities</strong><span>Add protected users and groups before broad operator rollout.</span></div>
-        <div class="diagram-box accent"><strong>Set workflow policy</strong><span>Choose direct or verified reset and unlock behavior.</span></div>
+        <div class="diagram-box accent"><strong>Set action policy</strong><span>Choose direct or OTP-verified reset and unlock behavior.</span></div>
         <div class="diagram-box"><strong>Configure delivery</strong><span>Review OTP limits, auditor email, templates, mobile delivery, and SMTP.</span></div>
-        <div class="diagram-box good"><strong>Operate safely</strong><span>Test with standard users and audit sensitive actions.</span></div>
+        <div class="diagram-box good"><strong>Run approved actions</strong><span>Test with standard users and review audit records for sensitive actions.</span></div>
       </div>
     </div>
   `;
@@ -1656,7 +1656,7 @@ function adControlGroupFlowDiagram() {
     <div class="diagram" role="img" aria-label="AD Control controlled group management flow">
       <div class="eyebrow">Group management flow</div>
       <div class="diagram-grid five">
-        <div class="diagram-box"><strong>Sara signs in</strong><span>Tier 2 role allows group membership workflow.</span></div>
+        <div class="diagram-box"><strong>Sara signs in</strong><span>Tier 2 role allows approved group membership changes.</span></div>
         <div class="diagram-box"><strong>Select Avi</strong><span>Target must not be Tier 0 or protected.</span></div>
         <div class="diagram-box accent"><strong>Allowed group check</strong><span>Backend permits only configured non-protected groups.</span></div>
         <div class="diagram-box good"><strong>Add or remove</strong><span>Backend updates Active Directory group membership.</span></div>
@@ -1668,7 +1668,7 @@ function adControlGroupFlowDiagram() {
 
 function jitDiagram() {
   return `
-    <div class="diagram" role="img" aria-label="JIT Access workflow diagram">
+    <div class="diagram" role="img" aria-label="JIT Access operating model diagram">
       <div class="eyebrow">JIT flow</div>
       <div class="diagram-grid">
         <div class="diagram-box"><strong>Role</strong><span>Maps to one or more existing AD privileged groups.</span></div>
@@ -1721,7 +1721,7 @@ function eligibleOtpFlowDiagram() {
         <div class="diagram-box good"><strong>Session active</strong><span>JIT Access starts a time-limited session and adds Joe to the mapped AD group.</span></div>
         <div class="diagram-box"><strong>Monitor/remove</strong><span>Jim monitors the session. Expiry or revoke removes group membership.</span></div>
       </div>
-      <div class="diagram-note">Eligible OTP is not an approval workflow. The approval decision happens when the administrator creates the assignment.</div>
+      <div class="diagram-note">Eligible OTP does not collect approval requests. The approval decision happens when the administrator creates the assignment.</div>
     </div>
   `;
 }
@@ -1879,7 +1879,7 @@ function bindEvents() {
       .slice(0, 8);
     results.innerHTML = matches.length
       ? matches.map(item => `<a class="search-result" href="#${item.id}"><strong>${item.title}</strong><span>${item.text.slice(0, 130)}...</span></a>`).join('')
-      : '<div class="search-result"><strong>No results</strong><span>Try another product or workflow term.</span></div>';
+      : '<div class="search-result"><strong>No results</strong><span>Try another product, feature, or action term.</span></div>';
     results.hidden = false;
   });
 }
