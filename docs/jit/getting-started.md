@@ -42,12 +42,12 @@ Assignments are created and managed by administrators. Eligible OTP controls use
 Use this order when onboarding administrators:
 
 1. **Getting Started with SmartPT JIT** - understand the security model and terminology.
-2. **JIT Portal Overview** - learn the dashboard, workspace, and monitoring areas.
-3. **JIT Settings Overview** - review licensing, administrator access, OTP, and shared settings.
-4. **Creating a JIT Role** - map a controlled role to existing AD groups.
-5. **Creating a JIT Assignment** - assign users to roles and define access windows.
-6. **Assignment Options** - understand Manual, Scheduled, and Eligible OTP behavior.
-7. **Monitoring Active Sessions and Revoke** - monitor active privilege and end access early when needed.
+2. **Access Model, Licensing, and RBAC** - understand the difference between product access, product permissions, JIT roles, and active privilege.
+3. **JIT Portal Overview** - learn the dashboard, workspace, and monitoring areas.
+4. **JIT Settings Overview** - review licensing, administrator access, OTP, notifications, SMTP, and shared settings.
+5. **Creating JIT Roles** - map controlled roles to existing AD groups.
+6. **Creating JIT Assignments** - assign users to roles and define access windows.
+7. **Assignment Types** - understand Manual, Scheduled, and Eligible OTP behavior.
 8. **Troubleshooting** - use audit records, correlation IDs, and backend health checks.
 
 ## What to Configure Next
@@ -59,4 +59,3 @@ After reading this page:
 3. Confirm which existing AD groups should be managed by JIT.
 4. Create roles only after the AD group mapping and duration limits are clear.
 5. Create assignments only after the intended operating model is known.
-

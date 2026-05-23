@@ -25,11 +25,12 @@ const navGroups = [
     title: 'JIT Access',
     items: [
       ['jit-overview', 'Getting Started'],
+      ['jit-access-model', 'Access Model'],
       ['jit-portal-overview', 'Portal Overview'],
-      ['jit-settings', 'JIT Settings'],
-      ['jit-admin', 'Admin Guide'],
-      ['jit-user', 'User Guide'],
-      ['jit-security', 'Security Model']
+      ['jit-settings-overview', 'Settings Overview'],
+      ['jit-roles', 'Creating Roles'],
+      ['jit-assignments', 'Creating Assignments'],
+      ['jit-assignment-types', 'Assignment Types']
     ]
   },
   {
@@ -58,7 +59,12 @@ const pageMeta = {
   licensing: 'SmartPT Core licensing, server-bound activation, mTLS client certificate behavior, subscription states, and add-on user unit guidance.',
   downloads: 'Download SmartPT Core activation wizard packages and review release packaging guidance for customer deployments.',
   'jit-overview': 'Getting started with SmartPT JIT, standing privilege risk, temporary Active Directory group membership, roles, assignments, and supported access types.',
+  'jit-access-model': 'SmartPT JIT access model covering product license assignment, internal RBAC roles, JIT roles, and JIT assignments.',
   'jit-portal-overview': 'JIT portal overview covering dashboard status cards, quick actions, JIT Access overview, roles, assignments, active sessions, and settings.',
+  'jit-settings-overview': 'JIT settings overview covering licensed users, RBAC role assignments, product settings, notifications, SMTP, and session policy.',
+  'jit-roles': 'Create SmartPT JIT roles that map to existing Active Directory groups and define allowed access methods, OTP, and duration limits.',
+  'jit-assignments': 'Create SmartPT JIT assignments that connect users to roles for eligible, scheduled, or manual privileged access.',
+  'jit-assignment-types': 'Assignment type guide for choosing Manual, Scheduled, or Eligible OTP access in SmartPT JIT.',
   'jit-admin': 'JIT administrator guide covering roles, AD group mapping, assignments, active sessions, emergency revocation, and audit review.',
   'jit-user': 'JIT user guide for eligible self-service access with OTP verification from Active Directory-sourced contact details.',
   'jit-settings': 'JIT roles and assignments guide covering role fields, access modes, schedules, OTP settings, duration limits, and enforcement behavior.',
@@ -468,13 +474,12 @@ Verify service:      /verify</code></pre>
     <h2>Recommended learning order</h2>
     <ol>
       <li>Getting Started with SmartPT JIT.</li>
+      <li>Access Model, Licensing, and RBAC.</li>
       <li>JIT Portal Overview.</li>
-      <li>JIT Settings Overview.</li>
-      <li>Creating a JIT Role.</li>
-      <li>Creating a JIT Assignment.</li>
-      <li>Assignment Options: Manual, Scheduled, and Eligible OTP.</li>
-      <li>Monitoring Active Sessions and Revoke.</li>
-      <li>Troubleshooting.</li>
+      <li>Settings Overview.</li>
+      <li>Creating JIT Roles.</li>
+      <li>Creating JIT Assignments.</li>
+      <li>Assignment Types.</li>
     </ol>
     <h2>What to configure next</h2>
     <ol>
@@ -484,6 +489,36 @@ Verify service:      /verify</code></pre>
       <li>Create roles only after the AD group mapping and duration limits are clear.</li>
       <li>Create assignments only after the intended operating model is known.</li>
     </ol>
+  `),
+  'jit-access-model': page('Access Model, Licensing, and RBAC', 'JIT Access', `
+    <p class="lead">SmartPT JIT separates product access from privileged access. A user can sign in and still be blocked from JIT actions if the license assignment or RBAC role is missing.</p>
+    <div class="table-wrap"><table><thead><tr><th>Layer</th><th>Purpose</th></tr></thead><tbody>
+      <tr><td>Authentication</td><td>Confirms the signed-in Active Directory user.</td></tr>
+      <tr><td>License validation</td><td>Confirms the JIT product license is active and the user is assigned to the product.</td></tr>
+      <tr><td>RBAC role assignment</td><td>Defines what the user can do inside JIT.</td></tr>
+      <tr><td>JIT role and assignment</td><td>Defines which privileged AD group access can be activated and when.</td></tr>
+    </tbody></table></div>
+    <h2>Licensed users</h2>
+    <p>Licensed Users in Settings controls who consumes a JIT product user license. Assigning a user license allows the user to access the product, but it does not automatically make the user a JIT administrator and does not grant privileged AD group membership.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/settings-overview.png" alt="JIT settings showing licensed users and role assignments"><figcaption>Settings separates licensed users from JIT role assignments.</figcaption></figure>
+    <h2>RBAC role assignments</h2>
+    <p>Role Assignments in Settings controls what a licensed user can do. A JIT administrator needs the correct product role before they can manage roles, assignments, sessions, or settings.</p>
+    <ul>
+      <li><b>JitAdmin</b> manages roles, assignments, sessions, and JIT settings.</li>
+      <li><b>JitEligibleUser</b> activates approved eligible access.</li>
+    </ul>
+    <h2>JIT roles are different</h2>
+    <p>A JIT role maps to one or more existing Active Directory groups. The JIT role only defines the privileged access profile. It does not grant access until an assignment activates it.</p>
+    <h2>Recommended setup order</h2>
+    <ol>
+      <li>Confirm the JIT license is active.</li>
+      <li>Assign a product license to the administrator.</li>
+      <li>Assign the administrator the required JIT RBAC role.</li>
+      <li>Create JIT roles that map to existing AD groups.</li>
+      <li>Create assignments for users who should receive temporary access.</li>
+      <li>Verify active sessions and automatic removal behavior.</li>
+    </ol>
+    <div class="callout">Operational rule: keep license assignment, RBAC role assignment, JIT role mapping, and JIT assignment separate. This keeps product access, administrative permission, and privileged AD group membership clear and auditable.</div>
   `),
   'jit-portal-overview': page('JIT Portal Overview', 'JIT Access', `
     <p class="lead">The SmartPT JIT portal is the operator workspace for temporary privileged access. It gives administrators one place to confirm license readiness, open the access console, manage settings, review roles and assignments, and monitor active privileged sessions.</p>
@@ -530,6 +565,118 @@ Verify service:      /verify</code></pre>
       <li>Review Active Sessions to monitor live privilege.</li>
       <li>Review Settings before changing license, role assignment, notification, or session policy.</li>
     </ol>
+  `),
+  'jit-settings-overview': page('JIT Settings Overview', 'JIT Access', `
+    <p class="lead">JIT Settings is the administrative area for product access, RBAC role assignment, notification behavior, SMTP, and shared session policy.</p>
+    <p>Open Settings after confirming the dashboard license status. Do this before creating production JIT roles or assignments.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/settings-overview.png" alt="JIT settings overview in dark mode"><figcaption>Settings manages product licensing, RBAC, notifications, SMTP, and session policy.</figcaption></figure>
+    <h2>Licensed Users</h2>
+    <p>Licensed Users defines which Active Directory users are assigned to the JIT product. Assigning a user license allows the user to consume one licensed identity. It does not automatically make the user a JIT administrator and does not grant privileged AD group membership.</p>
+    <h2>Role Assignments</h2>
+    <p>Role Assignments define product permissions inside JIT. A user normally needs both a product license and a matching role assignment before the portal enables the relevant workflow.</p>
+    <h2>JIT Product Settings</h2>
+    <ul>
+      <li><b>Eligible requester groups</b> limit who can request or activate eligible access.</li>
+      <li><b>Notification recipients</b> receive administrative session notifications.</li>
+      <li><b>JIT session email notifications</b> control selected session events.</li>
+      <li><b>Notification toggles</b> cover manual activation, eligible OTP activation, session extension, and session revoke.</li>
+    </ul>
+    <h2>System and Session Policy</h2>
+    <p>System / Session settings control portal session behavior and shared delivery settings, including maximum session duration, idle timeout, SMTP, and optional group-specific overrides.</p>
+    <div class="callout success">Recommended practice: confirm product licensing, RBAC, SMTP, and session policy before mapping highly privileged AD groups.</div>
+  `),
+  'jit-roles': page('Creating JIT Roles', 'JIT Access', `
+    <p class="lead">JIT roles define the privileged access profile. A role maps SmartPT JIT to one or more existing Active Directory groups and defines which assignment types are allowed.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/roles-list.png" alt="JIT roles list in dark mode"><figcaption>Roles inventory before creating access profiles.</figcaption></figure>
+    <h2>Before creating a role</h2>
+    <ul>
+      <li>Confirm the AD group already exists.</li>
+      <li>Confirm the group is the correct privilege boundary.</li>
+      <li>Confirm the backend service identity can add and remove members from that group.</li>
+      <li>Confirm the duration limits match the business task.</li>
+      <li>Test with a non-production group before Tier 0 use.</li>
+    </ul>
+    <h2>Create Role</h2>
+    <p>Open <code>JIT Access > Roles</code>, then select <b>Create Role</b>.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/role-create-modal.png" alt="Create JIT role modal in dark mode"><figcaption>Create Role defines identity, access modes, duration limits, OTP, reminders, and AD group mapping.</figcaption></figure>
+    <h2>Role fields</h2>
+    <div class="table-wrap"><table><thead><tr><th>Field</th><th>Purpose</th></tr></thead><tbody>
+      <tr><td>Display name</td><td>Human-readable role name shown in the portal.</td></tr>
+      <tr><td>Role ID</td><td>Stable identifier generated from the display name.</td></tr>
+      <tr><td>Description</td><td>Business purpose for the role.</td></tr>
+      <tr><td>Enabled</td><td>Controls whether the role can be used for new access.</td></tr>
+      <tr><td>Allow manual / scheduled / eligible</td><td>Controls which assignment types can use this role.</td></tr>
+      <tr><td>OTP required</td><td>Requires OTP verification for eligible activation.</td></tr>
+      <tr><td>Max manual / max total minutes</td><td>Caps active access duration.</td></tr>
+      <tr><td>AD Groups</td><td>Existing AD group distinguished names managed by this role.</td></tr>
+    </tbody></table></div>
+    <h2>Save and verify</h2>
+    <ol>
+      <li>Confirm the role appears in the Roles table.</li>
+      <li>Confirm access type badges match the intended model.</li>
+      <li>Confirm the group count is correct.</li>
+      <li>Create assignments only after the role mapping is reviewed.</li>
+    </ol>
+  `),
+  'jit-assignments': page('Creating JIT Assignments', 'JIT Access', `
+    <p class="lead">Assignments connect users to JIT roles. They define who can receive privileged access, how access starts, and when it ends.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/assignments-list.png" alt="JIT assignments list in dark mode"><figcaption>Assignments show user, role, type, status, details, and revoke action.</figcaption></figure>
+    <h2>Create Assignment</h2>
+    <p>Open <code>JIT Access > Assignments</code>, then select <b>Create Assignment</b>.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/assignment-create-eligible.png" alt="Create eligible JIT assignment in dark mode"><figcaption>Every assignment requires a role, target user, assignment type, and audited reason.</figcaption></figure>
+    <h2>Required fields</h2>
+    <ul>
+      <li><b>Role:</b> JIT role that maps to the AD group access.</li>
+      <li><b>User:</b> target user by <code>samAccountName</code>.</li>
+      <li><b>Assignment type:</b> Eligible, Scheduled, or Manual.</li>
+      <li><b>Reason:</b> business reason recorded for audit.</li>
+    </ul>
+    <h2>Manual assignment</h2>
+    <p>Manual assignments activate immediately and expire automatically. Use them for urgent operational work, incident response, or one-time maintenance.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/assignment-create-manual.png" alt="Create manual JIT assignment in dark mode"><figcaption>Manual assignment uses a fixed duration.</figcaption></figure>
+    <h2>Scheduled assignment</h2>
+    <p>Scheduled assignments are enforced by the backend service. Use them for recurring maintenance windows.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/assignment-create-scheduled.png" alt="Create scheduled JIT assignment in dark mode"><figcaption>Scheduled assignment defines days, time window, and validity dates.</figcaption></figure>
+    <h2>Eligible assignment</h2>
+    <p>Eligible assignments let approved users activate access themselves after OTP verification. Access starts only after successful verification and expires automatically.</p>
+    <h2>Revoke</h2>
+    <p>Revoking an assignment removes active access or prevents the assignment from being used again, depending on assignment state. Use revoke when access is no longer needed, was configured incorrectly, or must be stopped early.</p>
+    <div class="callout warning">This release does not include an approval workflow. Assignment creation is an administrator action.</div>
+  `),
+  'jit-assignment-types': page('Assignment Types', 'JIT Access', `
+    <p class="lead">SmartPT JIT supports three assignment types: Manual, Scheduled, and Eligible. Choose the assignment type based on how access should start.</p>
+    <h2>Manual</h2>
+    <p>Manual access is administrator-granted and starts immediately.</p>
+    <ul>
+      <li>Use for urgent work, incident response, or one-time maintenance.</li>
+      <li>Expires automatically after the configured duration.</li>
+      <li>Can be revoked early.</li>
+      <li>Must stay within the role duration limits.</li>
+    </ul>
+    <h2>Scheduled</h2>
+    <p>Scheduled access is automatic access during defined time windows.</p>
+    <ul>
+      <li>Use for recurring maintenance windows.</li>
+      <li>Backend grants access inside the configured window.</li>
+      <li>Backend removes access outside the configured window.</li>
+      <li>State is reconciled after backend restart or missed enforcement cycles.</li>
+    </ul>
+    <h2>Eligible OTP</h2>
+    <p>Eligible access lets approved users activate access themselves after OTP verification.</p>
+    <ul>
+      <li>The user sees only their own eligible assignments.</li>
+      <li>OTP is sent to contact details sourced from Active Directory.</li>
+      <li>Users cannot type their own phone number or email address.</li>
+      <li>Access starts only after successful verification and expires automatically.</li>
+    </ul>
+    <h2>Decision guide</h2>
+    <div class="table-wrap"><table><thead><tr><th>Need</th><th>Use</th></tr></thead><tbody>
+      <tr><td>Immediate administrator-granted access</td><td>Manual</td></tr>
+      <tr><td>Recurring maintenance window</td><td>Scheduled</td></tr>
+      <tr><td>Approved self-service activation</td><td>Eligible OTP</td></tr>
+      <tr><td>Manager or security approval before activation</td><td>Not supported in this release</td></tr>
+    </tbody></table></div>
+    <div class="callout">Practical recommendation: start with Manual for first validation, then add Scheduled for recurring operations, and use Eligible OTP only after license assignment, RBAC, OTP delivery, and session monitoring have been tested.</div>
   `),
   'jit-admin': page('JIT admin guide', 'JIT Access', `
     <p class="lead">JIT administrators create roles, map AD groups, assign users, review active sessions, and revoke access when needed.</p>
