@@ -1,4 +1,6 @@
 const releaseDate = 'May 23, 2026';
+const docsRoot = 'https://docs.smartpt.co.il/';
+const docsImage = `${docsRoot}assets/smartpt-og.svg`;
 
 const navGroups = [
   {
@@ -141,7 +143,7 @@ const pages = {
             <p>Use these guides to install SmartPT Core, configure licensing, manage AD Control, operate JIT Access, and understand the security model behind tiered support and temporary privilege.</p>
             <div class="page-actions">
               <a class="button primary" href="#installation">Install SmartPT Core</a>
-              <a class="button secondary" href="#ad-control-overview">Explore AD Control</a>
+              <a class="button secondary" href="#ad-control-getting-started">Explore AD Control</a>
               <a class="button secondary" href="#jit-overview">Explore JIT</a>
             </div>
           </div>
@@ -159,7 +161,7 @@ const pages = {
       </div>
       <section class="doc">
         <div class="eyebrow">Products</div>
-        <h1>What this documentation covers</h1>
+        <h2>What this documentation covers</h2>
         <div class="cards">
           <article class="card">
             <h3>SmartPT Core</h3>
@@ -1910,6 +1912,10 @@ function addHeadingAnchors(body) {
   });
 }
 
+function enhanceImages(body) {
+  return body.replace(/<img\s+/g, '<img loading="lazy" decoding="async" width="1920" height="1080" ');
+}
+
 function slugify(value) {
   return normalizeText(value)
     .toLowerCase()
@@ -1922,7 +1928,7 @@ function taskLinksHtml(current) {
   if (!links.length) return '';
   return `
     <section class="task-links" aria-label="Next task links">
-      <h2>Next task</h2>
+      <h2>Recommended next step</h2>
       <ul>
         ${links.map(([id, text]) => `<li><a href="#${id}">${escapeHtml(text)}</a></li>`).join('')}
       </ul>
@@ -1972,7 +1978,7 @@ function render() {
   const id = (location.hash || '#overview').replace('#', '') || 'overview';
   const current = pages[id] ? id : 'overview';
   const pageData = pages[current];
-  const enhancedBody = addHeadingAnchors(pageData.body);
+  const enhancedBody = enhanceImages(addHeadingAnchors(pageData.body));
   document.title = `${pageData.title} | SmartPT Docs`;
   updateDocumentMeta(current, pageData);
   document.body.classList.toggle('drawer-open', navOpen);
@@ -1983,7 +1989,7 @@ function render() {
         <div class="shell topbar-inner">
           <a class="brand" href="#overview" aria-label="SmartPT Docs home">
             <span class="brand-mark" aria-hidden="true">✓</span>
-            <span>SmartPT Docs<small>Core, JIT Access, AD Control</small></span>
+            <span><span class="brand-word">Smart<span>PT</span></span> Docs<small>SmartPT Core, AD Control, and JIT Access</small></span>
           </a>
           <div class="top-actions">
             <button class="button secondary mobile-menu" type="button" id="menuButton" aria-expanded="${navOpen}" aria-controls="sidebar">Docs menu</button>
@@ -2036,13 +2042,17 @@ function render() {
 
 function updateDocumentMeta(current, pageData) {
   const description = pageMeta[current] || pageMeta.overview;
-  const canonicalUrl = `https://docs.smartpt.co.il/${current === 'overview' ? '' : `#${current}`}`;
+  const canonicalUrl = docsRoot;
   setMeta('meta[name="description"]', 'content', description);
   setMeta('meta[property="og:title"]', 'content', `${pageData.title} | SmartPT Docs`);
   setMeta('meta[property="og:description"]', 'content', description);
   setMeta('meta[property="og:url"]', 'content', canonicalUrl);
+  setMeta('meta[property="og:image"]', 'content', docsImage);
+  setMeta('meta[property="og:image:alt"]', 'content', 'SmartPT documentation for Active Directory privileged actions');
   setMeta('meta[name="twitter:title"]', 'content', `${pageData.title} | SmartPT Docs`);
   setMeta('meta[name="twitter:description"]', 'content', description);
+  setMeta('meta[name="twitter:image"]', 'content', docsImage);
+  setMeta('meta[name="twitter:image:alt"]', 'content', 'SmartPT documentation for Active Directory privileged actions');
   const canonical = document.querySelector('link[rel="canonical"]');
   if (canonical) canonical.setAttribute('href', canonicalUrl);
 }

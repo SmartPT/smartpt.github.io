@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="SmartPT secure Active Directory privileged actions">
+  <rect width="1200" height="630" fill="#070B12"/>
+  <g opacity=".16" stroke="#94a3b8">
+    <path d="M0 90h1200M0 180h1200M0 270h1200M0 360h1200M0 450h1200M0 540h1200"/>
+    <path d="M120 0v630M240 0v630M360 0v630M480 0v630M600 0v630M720 0v630M840 0v630M960 0v630M1080 0v630"/>
+  </g>
+  <g transform="translate(76 66)">
+    <path d="M48 0 89.6 24v48L48 96 6.4 72V24L48 0Z" fill="#070b12" stroke="#94a3b8" stroke-width="4"/>
+    <path d="M48 23 68 32v16c0 13-7.4 21-20 26-12.6-5-20-13-20-26V32l20-9Z" fill="#0f2740" stroke="#7dd3fc" stroke-width="3"/>
+    <path d="M38 49h20M48 49v10" stroke="#e0f2fe" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="48" cy="41" r="7" fill="#e0f2fe"/>
+  </g>
+  <text x="192" y="114" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="44" font-weight="800">Smart<tspan fill="#38bdf8">PT</tspan></text>
+  <text x="78" y="224" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="48" font-weight="750">Secure Active Directory access and identity actions</text>
+  <text x="80" y="292" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="27">Domain Admin request • OTP approval • role-defined access • Auto-remove • Audit</text>
+  <g transform="translate(80 374)">
+    <rect width="505" height="142" rx="22" fill="#0b111a" stroke="#334155"/>
+    <text x="28" y="42" fill="#7dd3fc" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="4">ACCESS SESSION RECORD</text>
+    <text x="28" y="80" fill="#e2e8f0" font-family="Segoe UI, Arial, sans-serif" font-size="22">User: daniel.cohen</text>
+    <text x="28" y="112" fill="#e2e8f0" font-family="Segoe UI, Arial, sans-serif" font-size="22">Action: Request Domain Admin • Status: Auto-removed</text>
+  </g>
+  <g transform="translate(650 374)">
+    <rect width="386" height="142" rx="22" fill="#0b111a" stroke="#334155"/>
+    <text x="28" y="42" fill="#7dd3fc" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="4">CONTROL FLOW</text>
+    <text x="28" y="82" fill="#e2e8f0" font-family="Segoe UI, Arial, sans-serif" font-size="24">Request → Verify → Limit</text>
+    <text x="28" y="114" fill="#e2e8f0" font-family="Segoe UI, Arial, sans-serif" font-size="24">Act → Audit</text>
+  </g>
+</svg>
