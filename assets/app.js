@@ -33,7 +33,8 @@ const navGroups = [
       ['jit-assignment-types', 'Assignment Types'],
       ['jit-eligible-otp', 'Eligible OTP'],
       ['jit-sessions-revoke', 'Sessions and Revoke'],
-      ['jit-notifications-session-policy', 'Notifications and Policy']
+      ['jit-notifications-session-policy', 'Notifications and Policy'],
+      ['jit-troubleshooting', 'Troubleshooting']
     ]
   },
   {
@@ -71,6 +72,7 @@ const pageMeta = {
   'jit-eligible-otp': 'Eligible OTP self-service guide covering administrator setup, user activation, WhatsApp/mobile OTP verification, active sessions, and automatic removal.',
   'jit-sessions-revoke': 'Operations guide for monitoring active JIT sessions, extending Joe eligible access, and using revoke safely.',
   'jit-notifications-session-policy': 'JIT Settings guide for notification recipients, session event emails, session policy, SMTP, and group overrides.',
+  'jit-troubleshooting': 'JIT troubleshooting guide for portal access, missing assignments, OTP limits, revoke behavior, SMTP notifications, service identity, and IIS application pools.',
   'jit-admin': 'JIT administrator guide covering roles, AD group mapping, assignments, active sessions, emergency revocation, and audit review.',
   'jit-user': 'JIT user guide for eligible self-service access with OTP verification from Active Directory-sourced contact details.',
   'jit-settings': 'JIT roles and assignments guide covering role fields, access modes, schedules, OTP settings, duration limits, and enforcement behavior.',
@@ -790,6 +792,79 @@ Verify service:      /verify</code></pre>
       <li><b>Group overrides</b> allow different session limits for specific groups when configured.</li>
     </ul>
     <div class="callout">Recommended practice: start with a small recipient list, verify delivery, and test notifications with a non-production role before relying on production session alerts.</div>
+  `),
+  'jit-troubleshooting': page('JIT Troubleshooting', 'JIT Access', `
+    <p class="lead">Use this page when JIT Portal access, eligible activation, OTP delivery, notifications, or backend enforcement does not behave as expected.</p>
+    <p>Start with the visible symptom, then check the related access layer. Most issues are caused by missing product assignment, missing JIT assignment, expired timing, OTP policy limits, or IIS application state.</p>
+    <h2>User cannot access JIT Portal</h2>
+    <p>If a user signs in but cannot access the JIT Portal, check product access first.</p>
+    <ul>
+      <li>The user must have a JIT product license assignment.</li>
+      <li>The user must have the correct JIT role assignment for administration, such as JitAdmin.</li>
+      <li>Domain Admins can access management areas without a separate JIT role assignment.</li>
+      <li>Normal users do not receive administrator access unless they are explicitly assigned.</li>
+    </ul>
+    <div class="callout warning">If the user is not a Domain Admin and does not have a JIT role assignment, access is blocked by design.</div>
+    <h2>Eligible activation does not appear</h2>
+    <p>If a Joe-style eligible user signs in but does not see the expected activation option, check the assignment.</p>
+    <ul>
+      <li>The user must have a JIT product license.</li>
+      <li>A JIT administrator must create an Eligible assignment for the user.</li>
+      <li>The assignment must match the user's samAccountName.</li>
+      <li>The role must be enabled and allow Eligible access.</li>
+      <li>The assignment must have started and still be valid.</li>
+    </ul>
+    <p>The user should contact a JIT administrator and ask them to confirm the Eligible assignment, role, timing, and license assignment.</p>
+    <h2>OTP send is limited</h2>
+    <p>OTP delivery is controlled by JIT Settings.</p>
+    <ul>
+      <li>OTP policy and resend limits.</li>
+      <li>OTP time-to-live.</li>
+      <li>Allowed delivery channel.</li>
+      <li>AD mobile or mail attributes.</li>
+      <li>Messaging service connectivity.</li>
+      <li>SMTP fallback if email is enabled.</li>
+    </ul>
+    <p>If the user reaches an OTP send or retry limit, wait for the configured policy window or ask an administrator to review JIT Settings.</p>
+    <h2>Eligible user cannot activate after revoke</h2>
+    <p>If an administrator revokes an active eligible session, the eligible user may be blocked from activating the same role again. This is by design. Revoke is treated as an administrative stop action, not just a normal session close.</p>
+    <p>Administrators can control this behavior through JIT Settings and session policy.</p>
+    <h2>SMTP or notification failures</h2>
+    <ul>
+      <li>Check SMTP host and port.</li>
+      <li>Check firewall rules between the JIT backend server and the SMTP relay.</li>
+      <li>Confirm TLS or STARTTLS requirements.</li>
+      <li>Confirm SMTP authentication settings and credential reference.</li>
+      <li>Check MFA or conditional access on the SMTP account if enabled.</li>
+      <li>Confirm notification recipients in JIT Settings.</li>
+    </ul>
+    <div class="callout">If the relay requires MFA for interactive users, use a supported service account, application password, connector, or relay configuration that the backend can use non-interactively.</div>
+    <h2>Backend or service identity permissions</h2>
+    <p>By default, the JIT backend runs with the preinstalled gMSA service identity. Customers normally do not need to change this identity.</p>
+    <p>Check service identity permissions only when group membership changes fail after the portal and assignment checks are correct.</p>
+    <ul>
+      <li>Read the target user and mapped group.</li>
+      <li>Add the user to the mapped AD group when access starts.</li>
+      <li>Remove the user from the mapped AD group when access expires or is revoked.</li>
+    </ul>
+    <h2>IIS application pool state</h2>
+    <p>If the portal does not load, API requests fail, or the JIT UI shows stale or missing data, check IIS.</p>
+    <ul>
+      <li>Confirm the <code>jit</code> application pool is Started.</li>
+      <li>Confirm the <code>JIT-Backend</code> application pool is Started.</li>
+      <li>Confirm the JIT frontend site/application is reachable.</li>
+      <li>Confirm the JIT backend application is reachable.</li>
+      <li>Check Windows Event Viewer for IIS, ASP.NET Core, or authentication errors.</li>
+    </ul>
+    <h2>Quick escalation checklist</h2>
+    <ul>
+      <li>Signed-in username.</li>
+      <li>User type: Domain Admin, JIT administrator, or eligible user.</li>
+      <li>Role ID and assignment ID if available.</li>
+      <li>Exact time of failure.</li>
+      <li>Error message or correlation ID.</li>
+      <li>IIS app pool status for jit and JIT-Backend.</li>
+    </ul>
   `),
   'jit-admin': page('JIT admin guide', 'JIT Access', `
     <p class="lead">JIT administrators create roles, map AD groups, assign users, review active sessions, and revoke access when needed.</p>
