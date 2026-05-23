@@ -253,8 +253,8 @@ Verify service:      /verify</code></pre>
       </article>
       <article class="card">
         <h3>Setup executable</h3>
-        <p>Standalone setup executable from the current build output.</p>
-        <p><a class="button secondary" href="./downloads/Setup.exe">Download Setup.exe</a></p>
+        <p>The setup executable is delivered inside the current release package.</p>
+        <p><a class="button secondary" href="./downloads/SmartPT-Core-ActivationWizard-win-x64.zip">Download release package</a></p>
       </article>
       <article class="card">
         <h3>Release guidance</h3>
@@ -1759,21 +1759,223 @@ function jitSettingsPolicyDiagram() {
 
 const app = document.getElementById('app');
 let navOpen = false;
+let activeSearchIndex = -1;
+
+const relatedDocs = {
+  installation: ['getting-started', 'licensing', 'core-portal-overview', 'troubleshooting'],
+  licensing: ['installation', 'core-license-mtls', 'downloads', 'troubleshooting'],
+  'core-getting-started': ['core-portal-overview', 'core-license-mtls', 'core-access-model', 'core-settings-overview'],
+  'core-portal-overview': ['core-getting-started', 'core-license-mtls', 'core-settings-overview', 'security-model'],
+  'core-settings-overview': ['core-access-model', 'core-shared-2fa-reset', 'core-license-mtls', 'security-model'],
+  'ad-control-getting-started': ['ad-control-access-model', 'ad-control-operator-console', 'ad-control-password-reset', 'ad-control-protected-identities'],
+  'ad-control-settings-overview': ['ad-control-protected-identities', 'ad-control-password-reset', 'ad-control-account-unlock', 'ad-control-security-model'],
+  'ad-control-protected-identities': ['ad-control-access-model', 'ad-control-operator-console', 'ad-control-security-model', 'audit'],
+  'ad-control-operator-console': ['ad-control-password-reset', 'ad-control-account-unlock', 'ad-control-profile-updates', 'ad-control-protected-identities'],
+  'ad-control-password-reset': ['ad-control-account-unlock', 'ad-control-protected-identities', 'ad-control-settings-overview', 'audit'],
+  'ad-control-account-unlock': ['ad-control-password-reset', 'ad-control-settings-overview', 'ad-control-troubleshooting', 'audit'],
+  'ad-control-group-management': ['ad-control-profile-updates', 'ad-control-protected-identities', 'ad-control-security-model', 'audit'],
+  'ad-control-troubleshooting': ['ad-control-settings-overview', 'ad-control-protected-identities', 'troubleshooting', 'audit'],
+  'jit-overview': ['jit-access-model', 'jit-roles', 'jit-assignments', 'jit-sessions-revoke'],
+  'jit-access-model': ['jit-settings-overview', 'jit-roles', 'jit-assignments', 'security-model'],
+  'jit-settings-overview': ['jit-roles', 'jit-assignments', 'jit-notifications-session-policy', 'jit-troubleshooting'],
+  'jit-roles': ['jit-assignments', 'jit-assignment-types', 'jit-sessions-revoke', 'audit'],
+  'jit-assignments': ['jit-assignment-types', 'jit-eligible-otp', 'jit-sessions-revoke', 'audit'],
+  'jit-eligible-otp': ['jit-assignments', 'jit-sessions-revoke', 'jit-notifications-session-policy', 'jit-troubleshooting'],
+  'jit-sessions-revoke': ['jit-assignments', 'jit-assignment-types', 'jit-troubleshooting', 'audit'],
+  'jit-troubleshooting': ['jit-settings-overview', 'jit-sessions-revoke', 'troubleshooting', 'audit'],
+  troubleshooting: ['installation', 'licensing', 'ad-control-troubleshooting', 'jit-troubleshooting'],
+  'security-model': ['core-license-mtls', 'ad-control-security-model', 'jit-access-model', 'audit'],
+  audit: ['security-model', 'ad-control-security-model', 'jit-sessions-revoke', 'troubleshooting']
+};
+
+const taskLinks = {
+  'getting-started': [
+    ['installation', 'After platform readiness, continue to Installation.'],
+    ['licensing', 'After installation, continue to Licensing.']
+  ],
+  installation: [
+    ['licensing', 'After installation, activate and verify Licensing.'],
+    ['core-portal-overview', 'Then confirm product status in SmartPT Console.']
+  ],
+  licensing: [
+    ['core-portal-overview', 'After licensing, confirm product status in SmartPT Console.'],
+    ['ad-control-settings-overview', 'Then configure AD Control access assignments where required.']
+  ],
+  'ad-control-settings-overview': [
+    ['ad-control-protected-identities', 'After access assignment, configure Protected Users and Groups.'],
+    ['ad-control-password-reset', 'Then test Password Reset with a standard user.'],
+    ['ad-control-account-unlock', 'Then test Account Unlock with a locked standard user.']
+  ],
+  'ad-control-password-reset': [
+    ['ad-control-account-unlock', 'After reset testing, validate Account Unlock behavior.'],
+    ['audit', 'Review audit records after each sensitive action.']
+  ],
+  'jit-roles': [
+    ['jit-assignments', 'After JIT roles are created, continue to Assignments.'],
+    ['jit-assignment-types', 'Review Assignment Types before production use.']
+  ],
+  'jit-assignments': [
+    ['jit-assignment-types', 'Confirm the assignment type matches the access model.'],
+    ['jit-sessions-revoke', 'Then monitor the active session and revoke if required.']
+  ],
+  'jit-settings-overview': [
+    ['jit-roles', 'After Settings are verified, create JIT Roles.'],
+    ['jit-notifications-session-policy', 'Then review notification and session policy.']
+  ]
+};
 
 function allPagesForSearch() {
   return Object.entries(pages).map(([id, pageData]) => ({
     id,
     title: pageData.title,
-    text: `${pageData.title} ${pageData.eyebrow} ${pageData.body.replace(/<[^>]+>/g, ' ')}`
+    category: navEntry(id)?.group || pageData.eyebrow || 'Docs',
+    text: normalizeText(`${pageData.title} ${pageData.eyebrow} ${stripHtml(pageData.body)}`)
   }));
+}
+
+function flattenedNav() {
+  return navGroups.flatMap(group => group.items.map(([id, label]) => ({ id, label, group: group.title })));
+}
+
+function navEntry(id) {
+  return flattenedNav().find(item => item.id === id);
+}
+
+function normalizeText(value) {
+  return value.replace(/\s+/g, ' ').trim();
+}
+
+function stripHtml(value) {
+  const text = value
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>');
+  return normalizeText(text);
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function pageLabel(id) {
+  return navEntry(id)?.label || pages[id]?.title || id;
+}
+
+function pageCategory(id) {
+  return navEntry(id)?.group || pages[id]?.eyebrow || 'Docs';
+}
+
+function breadcrumbHtml(current) {
+  const entry = navEntry(current);
+  const group = entry?.group || pages[current]?.eyebrow || 'Docs';
+  const label = entry?.label || pages[current]?.title || current;
+  const home = current === 'overview' ? '<span>Start</span>' : '<a href="#overview">Start</a>';
+  return `
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      ${home}
+      <span aria-hidden="true">/</span>
+      <span>${escapeHtml(group)}</span>
+      ${label && label !== group ? `<span aria-hidden="true">/</span><span aria-current="page">${escapeHtml(label)}</span>` : ''}
+    </nav>
+  `;
+}
+
+function tocHtml(body) {
+  const headings = [...body.matchAll(/<h2(?:\s[^>]*)?>(.*?)<\/h2>/g)]
+    .map(match => stripHtml(match[1]))
+    .filter(Boolean)
+    .slice(0, 12);
+  if (headings.length < 2) return '';
+  return `
+    <aside class="toc" aria-label="On this page">
+      <div class="toc-title">On this page</div>
+      ${headings.map(heading => `<a href="#${slugify(heading)}" data-toc-target="${slugify(heading)}">${escapeHtml(heading)}</a>`).join('')}
+    </aside>
+  `;
+}
+
+function addHeadingAnchors(body) {
+  return body.replace(/<h2>(.*?)<\/h2>/g, (match, heading) => {
+    const text = stripHtml(heading);
+    return `<h2 id="${slugify(text)}">${heading}</h2>`;
+  });
+}
+
+function slugify(value) {
+  return normalizeText(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
+function taskLinksHtml(current) {
+  const links = taskLinks[current] || [];
+  if (!links.length) return '';
+  return `
+    <section class="task-links" aria-label="Next task links">
+      <h2>Next task</h2>
+      <ul>
+        ${links.map(([id, text]) => `<li><a href="#${id}">${escapeHtml(text)}</a></li>`).join('')}
+      </ul>
+    </section>
+  `;
+}
+
+function relatedDocsHtml(current) {
+  const links = (relatedDocs[current] || []).filter(id => pages[id]).slice(0, 5);
+  if (!links.length) return '';
+  return `
+    <section class="related-docs" aria-label="Related documentation">
+      <h2>Related documentation</h2>
+      <div class="related-grid">
+        ${links.map(id => `<a class="related-link" href="#${id}"><span>${escapeHtml(pageCategory(id))}</span><strong>${escapeHtml(pageLabel(id))}</strong></a>`).join('')}
+      </div>
+    </section>
+  `;
+}
+
+function pagerHtml(current) {
+  const items = flattenedNav();
+  const index = items.findIndex(item => item.id === current);
+  if (index === -1 || pageCategory(current) === 'Policies') return '';
+  const previous = items[index - 1];
+  const next = items[index + 1]?.group === 'Policies' ? null : items[index + 1];
+  if (!previous && !next) return '';
+  return `
+    <nav class="doc-pager" aria-label="Previous and next documentation pages">
+      ${previous ? `<a class="pager-link previous" href="#${previous.id}"><span>Previous</span><strong>${escapeHtml(previous.label)}</strong></a>` : '<span></span>'}
+      ${next ? `<a class="pager-link next" href="#${next.id}"><span>Next</span><strong>${escapeHtml(next.label)}</strong></a>` : '<span></span>'}
+    </nav>
+  `;
+}
+
+function pageFooterHtml(current) {
+  return `
+    <div class="doc-flow">
+      ${taskLinksHtml(current)}
+      ${relatedDocsHtml(current)}
+      ${pagerHtml(current)}
+    </div>
+  `;
 }
 
 function render() {
   const id = (location.hash || '#overview').replace('#', '') || 'overview';
   const current = pages[id] ? id : 'overview';
   const pageData = pages[current];
+  const enhancedBody = addHeadingAnchors(pageData.body);
   document.title = `${pageData.title} | SmartPT Docs`;
   updateDocumentMeta(current, pageData);
+  document.body.classList.toggle('drawer-open', navOpen);
 
   app.innerHTML = `
     <div class="layout">
@@ -1784,22 +1986,34 @@ function render() {
             <span>SmartPT Docs<small>Core, JIT Access, AD Control</small></span>
           </a>
           <div class="top-actions">
-            <button class="button secondary mobile-menu" type="button" id="menuButton" aria-expanded="${navOpen}" aria-controls="sidebar">Menu</button>
-            <div style="position:relative">
+            <button class="button secondary mobile-menu" type="button" id="menuButton" aria-expanded="${navOpen}" aria-controls="sidebar">Docs menu</button>
+            <div class="search-box">
               <label class="sr-only" for="searchInput">Search documentation</label>
               <input id="searchInput" class="search" type="search" placeholder="Search docs" autocomplete="off" />
-              <div id="searchResults" class="search-results" hidden></div>
+              <div id="searchResults" class="search-results" role="listbox" hidden></div>
             </div>
             <a class="button primary" href="#downloads">Downloads</a>
           </div>
         </div>
       </header>
+      <button class="drawer-backdrop ${navOpen ? 'open' : ''}" id="drawerBackdrop" type="button" aria-label="Close docs menu"></button>
       <div class="shell docs-shell">
         <aside class="sidebar ${navOpen ? 'open' : ''}" id="sidebar" aria-label="Documentation navigation">
+          <div class="sidebar-header">
+            <strong>Documentation</strong>
+            <button class="button secondary sidebar-close" type="button" id="closeMenuButton">Close</button>
+          </div>
           ${renderNav(current)}
         </aside>
         <main class="content" id="main" tabindex="-1">
-          ${pageData.body}
+          <div class="content-layout">
+            <div class="article-column">
+              ${breadcrumbHtml(current)}
+              ${enhancedBody}
+              ${pageFooterHtml(current)}
+            </div>
+            ${tocHtml(enhancedBody)}
+          </div>
         </main>
       </div>
       <footer class="footer">
@@ -1848,15 +2062,25 @@ function renderNav(current) {
 }
 
 function bindEvents() {
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      navOpen = false;
+  document.querySelectorAll('.toc a[data-toc-target]').forEach(link => {
+    link.addEventListener('click', event => {
+      event.preventDefault();
+      const target = document.getElementById(link.getAttribute('data-toc-target'));
+      target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 
-  document.querySelectorAll('.footer a').forEach(link => {
+  document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
       navOpen = false;
+      document.body.classList.remove('drawer-open');
+    });
+  });
+
+  document.querySelectorAll('.footer a, .breadcrumbs a, .related-link, .pager-link, .task-links a, .page-actions a').forEach(link => {
+    link.addEventListener('click', () => {
+      navOpen = false;
+      document.body.classList.remove('drawer-open');
     });
   });
 
@@ -1864,32 +2088,123 @@ function bindEvents() {
     navOpen = !navOpen;
     render();
   });
+  document.getElementById('closeMenuButton')?.addEventListener('click', () => closeDrawer());
+  document.getElementById('drawerBackdrop')?.addEventListener('click', () => closeDrawer());
 
   const searchInput = document.getElementById('searchInput');
   const results = document.getElementById('searchResults');
-  searchInput?.addEventListener('input', event => {
-    const query = event.target.value.trim().toLowerCase();
-    if (!query) {
-      results.hidden = true;
-      results.innerHTML = '';
+  const pagesForSearch = allPagesForSearch();
+  let currentMatches = [];
+
+  const closeSearch = () => {
+    if (!results) return;
+    results.hidden = true;
+    results.innerHTML = '';
+    activeSearchIndex = -1;
+    searchInput?.removeAttribute('aria-activedescendant');
+  };
+
+  const renderSearchResults = query => {
+    if (!results) return;
+    const normalizedQuery = query.trim().toLowerCase();
+    if (!normalizedQuery) {
+      closeSearch();
       return;
     }
-    const matches = allPagesForSearch()
-      .filter(item => item.text.toLowerCase().includes(query))
+    currentMatches = pagesForSearch
+      .map(item => ({ ...item, score: searchScore(item, normalizedQuery), snippet: searchSnippet(item.text, normalizedQuery) }))
+      .filter(item => item.score > 0)
+      .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
       .slice(0, 8);
-    results.innerHTML = matches.length
-      ? matches.map(item => `<a class="search-result" href="#${item.id}"><strong>${item.title}</strong><span>${item.text.slice(0, 130)}...</span></a>`).join('')
-      : '<div class="search-result"><strong>No results</strong><span>Try another product, feature, or action term.</span></div>';
+    results.innerHTML = currentMatches.length
+      ? currentMatches.map((item, index) => `
+        <a class="search-result ${index === activeSearchIndex ? 'active' : ''}" id="search-result-${index}" role="option" aria-selected="${index === activeSearchIndex}" href="#${item.id}">
+          <span class="search-category">${escapeHtml(item.category)}</span>
+          <strong>${escapeHtml(item.title)}</strong>
+          <span>${escapeHtml(item.snippet)}</span>
+        </a>
+      `).join('')
+      : '<div class="search-result empty"><strong>No results</strong><span>Try OTP, Tier 0, Protected Users, Password Reset, JIT, Assignments, Licensing, Audit, Revoke, mTLS, or IIS.</span></div>';
     results.hidden = false;
+    results.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        closeSearch();
+        navOpen = false;
+        document.body.classList.remove('drawer-open');
+      });
+    });
+  };
+
+  searchInput?.addEventListener('input', event => {
+    activeSearchIndex = -1;
+    renderSearchResults(event.target.value);
   });
+
+  searchInput?.addEventListener('keydown', event => {
+    if (!currentMatches.length || results?.hidden) {
+      if (event.key === 'Escape') closeSearch();
+      return;
+    }
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      activeSearchIndex = (activeSearchIndex + 1) % currentMatches.length;
+      renderSearchResults(searchInput.value);
+      searchInput.setAttribute('aria-activedescendant', `search-result-${activeSearchIndex}`);
+    }
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      activeSearchIndex = activeSearchIndex <= 0 ? currentMatches.length - 1 : activeSearchIndex - 1;
+      renderSearchResults(searchInput.value);
+      searchInput.setAttribute('aria-activedescendant', `search-result-${activeSearchIndex}`);
+    }
+    if (event.key === 'Enter' && activeSearchIndex >= 0) {
+      event.preventDefault();
+      location.hash = currentMatches[activeSearchIndex].id;
+      closeSearch();
+    }
+    if (event.key === 'Escape') closeSearch();
+  });
+}
+
+function closeDrawer() {
+  if (!navOpen) return;
+  navOpen = false;
+  document.body.classList.remove('drawer-open');
+  render();
+  document.getElementById('menuButton')?.focus();
+}
+
+function searchScore(item, query) {
+  const title = item.title.toLowerCase();
+  const category = item.category.toLowerCase();
+  const text = item.text.toLowerCase();
+  let score = 0;
+  if (title === query) score += 100;
+  if (title.includes(query)) score += 60;
+  if (category.includes(query)) score += 25;
+  if (text.includes(query)) score += 10;
+  query.split(/\s+/).filter(Boolean).forEach(part => {
+    if (title.includes(part)) score += 12;
+    if (text.includes(part)) score += 3;
+  });
+  return score;
+}
+
+function searchSnippet(text, query) {
+  const lower = text.toLowerCase();
+  const index = lower.indexOf(query.toLowerCase());
+  if (index === -1) return text.slice(0, 150);
+  const start = Math.max(0, index - 55);
+  const end = Math.min(text.length, index + query.length + 95);
+  const prefix = start > 0 ? '...' : '';
+  const suffix = end < text.length ? '...' : '';
+  return `${prefix}${text.slice(start, end)}${suffix}`;
 }
 
 window.addEventListener('hashchange', render);
 window.addEventListener('keydown', event => {
   if (event.key === 'Escape' && navOpen) {
-    navOpen = false;
-    render();
-    document.getElementById('menuButton')?.focus();
+    closeDrawer();
   }
 });
 render();
