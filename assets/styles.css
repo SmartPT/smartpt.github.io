@@ -392,9 +392,9 @@ pre {
   max-width: 100%;
   overflow-x: auto;
 }
-.diagram-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; align-items: stretch; }
-.diagram-grid.five { grid-template-columns: repeat(5, 1fr); }
-.diagram-grid.three { grid-template-columns: repeat(3, 1fr); }
+.diagram-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .8rem; align-items: stretch; }
+.diagram-grid.five { grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); }
+.diagram-grid.three { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
 .diagram-box {
   border: 1px solid rgba(148,163,184,.28);
   border-radius: 8px;

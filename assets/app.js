@@ -1,4 +1,4 @@
-const releaseDate = 'May 23, 2026';
+const releaseDate = 'May 24, 2026';
 const docsRoot = 'https://docs.smartpt.co.il/';
 const docsImage = `${docsRoot}assets/smartpt-og.svg`;
 
@@ -8,9 +8,17 @@ const navGroups = [
     items: [
       ['overview', 'Documentation Home'],
       ['getting-started', 'Getting Started'],
+      ['requirements', 'Requirements'],
       ['installation', 'Installation'],
       ['licensing', 'Licensing'],
       ['downloads', 'Downloads']
+    ]
+  },
+  {
+    title: 'Architecture',
+    items: [
+      ['deployment-overview', 'Deployment Overview'],
+      ['active-directory-permissions', 'Active Directory Permissions']
     ]
   },
   {
@@ -79,6 +87,9 @@ const navGroups = [
 
 const pageMeta = {
   overview: 'SmartPT documentation for installing and operating SmartPT Core, JIT Access, and AD Control in on-prem Active Directory environments.',
+  requirements: 'SmartPT requirements for Windows Server, IIS, .NET hosting, Local Active Directory, service identity, network access, SMTP, audit storage, browsers, and staging validation.',
+  'deployment-overview': 'SmartPT deployment overview for customer-controlled on-prem portals, backend authorization, Active Directory actions, audit logs, and operator access boundaries.',
+  'active-directory-permissions': 'Active Directory permission guidance for SmartPT service identities, delegated AD Control actions, JIT group membership management, Tier 0 protection, and staging validation.',
   installation: 'Install SmartPT Core on IIS with Local Active Directory integration, product portals, backend applications, service identity, and activation guidance.',
   licensing: 'SmartPT Core licensing, server-bound activation, mTLS client certificate behavior, subscription states, and add-on user unit guidance.',
   downloads: 'Download SmartPT Core activation wizard packages and review release packaging guidance for customer deployments.',
@@ -131,18 +142,19 @@ const pageMeta = {
 
 const pages = {
   'overview': {
-    title: 'SmartPT documentation',
+    title: 'SmartPT Customer Documentation',
     eyebrow: 'Customer docs',
     lead: 'Guides for deploying and operating SmartPT Core, JIT Access, and AD Control in Local Active Directory environments.',
     body: `
       <div class="hero">
         <div class="hero-grid">
           <div>
-            <div class="eyebrow">SmartPT Core</div>
-            <h1>On-prem Active Directory security guidance.</h1>
-            <p>Use these guides to install SmartPT Core, configure licensing, manage AD Control, operate JIT Access, and understand the security model behind tiered support and temporary privilege.</p>
+            <div class="eyebrow">Customer docs</div>
+            <h1>SmartPT Customer Documentation</h1>
+            <p>Install, configure, and operate SmartPT Core, AD Control, and JIT Access in on-prem Active Directory environments.</p>
             <div class="page-actions">
-              <a class="button primary" href="#installation">Install SmartPT Core</a>
+              <a class="button primary" href="#requirements">Review Requirements</a>
+              <a class="button secondary" href="#installation">Install SmartPT Core</a>
               <a class="button secondary" href="#ad-control-getting-started">Explore AD Control</a>
               <a class="button secondary" href="#jit-overview">Explore JIT</a>
             </div>
@@ -192,6 +204,97 @@ const pages = {
       <li>Review audit events and operational troubleshooting guidance.</li>
     </ol>
     <div class="callout">Recommended order: install Core, activate licensing, configure AD Control, configure JIT, then test with a non-production AD user and non-production AD group.</div>
+  `),
+  'requirements': page('Requirements', 'Start here', `
+    <p class="lead">Confirm these requirements before installing SmartPT Core, AD Control, or JIT Access in a customer Active Directory environment.</p>
+    <h2>Server and hosting</h2>
+    <div class="table-wrap"><table><thead><tr><th>Area</th><th>Requirement</th></tr></thead><tbody>
+      <tr><td>Windows Server</td><td>Use a supported Windows Server release joined to the customer domain.</td></tr>
+      <tr><td>IIS</td><td>Install IIS and host SmartPT Core, product portals, and backend applications as separate IIS applications.</td></tr>
+      <tr><td>.NET hosting</td><td>Install the required .NET hosting bundle for the SmartPT backend applications included in the release package.</td></tr>
+      <tr><td>Domain joined server</td><td>The server must be joined to the Local Active Directory domain it will manage.</td></tr>
+      <tr><td>Browser support</td><td>Use a current enterprise browser such as Microsoft Edge, Chrome, or another modern Chromium-based browser.</td></tr>
+    </tbody></table></div>
+    <h2>Directory and identity</h2>
+    <ul>
+      <li>SmartPT is designed for Local Active Directory environments.</li>
+      <li>Use a dedicated service identity or gMSA for backend AD actions.</li>
+      <li>Delegate only the AD permissions required by the enabled customer policy.</li>
+      <li>Do not use broad Domain Admin rights for normal service operation.</li>
+    </ul>
+    <h2>Network access</h2>
+    <ul>
+      <li>Operators must be able to reach the internal SmartPT portals from the customer network.</li>
+      <li>The SmartPT server must be able to reach domain controllers for directory lookup and delegated AD actions.</li>
+      <li>License activation and certificate validation require the network path defined for the customer deployment.</li>
+    </ul>
+    <h2>SMTP and OTP</h2>
+    <ul>
+      <li>Configure SMTP when email delivery is used for OTP, notifications, or temporary password delivery.</li>
+      <li>Confirm AD mail and mobile attributes before enabling OTP-verified password reset, account unlock, or Eligible OTP activation.</li>
+      <li>Validate firewall rules and MFA requirements on the SMTP path before production use.</li>
+    </ul>
+    <h2>Audit log storage</h2>
+    <ul>
+      <li>Store audit logs on reliable local or managed storage with restricted administrator access.</li>
+      <li>Ensure enough capacity for password reset, account unlock, JIT assignment, activation, revoke, and settings events.</li>
+      <li>Do not store OTP codes, generated passwords, SMTP secrets, private keys, or authenticator secrets in audit logs.</li>
+    </ul>
+    <h2>Staging validation</h2>
+    <div class="callout warning">Validate SmartPT in staging before production. Test with non-production users, non-production AD groups, delegated permissions, SMTP delivery, OTP limits, audit records, and session expiration.</div>
+  `),
+  'deployment-overview': page('Deployment Overview', 'Architecture', `
+    <p class="lead">SmartPT runs inside the customer environment. The portals are internal customer-facing portals, and backend applications enforce authorization before any directory action is performed.</p>
+    ${architectureDiagram()}
+    <h2>Deployment model</h2>
+    <ul>
+      <li>SmartPT Core, AD Control, JIT Access, and backend services run on customer-controlled infrastructure.</li>
+      <li>Operators access internal portals rather than connecting directly to Active Directory management tools.</li>
+      <li>Product portals rely on backend authorization, license state, role assignment, and customer policy.</li>
+      <li>Operators do not need direct AD permissions for supported actions.</li>
+    </ul>
+    <h2>Authorization boundary</h2>
+    <p>The browser shows only the actions available to the signed-in operator, but the backend remains authoritative. Each sensitive action is checked server-side before SmartPT touches Active Directory.</p>
+    <h2>Active Directory actions</h2>
+    <ul>
+      <li>AD Control performs only the reset, unlock, profile, and group actions enabled by customer policy.</li>
+      <li>JIT Access adds the user to the approved AD group for the approved time window, then removes the membership when the session ends.</li>
+      <li>SmartPT Core controls product entry, license state, mTLS certificate status, and shared MFA recovery.</li>
+    </ul>
+    <h2>Audit model</h2>
+    <p>Sensitive actions are written to audit logs with actor, target, action, result, timestamp, and correlation ID. Review audit records after settings changes, Helpdesk actions, JIT activation, session extension, and revocation.</p>
+  `),
+  'active-directory-permissions': page('Active Directory Permissions', 'Architecture', `
+    <p class="lead">SmartPT should use delegated Active Directory permissions instead of broad Domain Admin rights for the service identity.</p>
+    <h2>Permission principles</h2>
+    <ul>
+      <li>Do not grant Domain Admin to the service identity for normal operation.</li>
+      <li>Delegate only the actions required by the enabled SmartPT policy.</li>
+      <li>Separate AD Control and JIT permissions where possible.</li>
+      <li>Protect Tier 0 users, privileged groups, and protected groups before broad operator rollout.</li>
+      <li>Validate permissions in staging before production.</li>
+    </ul>
+    <h2>JIT Access permissions</h2>
+    <p>JIT Access requires controlled group membership management for the AD groups mapped to JIT roles. The service identity should be able to add and remove approved users only from the groups SmartPT manages.</p>
+    <h2>AD Control permissions</h2>
+    <p>AD Control requires only the AD actions enabled by customer policy. For example, if Tier 1 is allowed only to reset passwords and unlock accounts, delegate only those actions for the intended user scope.</p>
+    <div class="table-wrap"><table><thead><tr><th>Feature</th><th>Delegation guidance</th></tr></thead><tbody>
+      <tr><td>Password reset</td><td>Delegate password reset only for supported standard users.</td></tr>
+      <tr><td>Account unlock</td><td>Delegate unlock only for supported standard users.</td></tr>
+      <tr><td>Profile update</td><td>Delegate write access only to approved attributes such as phone, mobile, title, department, company, office, or description.</td></tr>
+      <tr><td>Group management</td><td>Delegate add/remove rights only for approved support groups and never for protected groups.</td></tr>
+      <tr><td>JIT group membership</td><td>Delegate membership changes only on AD groups mapped to JIT roles.</td></tr>
+    </tbody></table></div>
+    <h2>Tier 0 protection</h2>
+    <p>Tier 0 users, protected users, and protected group members should be excluded from Helpdesk actions. Test search and action blocking with Tier 1 and Tier 2 operator accounts before production rollout.</p>
+    <h2>Staging validation</h2>
+    <ol>
+      <li>Create a test user and test AD group.</li>
+      <li>Apply the planned delegated permissions to the service identity or gMSA.</li>
+      <li>Test password reset, unlock, profile update, group update, JIT activation, expiration, and revoke only for the enabled features.</li>
+      <li>Confirm denied actions fail cleanly and are visible in logs or audit records.</li>
+      <li>Move to production only after the permission scope is confirmed.</li>
+    </ol>
   `),
   'installation': page('Installation', 'SmartPT Core', `
     <p class="lead">SmartPT Core is installed on a customer-controlled Windows server and integrates with Local Active Directory. The product portals run locally and the backends enforce permissions server-side.</p>
@@ -1764,7 +1867,10 @@ let navOpen = false;
 let activeSearchIndex = -1;
 
 const relatedDocs = {
-  installation: ['getting-started', 'licensing', 'core-portal-overview', 'troubleshooting'],
+  requirements: ['deployment-overview', 'active-directory-permissions', 'installation', 'licensing'],
+  'deployment-overview': ['requirements', 'active-directory-permissions', 'installation', 'security-model'],
+  'active-directory-permissions': ['requirements', 'deployment-overview', 'ad-control-access-model', 'jit-access-model'],
+  installation: ['requirements', 'deployment-overview', 'active-directory-permissions', 'licensing', 'troubleshooting'],
   licensing: ['installation', 'core-license-mtls', 'downloads', 'troubleshooting'],
   'core-getting-started': ['core-portal-overview', 'core-license-mtls', 'core-access-model', 'core-settings-overview'],
   'core-portal-overview': ['core-getting-started', 'core-license-mtls', 'core-settings-overview', 'security-model'],
@@ -1792,8 +1898,20 @@ const relatedDocs = {
 
 const taskLinks = {
   'getting-started': [
-    ['installation', 'After platform readiness, continue to Installation.'],
-    ['licensing', 'After installation, continue to Licensing.']
+    ['requirements', 'After the overview, confirm server and directory requirements.'],
+    ['installation', 'After requirements are confirmed, continue to Installation.']
+  ],
+  requirements: [
+    ['deployment-overview', 'After requirements are confirmed, review the deployment model.'],
+    ['active-directory-permissions', 'Then plan delegated Active Directory permissions.']
+  ],
+  'deployment-overview': [
+    ['active-directory-permissions', 'After deployment planning, define delegated Active Directory permissions.'],
+    ['installation', 'Then install SmartPT Core and product portals.']
+  ],
+  'active-directory-permissions': [
+    ['installation', 'After permissions are planned, continue to Installation.'],
+    ['ad-control-settings-overview', 'Then configure AD Control policy for enabled Helpdesk actions.']
   ],
   installation: [
     ['licensing', 'After installation, activate and verify Licensing.'],
@@ -1989,7 +2107,7 @@ function render() {
         <div class="shell topbar-inner">
           <a class="brand" href="#overview" aria-label="SmartPT Docs home">
             <span class="brand-mark" aria-hidden="true">✓</span>
-            <span><span class="brand-word">Smart<span>PT</span></span> Docs<small>SmartPT Core, AD Control, and JIT Access</small></span>
+            <span><span class="brand-word">Smart<span>PT</span></span> Docs<small>Customer documentation for SmartPT Core, AD Control, and JIT Access</small></span>
           </a>
           <div class="top-actions">
             <button class="button secondary mobile-menu" type="button" id="menuButton" aria-expanded="${navOpen}" aria-controls="sidebar">Docs menu</button>
