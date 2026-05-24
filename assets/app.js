@@ -1999,12 +1999,12 @@ function breadcrumbHtml(current) {
   const group = entry?.group || pages[current]?.eyebrow || 'Docs';
   const label = entry?.label || pages[current]?.title || current;
   const home = current === 'overview' ? '<span>Start</span>' : '<a href="#overview">Start</a>';
+  const groupCrumb = group !== 'Start' ? `<span aria-hidden="true">/</span><span>${escapeHtml(group)}</span>` : '';
   return `
     <nav class="breadcrumbs" aria-label="Breadcrumb">
       ${home}
-      <span aria-hidden="true">/</span>
-      <span>${escapeHtml(group)}</span>
-      ${label && label !== group ? `<span aria-hidden="true">/</span><span aria-current="page">${escapeHtml(label)}</span>` : ''}
+      ${groupCrumb}
+      ${current !== 'overview' && label && label !== group ? `<span aria-hidden="true">/</span><span aria-current="page">${escapeHtml(label)}</span>` : ''}
     </nav>
   `;
 }
