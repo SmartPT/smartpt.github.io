@@ -517,6 +517,7 @@ Verify service:      /verify</code></pre>
     ${adControlArchitectureDiagram()}
     ${adControlDiagram()}
     ${adControlTierDiagram()}
+    <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/ad-control-product-overview.jpg" alt="AD Control product overview showing Tier 1, Tier 2, Tier 0 protection, OTP verification, and audit"><figcaption>AD Control summarizes the tier model: Tier 1 helpdesk actions, Tier 2 advanced support, Tier 0 protection, OTP verification, and audit records.</figcaption></figure>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/dashboard-jim-settings-access.jpg" alt="AD Control dashboard in dark mode"><figcaption>AD Control is role-aware. Jim has settings access for administration.</figcaption></figure>
     <h2>What AD Control solves</h2>
     <ul><li>Tier 1 can reset passwords and unlock standard users through the SmartPT portal.</li><li>Tier 1 cannot change phone numbers, edit profile attributes, or manage groups.</li><li>OTP verification uses the phone number already stored in Active Directory.</li><li>Protected users, Protected Groups, and Tier 0 identities are blocked from Helpdesk actions.</li><li>Every password reset, unlock, profile update, group change, and settings change is written to audit logs with actor, target, result, and correlation ID.</li></ul>
@@ -862,6 +863,7 @@ Verify service:      /verify</code></pre>
     <p>In many environments, administrative users remain in sensitive groups such as Domain Admins because they may need that access later. That creates standing privilege: an account has high-impact access even when there is no active business need. If the account is compromised, the attacker inherits that privilege immediately.</p>
     ${standingPrivilegeDiagram()}
     <p>JIT changes the operating model. Instead of keeping users permanently in privileged AD groups, JIT Access adds group membership only when access is valid, then removes it automatically when the access window closes or an operator revokes it.</p>
+    <figure class="doc-screenshot"><img src="./docs/jit/screenshots/jit-product-overview.jpg" alt="JIT Access product overview showing temporary access, licensed identities, audit, and automatic expiration"><figcaption>JIT Access summarizes the operating model: temporary access, no permanent privileged group membership, licensed identities, and audited changes.</figcaption></figure>
     <h2>How JIT works</h2>
     <ul>
       <li><b>JIT roles</b> define the privileged access profile. A role maps to one or more existing Active Directory groups and defines which access methods are allowed.</li>

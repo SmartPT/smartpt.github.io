@@ -4,6 +4,8 @@ AD Control gives support teams a controlled way to reset passwords, unlock accou
 
 The business problem is simple: password reset and account unlock are common helpdesk actions, but they are also common social-engineering targets. AD Control reduces that risk by separating routine operators from protected identities, enforcing role-based workflows, and auditing sensitive actions.
 
+![AD Control product overview showing Tier 1, Tier 2, Tier 0 protection, OTP verification, and audit](./screenshots/ad-control-product-overview.jpg)
+
 ```mermaid
 flowchart LR
   Operator["Tier 1 / Tier 2 operator"] --> Portal["AD Control portal"]

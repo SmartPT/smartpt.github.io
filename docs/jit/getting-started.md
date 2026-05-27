@@ -6,6 +6,8 @@ In many environments, administrative users remain in sensitive groups such as Do
 
 JIT changes the operating model. Instead of keeping users permanently in privileged AD groups, JIT Access adds group membership only when access is valid, then removes it automatically when the access window closes or an operator revokes it.
 
+![JIT Access product overview showing temporary access, licensed identities, audit, and automatic expiration](./screenshots/jit-product-overview.jpg)
+
 ## How JIT Works
 
 JIT Access is built around two main objects:
