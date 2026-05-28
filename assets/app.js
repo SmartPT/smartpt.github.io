@@ -2099,6 +2099,7 @@ function render() {
   const current = pages[id] ? id : 'overview';
   const pageData = pages[current];
   const enhancedBody = enhanceImages(addHeadingAnchors(pageData.body));
+  const toc = tocHtml(enhancedBody);
   document.title = `${pageData.title} | SmartPT Docs`;
   updateDocumentMeta(current, pageData);
   document.body.classList.toggle('drawer-open', navOpen);
@@ -2132,15 +2133,24 @@ function render() {
           ${renderNav(current)}
         </aside>
         <main class="content" id="main" tabindex="-1">
-          <div class="content-layout">
+          <div class="content-layout ${toc ? '' : 'no-toc'}">
             <div class="article-column">
               ${breadcrumbHtml(current)}
               ${enhancedBody}
               ${pageFooterHtml(current)}
             </div>
-            ${tocHtml(enhancedBody)}
+            ${toc}
           </div>
         </main>
+      </div>
+      <div class="image-lightbox" id="imageLightbox" role="dialog" aria-modal="true" aria-label="Expanded screenshot" hidden>
+        <div class="lightbox-toolbar">
+          <div class="lightbox-title" id="lightboxTitle"></div>
+          <button class="lightbox-close" id="lightboxClose" type="button">Close</button>
+        </div>
+        <div class="lightbox-frame" id="lightboxFrame">
+          <img class="lightbox-image" id="lightboxImage" alt="" />
+        </div>
       </div>
       <footer class="footer">
         <div class="shell footer-inner">
@@ -2220,6 +2230,24 @@ function bindEvents() {
   });
   document.getElementById('closeMenuButton')?.addEventListener('click', () => closeDrawer());
   document.getElementById('drawerBackdrop')?.addEventListener('click', () => closeDrawer());
+  document.getElementById('lightboxClose')?.addEventListener('click', () => closeImageLightbox());
+  document.getElementById('imageLightbox')?.addEventListener('click', event => {
+    if (event.target?.id === 'imageLightbox') closeImageLightbox();
+  });
+
+  document.querySelectorAll('.doc-screenshot img').forEach(image => {
+    image.setAttribute('role', 'button');
+    image.setAttribute('tabindex', '0');
+    image.setAttribute('aria-label', `${image.getAttribute('alt') || 'Documentation screenshot'} - open larger view`);
+    const open = () => openImageLightbox(image);
+    image.addEventListener('click', open);
+    image.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        open();
+      }
+    });
+  });
 
   const searchInput = document.getElementById('searchInput');
   const results = document.getElementById('searchResults');
@@ -2304,6 +2332,31 @@ function closeDrawer() {
   document.getElementById('menuButton')?.focus();
 }
 
+function openImageLightbox(image) {
+  const lightbox = document.getElementById('imageLightbox');
+  const lightboxImage = document.getElementById('lightboxImage');
+  const title = document.getElementById('lightboxTitle');
+  if (!lightbox || !lightboxImage || !title) return;
+  const figure = image.closest('figure');
+  const caption = figure?.querySelector('figcaption')?.textContent?.replace(' Click image to expand.', '').trim();
+  const label = caption || image.getAttribute('alt') || 'Documentation screenshot';
+  lightboxImage.src = image.currentSrc || image.src;
+  lightboxImage.alt = image.getAttribute('alt') || label;
+  title.textContent = label;
+  lightbox.hidden = false;
+  document.body.classList.add('lightbox-open');
+  document.getElementById('lightboxClose')?.focus();
+}
+
+function closeImageLightbox() {
+  const lightbox = document.getElementById('imageLightbox');
+  const lightboxImage = document.getElementById('lightboxImage');
+  if (!lightbox || lightbox.hidden) return;
+  lightbox.hidden = true;
+  if (lightboxImage) lightboxImage.removeAttribute('src');
+  document.body.classList.remove('lightbox-open');
+}
+
 function searchScore(item, query) {
   const title = item.title.toLowerCase();
   const category = item.category.toLowerCase();
@@ -2333,6 +2386,10 @@ function searchSnippet(text, query) {
 
 window.addEventListener('hashchange', render);
 window.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !document.getElementById('imageLightbox')?.hidden) {
+    closeImageLightbox();
+    return;
+  }
   if (event.key === 'Escape' && navOpen) {
     closeDrawer();
   }
