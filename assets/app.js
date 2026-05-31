@@ -209,24 +209,28 @@ const pages = {
     <p class="lead">Confirm these requirements before installing SmartPT Core, AD Control, or JIT Access in a customer Active Directory environment.</p>
     <h2>Server and hosting</h2>
     <div class="table-wrap"><table><thead><tr><th>Area</th><th>Requirement</th></tr></thead><tbody>
-      <tr><td>Windows Server</td><td>Use a supported Windows Server release joined to the customer domain.</td></tr>
-      <tr><td>IIS</td><td>Install IIS and host SmartPT Core, product portals, and backend applications as separate IIS applications.</td></tr>
-      <tr><td>.NET hosting</td><td>Install the required .NET hosting bundle for the SmartPT backend applications included in the release package.</td></tr>
+      <tr><td>Windows Server</td><td>Use Windows Server 2019 or newer. The installer blocks older server releases.</td></tr>
+      <tr><td>Administrator elevation</td><td>Run <code>Setup.exe</code> as Administrator on the target SmartPT server.</td></tr>
+      <tr><td>IIS</td><td>The wizard installs and validates the required IIS role services, Windows authentication, management tools, and scripting tools.</td></tr>
+      <tr><td>.NET hosting</td><td>The wizard validates .NET 8 SDK, .NET 8 runtime, and ASP.NET Core Hosting Bundle. Missing components are installed from the bundled installer assets.</td></tr>
       <tr><td>Domain joined server</td><td>The server must be joined to the Local Active Directory domain it will manage.</td></tr>
       <tr><td>Browser support</td><td>Use a current enterprise browser such as Microsoft Edge, Chrome, or another modern Chromium-based browser.</td></tr>
     </tbody></table></div>
     <h2>Directory and identity</h2>
     <ul>
       <li>SmartPT is designed for Local Active Directory environments.</li>
-      <li>Use a dedicated service identity or gMSA for backend AD actions.</li>
-      <li>Delegate only the AD permissions required by the enabled customer policy.</li>
+      <li>The user running setup must have directory rights for installation. The wizard checks for Domain Admins or Account Operators membership.</li>
+      <li>The wizard creates or reuses a SmartPT gMSA for backend AD actions, authorizes the server to retrieve its password, and validates the account locally.</li>
+      <li>Backend IIS application pools use the gMSA. Frontend pools use application pool identity.</li>
+      <li>After installation, delegate only the AD permissions required by the enabled customer policy.</li>
       <li>Do not use broad Domain Admin rights for normal service operation.</li>
     </ul>
     <h2>Network access</h2>
     <ul>
       <li>Operators must be able to reach the internal SmartPT portals from the customer network.</li>
       <li>The SmartPT server must be able to reach domain controllers for directory lookup and delegated AD actions.</li>
-      <li>License activation and certificate validation require the network path defined for the customer deployment.</li>
+      <li>The setup wizard checks reachability to the SmartPT activation service before installation.</li>
+      <li>License activation and certificate validation require outbound access to the SmartPT activation endpoint used for the customer deployment.</li>
     </ul>
     <h2>SMTP and OTP</h2>
     <ul>
@@ -298,29 +302,64 @@ const pages = {
   `),
   'installation': page('Installation', 'SmartPT Core', `
     <p class="lead">SmartPT Core is installed on a customer-controlled Windows server and integrates with Local Active Directory. The product portals run locally and the backends enforce permissions server-side.</p>
+    <h2>Customer package</h2>
+    <p>Customers receive the SmartPT setup executable. Run <code>Setup.exe</code> directly on the target Windows server. The executable includes the wizard, product payloads, .NET installer assets, certificate authority file, and deployment logic needed for the server installation.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-consent.png" alt="SmartPT Core setup wizard consent step"><figcaption>The setup wizard starts with deployment consent and confirms the administrator is authorized to prepare IIS, Active Directory, gMSA, licensing, certificates, logging, and product configuration.</figcaption></figure>
     <h2>Where to start</h2>
     <ol>
-      <li>Use the SmartPT Core activation wizard package from the Downloads page or customer release package.</li>
-      <li>Run the installer on the target Windows server.</li>
+      <li>Copy <code>Setup.exe</code> to the target Windows Server 2019 or newer machine.</li>
+      <li>Run <code>Setup.exe</code> as Administrator.</li>
+      <li>Confirm the server is domain joined and the setup account has the required installation rights.</li>
       <li>Enter the license serial received after subscription purchase.</li>
-      <li>Allow the installer/backend to generate the local key and certificate request.</li>
-      <li>Complete activation so the SmartPT license service issues a client certificate bound to this server.</li>
+      <li>Let the wizard install prerequisites, prepare the gMSA, deploy product packages, and configure IIS.</li>
+      <li>Validate and activate the license after server preparation succeeds.</li>
       <li>Open the local portal and confirm license health.</li>
     </ol>
+    <h2>Wizard flow</h2>
+    <div class="table-wrap"><table><thead><tr><th>Step</th><th>What the wizard validates or configures</th></tr></thead><tbody>
+      <tr><td>Consent</td><td>Confirms the deployment scope and customer authorization before setup begins.</td></tr>
+      <tr><td>Pre-checks</td><td>Checks Windows Server OS, Windows Server 2019 or newer, administrator elevation, domain join, directory rights, and SmartPT API reachability.</td></tr>
+      <tr><td>Server prerequisites</td><td>Installs or verifies IIS and AD PowerShell features, .NET 8 SDK, .NET 8 runtime, ASP.NET Core Hosting Bundle, WebAdministration module, and ActiveDirectory module.</td></tr>
+      <tr><td>gMSA preparation</td><td>Creates or reuses the SmartPT gMSA, creates a KDS root key if needed, allows this server to retrieve the managed password, installs the gMSA locally, validates it, and adds it to Account Operators for installation.</td></tr>
+      <tr><td>IIS installation</td><td>Installs required IIS role services, Windows authentication, IIS management tools, scripting tools, and RSAT Active Directory PowerShell.</td></tr>
+      <tr><td>Deploy packages</td><td>Deploys SmartPT Console, AD Control frontend/backend, JIT frontend/backend, and Verify payloads to the local IIS file paths.</td></tr>
+      <tr><td>IIS configuration</td><td>Creates application pools, maps IIS applications, applies file permissions, configures backend pools to use the gMSA, and starts IIS services.</td></tr>
+      <tr><td>License activation</td><td>Validates the license serial, installs the SmartPT CA, generates and installs the client certificate, grants certificate private-key access, and stamps installed configuration.</td></tr>
+      <tr><td>Final health</td><td>Checks the local Console, AD Control, JIT Access, Verify, and backend API endpoints.</td></tr>
+    </tbody></table></div>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-pre-checks.png" alt="SmartPT Core setup wizard pre-checks"><figcaption>Pre-checks confirm the server, elevation, domain join, directory rights, and SmartPT activation service reachability before setup continues.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-server-prerequisites.png" alt="SmartPT Core setup wizard server prerequisites"><figcaption>Server prerequisites confirm IIS PowerShell, ActiveDirectory PowerShell, .NET 8 SDK, .NET 8 runtime, and ASP.NET Core Hosting Bundle.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-gmsa-preparation.png" alt="SmartPT Core setup wizard gMSA preparation"><figcaption>The wizard prepares the SmartPT gMSA used by backend application pools for Active Directory operations.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-iis-installation.png" alt="SmartPT Core setup wizard IIS installation"><figcaption>IIS installation validates required role services, Windows authentication, management tools, and AD PowerShell support.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-deploy-packages.png" alt="SmartPT Core setup wizard deploy packages"><figcaption>Deploy packages extracts the bundled Console, AD Control, JIT Access, and Verify payloads to the local server paths.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-iis-configuration.png" alt="SmartPT Core setup wizard IIS configuration"><figcaption>IIS configuration creates SmartPT application pools, maps IIS applications, applies filesystem permissions, and starts the required IIS services.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-license-validation.png" alt="SmartPT Core setup wizard license validation"><figcaption>License validation confirms the SmartPT Core license is ready before activation.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-license-activation-active.png" alt="SmartPT Core setup wizard license activation complete"><figcaption>After activation, SmartPT Core receives the client certificate and the license returns ACTIVE status.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-final-health.png" alt="SmartPT Core setup wizard final health checks"><figcaption>Final health checks verify the local portals and backend API endpoints after installation.</figcaption></figure>
     <h2>Server requirements</h2>
     <div class="table-wrap"><table><thead><tr><th>Area</th><th>Requirement</th></tr></thead><tbody>
-      <tr><td>Operating system</td><td>Windows Server capable of running IIS and .NET 8 application hosting.</td></tr>
-      <tr><td>Identity</td><td>Domain joined server with access to the target Active Directory environment.</td></tr>
-      <tr><td>IIS</td><td>Separate applications and application pools for product frontends and backends.</td></tr>
-      <tr><td>Service identity</td><td>Dedicated application pool identity or gMSA with least-privilege permissions for required AD actions.</td></tr>
+      <tr><td>Operating system</td><td>Windows Server 2019 or newer.</td></tr>
+      <tr><td>Identity</td><td>Domain joined server with access to the target Local Active Directory environment.</td></tr>
+      <tr><td>Setup rights</td><td>Run as Administrator. The setup account must have the directory rights needed to prepare the gMSA and installation.</td></tr>
+      <tr><td>IIS</td><td>The wizard creates separate applications and application pools for SmartPT Core, AD Control, JIT Access, Verify, and backend APIs.</td></tr>
+      <tr><td>Service identity</td><td>The wizard prepares a SmartPT gMSA and assigns it to backend application pools.</td></tr>
       <tr><td>Storage</td><td>Local configuration, state, and append-only audit logs stored as files.</td></tr>
     </tbody></table></div>
-    <h2>Important paths</h2>
-    <pre><code>AD Control frontend: /adc
-AD Control backend:  /adc-backend
+    <h2>Installed paths</h2>
+    <pre><code>SmartPT Core:       C:\\inetpub\\wwwroot\\SmartPT-Core\\Main
+AD Control UI:      C:\\inetpub\\wwwroot\\PM-Frontend
+AD Control backend: C:\\inetpub\\wwwroot\\PM-Backend\\Dev\\Publish
+JIT Access UI:      C:\\inetpub\\wwwroot\\JIT-Frontend
+JIT Access backend: C:\\inetpub\\wwwroot\\JIT-Backend\\Dev\\Publish
+Verify service:     C:\\inetpub\\wwwroot\\SmartPT-Verify\\Publish</code></pre>
+    <h2>Local endpoints checked by final health</h2>
+    <pre><code>SmartPT Core:        /
+AD Control frontend: /pm
+AD Control backend:  /PM-Backend/api/auth/status
 JIT frontend:        /jit
-JIT backend:         /JIT-Backend
-Verify service:      /verify</code></pre>
+JIT backend:         /JIT-Backend/api/auth/status
+Verify service:      /Verify</code></pre>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-post-install-jit-license.png" alt="JIT Access opens after SmartPT Core installation and licensing"><figcaption>After Core activation, product portals such as JIT Access can be opened and licensed users can be assigned according to the customer subscription.</figcaption></figure>
     <div class="callout warning">Do not grant broad Domain Admin permissions to the application pool identity. Delegate only the AD actions required for the configured product features.</div>
   `),
   'licensing': page('Licensing', 'SmartPT Core', `
@@ -349,16 +388,16 @@ Verify service:      /verify</code></pre>
     </tbody></table></div>
   `),
   'downloads': page('Downloads', 'Installation package', `
-    <p class="lead">Use this page for customer release downloads. Keep production releases versioned and replace packages intentionally.</p>
+    <p class="lead">Use this page for customer release downloads. Customers should receive the SmartPT setup executable for the current release.</p>
     <div class="cards">
       <article class="card">
-        <h3>SmartPT Core Activation Wizard</h3>
-        <p>Windows x64 package for SmartPT Core activation and setup.</p>
-        <p><a class="button primary" href="./downloads/SmartPT-Core-ActivationWizard-win-x64.zip">Download package</a></p>
+        <h3>SmartPT Setup.exe</h3>
+        <p>Windows x64 setup executable for SmartPT Core activation, IIS configuration, product deployment, and post-install health checks.</p>
+        <p><a class="button primary" href="./downloads/SmartPT-Core-ActivationWizard-win-x64.zip">Download setup package</a></p>
       </article>
       <article class="card">
-        <h3>Setup executable</h3>
-        <p>The setup executable is delivered inside the current release package.</p>
+        <h3>Customer delivery</h3>
+        <p>For customer installation, provide the executable only unless SmartPT support asks for a full release package.</p>
         <p><a class="button secondary" href="./downloads/SmartPT-Core-ActivationWizard-win-x64.zip">Download release package</a></p>
       </article>
       <article class="card">
