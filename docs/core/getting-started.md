@@ -2,7 +2,7 @@
 
 SmartPT Console is the root portal for a SmartPT server. It gives administrators one place to confirm product availability, review license and certificate health, manage root portal access, reset shared two-factor enrollment, and open the product consoles.
 
-SmartPT Console does not replace JIT Access or AD Control. Product actions stay inside the product portals. The Console is the control plane above them.
+SmartPT Console does not replace JIT Access or AD Control. Product actions stay inside the product portals. The Console is the root entry point for license status, product access, administrator access, and shared MFA recovery.
 
 ![SmartPT Console overview](./screenshots/console-overview.png)
 
@@ -50,4 +50,3 @@ Recommended order:
 3. Access Model, RBAC, and Admin Groups
 4. Settings Overview
 5. Shared 2FA and Reset MFA
-

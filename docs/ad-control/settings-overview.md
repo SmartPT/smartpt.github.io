@@ -23,7 +23,7 @@ flowchart LR
 | Access Assignments | Assign licenses and operator roles. |
 | AD Control View Settings | Configure support groups, protected users, and protected groups. |
 | OTP / verification policy | Control code lifetime, send limits, resend windows, and failed attempt limits. |
-| Password and unlock options | Enable or disable direct and verified workflows. |
+| Password and unlock options | Enable or disable direct password reset, OTP-verified password reset, direct unlock, and OTP-verified unlock. |
 | Notifications | Configure auditor email and reset/unlock notifications. |
 | Global Email (SMTP) | Configure SMTP delivery for email-based workflows. |
 | System / Session | Control portal session duration and idle timeout. |

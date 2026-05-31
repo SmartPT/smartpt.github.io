@@ -2,6 +2,3 @@ User-agent: *
 Allow: /
 
 Sitemap: https://docs.smartpt.co.il/sitemap.xml
-Host: docs.smartpt.co.il
-
-LLM-Content: https://docs.smartpt.co.il/llms.txt

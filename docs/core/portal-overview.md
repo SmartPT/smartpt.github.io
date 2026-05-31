@@ -13,7 +13,7 @@ Overview is the first readiness view after sign-in. Use it to confirm the server
 | Products | Counts installed product portals visible from the Console. |
 | User | Shows the signed-in identity. |
 | Access | Shows whether the user is Administrator or Viewer. |
-| Architecture | Explains the Console boundary: root control plane, not product workflow execution. |
+| Architecture | Explains the Console boundary: root portal status and access, not product workflow execution. |
 | Installed product consoles | Opens JIT Access and AD Control. |
 
 ## Product Status
@@ -26,7 +26,7 @@ If a product is unavailable, troubleshoot the product frontend/backend and IIS a
 
 ## Recent Activity
 
-Recent Activity shows meaningful administrative actions from SmartPT Core and product portals. Use it for quick operational review and correlation ID lookup.
+Recent Activity shows sign-ins, settings changes, password resets, account unlocks, JIT assignments, session changes, and revoke events. Use it for quick operational review and correlation ID lookup.
 
 ![Recent activity highlighted](./screenshots/recent-activity-highlight.png)
 
@@ -37,4 +37,3 @@ Recent Activity is not a replacement for full audit retention. It is a quick vie
 Settings is available only to Console administrators. It controls root portal access, Console session policy, shared two-factor reset, license visibility, mTLS status, support links, and subscription cancellation.
 
 ![Settings overview](./screenshots/settings-overview.png)
-

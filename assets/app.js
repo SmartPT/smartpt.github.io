@@ -454,7 +454,7 @@ Verify service:      /Verify</code></pre>
     <p>Product cards show whether each portal is reachable from the Core server. This is a fast operational check before entering JIT Access or AD Control.</p>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/product-status-highlight.png" alt="SmartPT Console product status highlighted"><figcaption>Product status confirms portal reachability.</figcaption></figure>
     <h2>Recent activity</h2>
-    <p>Recent Activity shows sign-ins, settings changes, password resets, unlocks, JIT assignments, session changes, and revoke events. Use it for quick operational review and correlation ID lookup.</p>
+    <p>Recent Activity shows sign-ins, settings changes, password resets, account unlocks, JIT assignments, session changes, and revoke events. Use it for quick operational review and correlation ID lookup.</p>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/recent-activity-highlight.png" alt="SmartPT Console recent activity highlighted"><figcaption>Recent Activity gives administrators a short operational history across Core and product portals.</figcaption></figure>
     <h2>Settings</h2>
     <p>Settings is available only to Console administrators. It controls root portal access, Console session policy, shared two-factor reset, license visibility, mTLS status, support links, and subscription cancellation.</p>
@@ -2147,7 +2147,7 @@ function render() {
     <div class="layout">
       <header class="topbar">
         <div class="shell topbar-inner">
-          <a class="brand" href="#overview" aria-label="SmartPT Docs home">
+          <a class="brand" href="#overview">
             <span class="brand-mark" aria-hidden="true">✓</span>
             <span><span class="brand-word">Smart<span>PT</span></span> Docs<small>Customer documentation for SmartPT Core, AD Control, and JIT Access</small></span>
           </a>
@@ -2162,6 +2162,7 @@ function render() {
           </div>
         </div>
       </header>
+      ${routeTargetsHtml()}
       <button class="drawer-backdrop ${navOpen ? 'open' : ''}" id="drawerBackdrop" type="button" aria-label="Close docs menu"></button>
       <div class="shell docs-shell">
         <aside class="sidebar ${navOpen ? 'open' : ''}" id="sidebar" aria-label="Documentation navigation">
@@ -2207,6 +2208,10 @@ function render() {
 
   bindEvents();
   requestAnimationFrame(() => document.getElementById('main')?.focus({ preventScroll: true }));
+}
+
+function routeTargetsHtml() {
+  return `<div class="route-targets" aria-hidden="true">${flattenedNav().map(item => `<span id="${item.id}"></span>`).join('')}</div>`;
 }
 
 function updateDocumentMeta(current, pageData) {
