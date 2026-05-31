@@ -65,4 +65,14 @@ GitHub Pages can serve those static files. The current hash routes should remain
 
 ## Final scores
 
-Final deployed PageSpeed/Lighthouse validation must be run after GitHub Pages publishes this commit.
+Final deployed Lighthouse validation was run against `https://docs.smartpt.co.il` after GitHub Pages published the changes.
+
+| Form factor | Performance | Accessibility | Best Practices | SEO |
+| --- | ---: | ---: | ---: | ---: |
+| Desktop | 100 | 100 | 100 | 100 |
+| Mobile | 99 | 100 | 100 | 100 |
+
+Final SEO score:
+
+- Desktop: 100/100
+- Mobile: 100/100
