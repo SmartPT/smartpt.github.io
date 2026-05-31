@@ -2277,7 +2277,7 @@ function bindEvents() {
   document.querySelectorAll('.doc-screenshot img').forEach(image => {
     image.setAttribute('role', 'button');
     image.setAttribute('tabindex', '0');
-    image.setAttribute('aria-label', `${image.getAttribute('alt') || 'Documentation screenshot'} - open larger view`);
+    image.setAttribute('aria-label', `${image.getAttribute('alt') || 'Documentation screenshot'} - open image`);
     const open = () => openImageLightbox(image);
     image.addEventListener('click', open);
     image.addEventListener('keydown', event => {
@@ -2376,8 +2376,12 @@ function openImageLightbox(image) {
   const lightboxImage = document.getElementById('lightboxImage');
   const title = document.getElementById('lightboxTitle');
   if (!lightbox || !lightboxImage || !title) return;
+  if (window.matchMedia('(max-width: 768px)').matches) {
+    window.open(image.currentSrc || image.src, '_blank', 'noopener');
+    return;
+  }
   const figure = image.closest('figure');
-  const caption = figure?.querySelector('figcaption')?.textContent?.replace(' Click image to expand.', '').trim();
+  const caption = figure?.querySelector('figcaption')?.textContent?.trim();
   const label = caption || image.getAttribute('alt') || 'Documentation screenshot';
   lightboxImage.src = image.currentSrc || image.src;
   lightboxImage.alt = image.getAttribute('alt') || label;

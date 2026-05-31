@@ -374,11 +374,6 @@ h1, h2, h3 { color: var(--ink); line-height: 1.08; }
   color: var(--muted);
   font-size: .9rem;
 }
-.doc-screenshot figcaption::after {
-  content: " Click image to expand.";
-  color: #1d4ed8;
-  font-weight: 700;
-}
 .image-lightbox {
   position: fixed;
   inset: 0;
