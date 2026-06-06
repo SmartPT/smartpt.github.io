@@ -1,7 +1,7 @@
-const releaseDate = 'May 24, 2026';
+﻿const releaseDate = 'May 24, 2026';
 const docsRoot = 'https://docs.smartpt.co.il/';
 const docsImage = `${docsRoot}assets/smartpt-og.svg`;
-const youtubeUrl = 'https://youtube.com/@smartpt-1ai';
+const youtubeUrl = 'https://youtube.com/@smartpt-1ai?si=c3AVjfFoWpoEmE9I';
 
 const navGroups = [
   {
@@ -424,9 +424,9 @@ Verify service:      /Verify</code></pre>
     <div class="diagram">
       <div class="diagram-grid five">
         <div class="diagram-box accent"><strong>Administrator</strong><span>Signs in with an AD account.</span></div>
-        <div class="diagram-arrow">→</div>
+        <div class="diagram-arrow">â†’</div>
         <div class="diagram-box"><strong>SmartPT Console</strong><span>Shows Core status, access, 2FA, and product entry.</span></div>
-        <div class="diagram-arrow">→</div>
+        <div class="diagram-arrow">â†’</div>
         <div class="diagram-box good"><strong>Product portals</strong><span>JIT Access and AD Control keep privileged actions in dedicated consoles.</span></div>
       </div>
       <div class="diagram-note">The Console organizes the environment. JIT Access and AD Control still enforce their own roles, policies, and audit logs.</div>
@@ -528,9 +528,9 @@ Verify service:      /Verify</code></pre>
     <div class="diagram">
       <div class="diagram-grid five">
         <div class="diagram-box accent"><strong>User signs in</strong><span>Core or product portal starts the session.</span></div>
-        <div class="diagram-arrow">→</div>
+        <div class="diagram-arrow">â†’</div>
         <div class="diagram-box"><strong>Shared 2FA</strong><span>SmartPT Verify handles TOTP enrollment or verification.</span></div>
-        <div class="diagram-arrow">→</div>
+        <div class="diagram-arrow">â†’</div>
         <div class="diagram-box good"><strong>Continue</strong><span>Successful verification allows the user to continue to the permitted portal.</span></div>
       </div>
       <div class="diagram-note">Passing 2FA does not grant product permission. Product RBAC and licensing are still enforced separately.</div>
@@ -1477,9 +1477,9 @@ Verify service:      /Verify</code></pre>
     <div class="diagram">
       <div class="diagram-grid five">
         <div class="diagram-box accent"><strong>Active Directory</strong><span>Identity, groups, mail, and mobile attributes.</span></div>
-        <div class="diagram-arrow">→</div>
+        <div class="diagram-arrow">â†’</div>
         <div class="diagram-box"><strong>SmartPT Core</strong><span>License, mTLS certificate, root RBAC, shared MFA recovery, and product visibility.</span></div>
-        <div class="diagram-arrow">→</div>
+        <div class="diagram-arrow">â†’</div>
         <div class="diagram-box good"><strong>Product backends</strong><span>JIT Access and AD Control enforce product roles, policy, actions, and audit.</span></div>
       </div>
       <div class="diagram-note">SmartPT Core validates license, mTLS certificate health, and product entry. Product portals still enforce product-specific privileged actions.</div>
@@ -2150,7 +2150,7 @@ function render() {
       <header class="topbar">
         <div class="shell topbar-inner">
           <a class="brand" href="#overview">
-            <span class="brand-mark" aria-hidden="true">✓</span>
+            <span class="brand-mark" aria-hidden="true">âœ“</span>
             <span><span class="brand-word">Smart<span>PT</span></span> Docs<small>Customer documentation for SmartPT Core, AD Control, and JIT Access</small></span>
           </a>
           <div class="top-actions">
@@ -2447,3 +2447,4 @@ window.addEventListener('keydown', event => {
   }
 });
 render();
+
