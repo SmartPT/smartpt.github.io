@@ -1,6 +1,7 @@
 const releaseDate = 'May 24, 2026';
 const docsRoot = 'https://docs.smartpt.co.il/';
 const docsImage = `${docsRoot}assets/smartpt-og.svg`;
+const youtubeUrl = 'https://youtube.com/@smartpt-1ai';
 
 const navGroups = [
   {
@@ -157,6 +158,7 @@ const pages = {
               <a class="button secondary" href="#installation">Install SmartPT Core</a>
               <a class="button secondary" href="#ad-control-getting-started">Explore AD Control</a>
               <a class="button secondary" href="#jit-overview">Explore JIT</a>
+              <a class="button secondary" href="${youtubeUrl}" target="_blank" rel="noopener noreferrer">Watch videos</a>
             </div>
           </div>
           <div class="hero-card">
@@ -1575,7 +1577,7 @@ Verify service:      /Verify</code></pre>
     <p>SmartPT Core, JIT Access, and AD Control run in the customer environment. Product data such as Active Directory users, groups, phone attributes, email attributes, audit logs, OTP state, and configuration files remains under the customer deployment unless a customer chooses to share logs or support evidence with SmartPT.</p>
     <h2>External links</h2>
     <ul>
-      <li>The docs may link to <code>smartpt.co.il</code>, GitHub, LinkedIn, WhatsApp, or release downloads.</li>
+      <li>The docs may link to <code>smartpt.co.il</code>, the SmartPT YouTube channel, LinkedIn, WhatsApp, public documentation resources, or release downloads.</li>
       <li>External services apply their own privacy and security terms.</li>
     </ul>
     <h2>Rights and requests</h2>
@@ -2158,6 +2160,7 @@ function render() {
               <input id="searchInput" class="search" type="search" placeholder="Search docs" autocomplete="off" />
               <div id="searchResults" class="search-results" role="listbox" hidden></div>
             </div>
+            <a class="button secondary" href="${youtubeUrl}" target="_blank" rel="noopener noreferrer">Videos</a>
             <a class="button primary" href="#downloads">Downloads</a>
           </div>
         </div>
@@ -2200,6 +2203,7 @@ function render() {
             <a href="#terms">Terms</a>
             <a href="#cookie-policy">Cookie Policy</a>
             <a href="#accessibility">Accessibility</a>
+            <a href="${youtubeUrl}" target="_blank" rel="noopener noreferrer">YouTube</a>
           </span>
         </div>
       </footer>
