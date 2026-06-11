@@ -1,6 +1,6 @@
 # SmartPT Console Settings Overview
 
-Settings is the administrative area for root portal access, shared two-factor recovery, license visibility, mTLS status, and subscription actions.
+Settings is the administrative area for root portal access, shared two-factor recovery, license visibility and subscription actions.
 
 ![Settings overview](./screenshots/settings-overview.png)
 
@@ -27,9 +27,9 @@ Resetting two-factor does not grant product permission. It only clears the share
 
 ## License and Billing
 
-License and Billing shows the Core license state, serial, mTLS certificate thumbprint, last validation time, certificate renewal status, documentation links, and subscription cancellation action.
+License and Billing shows the Core license state, serial, last validation time, documentation links, and subscription cancellation action.
 
-![License and mTLS highlighted](./screenshots/license-mtls-highlight.png)
+![License and Product Status highlighted](./screenshots/license-status-highlight.png)
 
 Use subscription cancellation carefully. It affects the shared Core subscription and can block access to JIT Access and AD Control when the license is no longer active.
 

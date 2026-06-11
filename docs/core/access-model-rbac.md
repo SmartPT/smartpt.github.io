@@ -6,7 +6,7 @@ SmartPT Console access is controlled by Active Directory identity, group members
 
 | Access level | Who gets it | What it can do |
 | --- | --- | --- |
-| Administrator | Domain Admins or configured Administrative groups | View products, view activity, manage settings, reset shared 2FA, and view license/mTLS status. |
+| Administrator | Domain Admins or configured Administrative groups | View products, view activity, manage settings, reset shared 2FA, and view license status. |
 | Viewer | Configured Viewer groups | View the Console without managing settings. |
 | None | Users outside allowed groups | Access is denied. |
 

@@ -34,6 +34,6 @@ Recent Activity is not a replacement for full audit retention. It is a quick vie
 
 ## Settings
 
-Settings is available only to Console administrators. It controls root portal access, Console session policy, shared two-factor reset, license visibility, mTLS status, support links, and subscription cancellation.
+Settings is available only to Console administrators. It controls root portal access, Console session policy, shared two-factor reset, license visibility, support links, and subscription cancellation.
 
 ![Settings overview](./screenshots/settings-overview.png)

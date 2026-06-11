@@ -6,7 +6,7 @@ Primary site: https://docs.smartpt.co.il/
 Company site: https://smartpt.co.il/
 
 Key documentation areas:
-- SmartPT Core installation, SmartPT Console, licensing, mTLS certificate health, shared 2FA reset, product status, and root RBAC.
+- SmartPT Core installation, SmartPT Console, licensing, shared 2FA reset, product status, and root RBAC.
 - JIT Access roles, assignments, eligible activation, OTP verification, active sessions, and automatic removal from Active Directory groups.
 - AD Control tiered helpdesk operations, password reset, account unlock, OTP verification, temporary password delivery, protected users, protected groups, and Tier 0 protection.
 - Audit logs, troubleshooting, shared security model, MFA recovery, privacy, terms, cookie policy, and accessibility statement.
