@@ -8,7 +8,7 @@ SmartPT Console does not replace JIT Access or AD Control. Product actions stay 
 
 ## What Problem This Solves
 
-SmartPT deployments include multiple local portals and backend services. Without a root console, administrators need to check each product separately to answer basic operational questions:
+SmartPT deployments include multiple local product portals and SmartPT services. Without a root console, administrators need to check each product separately to answer basic operational questions:
 
 - Is the server license active?
 - Are JIT Access and AD Control reachable?

@@ -18,36 +18,32 @@ Overview is the first readiness view after sign-in. Use it to confirm the server
 
 ## Product Status
 
-Product cards show whether each portal is reachable from the Core server. This is a fast operational check before entering JIT Access or AD Control.
+Product cards show whether each product console is reachable. This is a fast operational check before entering JIT Access or AD Control.
 
 ![Product status highlighted](./screenshots/product-status-highlight.png)
 
-If a product is unavailable, troubleshoot the product frontend/backend and IIS application before testing product workflows.
+If a product is unavailable, confirm the product service is running before testing product workflows.
 
-## Product App Updates
+## Product Updates
 
-Core administrators can update AD Control and JIT Access from the product cards when the configured update source reports a newer package. Viewer users can open product consoles when their access allows it, but they cannot run product updates.
+Core administrators can update AD Control and JIT Access from the product cards when a newer product version is available. Viewer users can open product consoles when their access allows it, but they cannot run product updates.
 
 ![Product update available](./screenshots/product-update-available.png)
 
-Update behavior:
+Admin workflow:
 
-1. Core checks the update manifest from the configured update source.
-2. Core compares the installed package state with the latest package version and SHA.
-3. If a newer package exists, the product card shows **Update available**.
-4. The administrator selects **Update app**.
-5. Core downloads the product frontend and backend ZIP files.
-6. Core verifies SHA256 before applying the package.
-7. Core creates a local backup of the current application files.
-8. Core stops the related IIS application pools.
-9. Core replaces application files only.
-10. Core restarts the application pools and checks frontend/backend health.
+1. Open **SmartPT Console** with a Core administrator account.
+2. Review the AD Control and JIT Access product cards.
+3. If a product card shows **Update available**, select **Update app**.
+4. Wait for the update to complete.
+5. Confirm the product card returns to a healthy state.
+6. Open the product console and verify the expected product version.
 
-Settings, license files, state, logs, and customer data are not overwritten by product updates. If an update fails, Core restores the previous files from the local backup and marks the update as failed or rolled back.
+Product updates do not overwrite customer settings, license information, logs, or customer data. If an update cannot complete, SmartPT keeps the previous product version available and shows the update result in the Console.
 
 ## Recent Activity
 
-Recent Activity shows sign-ins, settings changes, password resets, account unlocks, JIT assignments, session changes, and revoke events. Use it for quick operational review and correlation ID lookup.
+Recent Activity shows sign-ins, settings changes, password resets, account unlocks, JIT assignments, session changes, and revoke events. Use it for quick operational review and audit lookup.
 
 ![Recent activity highlighted](./screenshots/recent-activity-highlight.png)
 

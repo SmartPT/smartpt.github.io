@@ -13,7 +13,7 @@ A user can authenticate to the portal and still be blocked from JIT actions if t
 | RBAC role assignment | Defines what the user can do inside JIT. |
 | JIT role and assignment | Defines which privileged AD group access can be activated and when. |
 
-Successful sign-in does not mean the user can create roles, assign access, or activate eligible access. The backend checks the required permission on every API request.
+Successful sign-in does not mean the user can create roles, assign access, or activate eligible access. SmartPT checks the required permission before each privileged action.
 
 ## Licensed Users
 

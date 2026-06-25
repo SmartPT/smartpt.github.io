@@ -5,11 +5,11 @@ AD Control is designed to reduce unsafe helpdesk operations without giving every
 ## Controls
 
 - Product license and role assignment for operators.
-- Server-side permission checks for every sensitive action.
+- SmartPT permission checks for every sensitive action.
 - Tier 0 and protected identity filtering.
 - OTP verification for verified reset and unlock workflows.
 - AD-sourced email/mobile attributes for OTP delivery.
-- Audit records with correlation IDs.
+- Audit records with actor, target, action, and result.
 - No OTP codes or generated passwords in audit logs.
 
 ## Protection Boundary
@@ -18,7 +18,7 @@ Protected users and protected groups are enforced before reset, unlock, profile 
 
 Successful OTP verification does not bypass protected identity rules.
 
-## Backend Enforcement
+## SmartPT Enforcement
 
-The browser is only the operator interface. The backend validates role permissions, protection rules, settings policy, and AD operation results.
+SmartPT validates role permissions, protection rules, settings policy, and AD operation results before allowing sensitive actions.
 

@@ -89,13 +89,13 @@ const navGroups = [
 const pageMeta = {
   overview: 'SmartPT documentation for installing and operating SmartPT Core, JIT Access, and AD Control in on-prem Active Directory environments.',
   requirements: 'SmartPT requirements for Windows Server, IIS, .NET hosting, Local Active Directory, service identity, network access, SMTP, audit storage, browsers, and staging validation.',
-  'deployment-overview': 'SmartPT deployment overview for customer-controlled on-prem portals, backend authorization, Active Directory actions, audit logs, and operator access boundaries.',
+  'deployment-overview': 'SmartPT deployment overview for customer-controlled on-prem portals, service authorization, Active Directory actions, audit logs, and operator access boundaries.',
   'active-directory-permissions': 'Active Directory permission guidance for SmartPT service identities, delegated AD Control actions, JIT group membership management, Tier 0 protection, and staging validation.',
-  installation: 'Install SmartPT Core on IIS with Local Active Directory integration, product portals, backend applications, service identity, and activation guidance.',
+  installation: 'Install SmartPT Core on IIS with Local Active Directory integration, product portals, SmartPT services, service identity, and activation guidance.',
   licensing: 'SmartPT Core licensing, server-bound activation, license validation behavior, subscription states, and add-on user unit guidance.',
   downloads: 'Download SmartPT Core activation wizard packages and review release packaging guidance for customer deployments.',
   'core-getting-started': 'Getting started with SmartPT Console, the on-prem portal for product status, Core license, shared 2FA, RBAC, and product entry.',
-  'core-portal-overview': 'SmartPT Console portal overview covering Overview, product status, product app updates, Recent Activity, and administrator-only Settings.',
+  'core-portal-overview': 'SmartPT Console portal overview covering Overview, product status, product updates, Recent Activity, and administrator-only Settings.',
   'core-license-status': 'SmartPT Console license, product status, license validation, subscription state, and fail-closed access behavior.',
   'core-access-model': 'SmartPT Console access model covering Domain Admin fallback, administrative groups, viewer groups, and session policy.',
   'core-settings-overview': 'SmartPT Console Settings overview for root RBAC, shared 2FA reset, license visibility, license status, and subscription action.',
@@ -110,11 +110,11 @@ const pageMeta = {
   'jit-eligible-otp': 'Eligible OTP self-service guide covering administrator setup, user activation, WhatsApp/mobile OTP verification, active sessions, and automatic removal.',
   'jit-sessions-revoke': 'Operations guide for monitoring active JIT sessions, extending approved access when needed, and revoking access before expiration.',
   'jit-notifications-session-policy': 'JIT Settings guide for notification recipients, session event emails, session policy, SMTP, and group overrides.',
-  'jit-troubleshooting': 'JIT troubleshooting guide for portal access, missing assignments, OTP limits, revoke behavior, SMTP notifications, service identity, and IIS application pools.',
+  'jit-troubleshooting': 'JIT troubleshooting guide for portal access, missing assignments, OTP limits, revoke behavior, SMTP notifications, service identity, and product health checks.',
   'jit-admin': 'JIT administrator guide covering roles, AD group mapping, assignments, active sessions, emergency revocation, and audit review.',
   'jit-user': 'JIT user guide for eligible self-service access with OTP verification from Active Directory-sourced contact details.',
   'jit-settings': 'JIT roles and assignments guide covering role fields, access modes, schedules, OTP settings, duration limits, and enforcement behavior.',
-  'jit-security': 'JIT security model for server-side authorization, AD group enforcement, OTP storage, session reconciliation, and audit controls.',
+  'jit-security': 'JIT security model for SmartPT authorization, AD group enforcement, OTP storage, session reconciliation, and audit controls.',
   'ad-control-overview': 'AD Control documentation for tiered Active Directory support, Tier 0 protection, protected users and groups, password reset, account unlock, and OTP verification.',
   'ad-control-getting-started': 'Getting started with AD Control, tiered helpdesk operations, protected identities, OTP verification, and customer onboarding order.',
   'ad-control-access-model': 'AD Control access model covering operator licenses, role assignments, settings access, Tier 1, Tier 2, and target users.',
@@ -126,14 +126,14 @@ const pageMeta = {
   'ad-control-account-unlock': 'AD Control account unlock guide covering direct unlock and OTP-verified unlock.',
   'ad-control-profile-updates': 'AD Control Tier 2 profile update guide for supported Active Directory user attributes.',
   'ad-control-group-management': 'AD Control controlled group management guide for Tier 2 direct and nested group membership changes.',
-  'ad-control-troubleshooting': 'AD Control troubleshooting for access assignment, protected search, OTP delivery, SMTP, IIS, and backend issues.',
-  'ad-control-security-model': 'AD Control security model for license and RBAC enforcement, protected identities, OTP handling, and backend audit controls.',
+  'ad-control-troubleshooting': 'AD Control troubleshooting for access assignment, protected search, OTP delivery, SMTP, IIS, and service issues.',
+  'ad-control-security-model': 'AD Control security model for license and RBAC enforcement, protected identities, OTP handling, and service audit controls.',
   'ad-control-admin': 'AD Control administrator guide covering license assignments, operator roles, settings access, protected users, protected groups, and support group configuration.',
   'ad-control-operator': 'AD Control operator guide for searching users, resetting passwords, unlocking accounts, updating profile attributes, and controlled group management.',
   'ad-control-settings': 'AD Control settings reference for password options, unlock options, OTP delivery, password delivery, protected identities, notifications, SMTP, and session policy.',
   'ad-control-security': 'AD Control security model for tier boundaries, protected identity exclusion, OTP-verified reset and unlock actions, role enforcement, and audit records.',
-  'security-model': 'Shared SmartPT security model for on-prem operation, AD-sourced identity data, backend authorization, Core license and license validation enforcement, shared MFA, logs, and auditability.',
-  audit: 'Audit and compliance guidance for SmartPT Core, JIT Access, AD Control, correlation IDs, sensitive event records, and logs that exclude secrets.',
+  'security-model': 'Shared SmartPT security model for on-prem operation, AD-sourced identity data, service authorization, Core license and license validation enforcement, shared MFA, logs, and auditability.',
+  audit: 'Audit and compliance guidance for SmartPT Core, JIT Access, AD Control, audit details, sensitive event records, and logs that exclude secrets.',
   troubleshooting: 'Troubleshooting guide for SmartPT access assignment, sessions, OTP delivery, protected users, JIT removal, and license validation.',
   privacy: 'SmartPT documentation site privacy notice covering static docs use, downloads, external links, and customer-controlled product data.',
   terms: 'SmartPT documentation site terms for using customer guides, downloads, release materials, and product documentation.',
@@ -200,7 +200,7 @@ const pages = {
       <li>Prepare a Windows server joined to the customer Active Directory domain.</li>
       <li>Install SmartPT Core and product portals on IIS.</li>
       <li>Activate the license serial and confirm the license state is active.</li>
-      <li>Confirm backend health, AD connectivity, PowerShell execution, and file-system access.</li>
+      <li>Confirm service health, AD connectivity, PowerShell execution, and file-system access.</li>
       <li>Configure AD Control access assignments and settings.</li>
       <li>Configure JIT roles, assignments, and active-session policy.</li>
       <li>Review audit events and operational troubleshooting guidance.</li>
@@ -222,8 +222,8 @@ const pages = {
     <ul>
       <li>SmartPT is designed for Local Active Directory environments.</li>
       <li>The user running setup must have directory rights for installation. The wizard checks for Domain Admins or Account Operators membership.</li>
-      <li>The wizard creates or reuses a SmartPT gMSA for backend AD actions, authorizes the server to retrieve its password, and validates the account locally.</li>
-      <li>Backend IIS application pools use the gMSA. Frontend pools use application pool identity.</li>
+      <li>The wizard creates or reuses a SmartPT gMSA for approved Active Directory actions, authorizes the server to retrieve its password, and validates the account locally.</li>
+      <li>SmartPT uses the configured service identity for approved Active Directory actions.</li>
       <li>After installation, delegate only the AD permissions required by the enabled customer policy.</li>
       <li>Do not use broad Domain Admin rights for normal service operation.</li>
     </ul>
@@ -250,17 +250,17 @@ const pages = {
     <div class="callout warning">Validate SmartPT in staging before production. Test with non-production users, non-production AD groups, delegated permissions, SMTP delivery, OTP limits, audit records, and session expiration.</div>
   `),
   'deployment-overview': page('Deployment Overview', 'Architecture', `
-    <p class="lead">SmartPT runs inside the customer environment. The portals are internal customer-facing portals, and backend applications enforce authorization before any directory action is performed.</p>
+    <p class="lead">SmartPT runs inside the customer environment. The portals are internal customer-facing portals, and SmartPT services enforce authorization before any directory action is performed.</p>
     ${architectureDiagram()}
     <h2>Deployment model</h2>
     <ul>
-      <li>SmartPT Core, AD Control, JIT Access, and backend services run on customer-controlled infrastructure.</li>
+      <li>SmartPT Core, AD Control, JIT Access, and SmartPT services run on customer-controlled infrastructure.</li>
       <li>Operators access internal portals rather than connecting directly to Active Directory management tools.</li>
-      <li>Product portals rely on backend authorization, license state, role assignment, and customer policy.</li>
+      <li>Product portals rely on SmartPT authorization, license state, role assignment, and customer policy.</li>
       <li>Operators do not need direct AD permissions for supported actions.</li>
     </ul>
     <h2>Authorization boundary</h2>
-    <p>The browser shows only the actions available to the signed-in operator, but the backend remains authoritative. Each sensitive action is checked server-side before SmartPT touches Active Directory.</p>
+    <p>The browser shows only the actions available to the signed-in operator, but SmartPT validates each sensitive action before it changes Active Directory.</p>
     <h2>Active Directory actions</h2>
     <ul>
       <li>AD Control performs only the reset, unlock, profile, and group actions enabled by customer policy.</li>
@@ -268,7 +268,7 @@ const pages = {
       <li>SmartPT Core controls product entry, license state, and shared MFA recovery.</li>
     </ul>
     <h2>Audit model</h2>
-    <p>Sensitive actions are written to audit logs with actor, target, action, result, timestamp, and correlation ID. Review audit records after settings changes, Helpdesk actions, JIT activation, session extension, and revocation.</p>
+    <p>Sensitive actions are written to audit logs with actor, target, action, result, timestamp, and audit detail. Review audit records after settings changes, Helpdesk actions, JIT activation, session extension, and revocation.</p>
   `),
   'active-directory-permissions': page('Active Directory Permissions', 'Architecture', `
     <p class="lead">SmartPT should use delegated Active Directory permissions instead of broad Domain Admin rights for the service identity.</p>
@@ -303,9 +303,9 @@ const pages = {
     </ol>
   `),
   'installation': page('Installation', 'SmartPT Core', `
-    <p class="lead">SmartPT Core is installed on a customer-controlled Windows server and integrates with Local Active Directory. The product portals run locally and the backends enforce permissions server-side.</p>
+    <p class="lead">SmartPT Core is installed on a customer-controlled Windows server and integrates with Local Active Directory. The product portals run locally and SmartPT enforces permissions before sensitive actions are allowed.</p>
     <h2>Customer package</h2>
-    <p>Customers receive the SmartPT setup executable. Run <code>Setup.exe</code> directly on the target Windows server. The executable includes the wizard, product payloads, .NET installer assets, and deployment logic needed for the server installation.</p>
+    <p>Customers receive the SmartPT setup executable. Run <code>Setup.exe</code> directly on the target Windows server. The executable includes the wizard, the required setup components for the server installation.</p>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-consent.png" alt="SmartPT Core setup wizard consent step"><figcaption>The setup wizard starts with deployment consent and confirms the administrator is authorized to prepare IIS, Active Directory, gMSA, licensing, logging, and product configuration.</figcaption></figure>
     <h2>Where to start</h2>
     <ol>
@@ -324,45 +324,31 @@ const pages = {
       <tr><td>Server prerequisites</td><td>Installs or verifies IIS and AD PowerShell features, .NET 8 SDK, .NET 8 runtime, ASP.NET Core Hosting Bundle, WebAdministration module, and ActiveDirectory module.</td></tr>
       <tr><td>gMSA preparation</td><td>Creates or reuses the SmartPT gMSA, creates a KDS root key if needed, allows this server to retrieve the managed password, installs the gMSA locally, validates it, and adds it to Account Operators for installation.</td></tr>
       <tr><td>IIS installation</td><td>Installs required IIS role services, Windows authentication, IIS management tools, scripting tools, and RSAT Active Directory PowerShell.</td></tr>
-      <tr><td>Deploy packages</td><td>Deploys SmartPT Console, AD Control frontend/backend, JIT frontend/backend, and Verify payloads to the local IIS file paths.</td></tr>
-      <tr><td>IIS configuration</td><td>Creates application pools, maps IIS applications, applies file permissions, configures backend pools to use the gMSA, and starts IIS services.</td></tr>
+      <tr><td>Deploy packages</td><td>Installs SmartPT Console, AD Control, JIT Access, and Verify components.</td></tr>
+      <tr><td>IIS configuration</td><td>Configures IIS applications, required permissions, service identity, and service startup.</td></tr>
       <tr><td>License activation</td><td>Validates the license serial, stores activation state, configures product access, and stamps installed configuration.</td></tr>
-      <tr><td>Final health</td><td>Checks the local Console, AD Control, JIT Access, Verify, and backend API endpoints.</td></tr>
+      <tr><td>Final health</td><td>Checks the local Console, AD Control, JIT Access, Verify, and product health checks.</td></tr>
     </tbody></table></div>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-pre-checks.png" alt="SmartPT Core setup wizard pre-checks"><figcaption>Pre-checks confirm the server, elevation, domain join, directory rights, and SmartPT activation service reachability before setup continues.</figcaption></figure>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-server-prerequisites.png" alt="SmartPT Core setup wizard server prerequisites"><figcaption>Server prerequisites confirm IIS PowerShell, ActiveDirectory PowerShell, .NET 8 SDK, .NET 8 runtime, and ASP.NET Core Hosting Bundle.</figcaption></figure>
-    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-gmsa-preparation.png" alt="SmartPT Core setup wizard gMSA preparation"><figcaption>The wizard prepares the SmartPT gMSA used by backend application pools for Active Directory operations.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-gmsa-preparation.png" alt="SmartPT Core setup wizard gMSA preparation"><figcaption>The wizard prepares the SmartPT service identity used for approved Active Directory operations.</figcaption></figure>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-iis-installation.png" alt="SmartPT Core setup wizard IIS installation"><figcaption>IIS installation validates required role services, Windows authentication, management tools, and AD PowerShell support.</figcaption></figure>
-    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-deploy-packages.png" alt="SmartPT Core setup wizard deploy packages"><figcaption>Deploy packages extracts the bundled Console, AD Control, JIT Access, and Verify payloads to the local server paths.</figcaption></figure>
-    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-iis-configuration.png" alt="SmartPT Core setup wizard IIS configuration"><figcaption>IIS configuration creates SmartPT application pools, maps IIS applications, applies filesystem permissions, and starts the required IIS services.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-deploy-packages.png" alt="SmartPT Core setup wizard deploy packages"><figcaption>Deploy packages installs the bundled Console, AD Control, JIT Access, and Verify components.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-iis-configuration.png" alt="SmartPT Core setup wizard IIS configuration"><figcaption>IIS configuration prepares the local SmartPT applications and starts the required services.</figcaption></figure>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-license-validation.png" alt="SmartPT Core setup wizard license validation"><figcaption>License validation confirms the SmartPT Core license is ready before activation.</figcaption></figure>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-license-activation-active.png" alt="SmartPT Core setup wizard license activation complete"><figcaption>After activation, SmartPT Core returns ACTIVE license status.</figcaption></figure>
-    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-final-health.png" alt="SmartPT Core setup wizard final health checks"><figcaption>Final health checks verify the local portals and backend API endpoints after installation.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-final-health.png" alt="SmartPT Core setup wizard final health checks"><figcaption>Final health checks verify the local portals and product health checks after installation.</figcaption></figure>
     <h2>Server requirements</h2>
     <div class="table-wrap"><table><thead><tr><th>Area</th><th>Requirement</th></tr></thead><tbody>
       <tr><td>Operating system</td><td>Windows Server 2019 or newer.</td></tr>
       <tr><td>Identity</td><td>Domain joined server with access to the target Local Active Directory environment.</td></tr>
       <tr><td>Setup rights</td><td>Run as Administrator. The setup account must have the directory rights needed to prepare the gMSA and installation.</td></tr>
-      <tr><td>IIS</td><td>The wizard creates separate applications and application pools for SmartPT Core, AD Control, JIT Access, Verify, and backend APIs.</td></tr>
-      <tr><td>Service identity</td><td>The wizard prepares a SmartPT gMSA and assigns it to backend application pools.</td></tr>
+      <tr><td>IIS</td><td>The wizard creates the required local applications for SmartPT Core, AD Control, JIT Access, and Verify.</td></tr>
+      <tr><td>Service identity</td><td>The wizard prepares the SmartPT service identity for approved Active Directory actions.</td></tr>
       <tr><td>Storage</td><td>Local configuration, state, and append-only audit logs stored as files.</td></tr>
     </tbody></table></div>
-    <h2>Installed paths</h2>
-    <pre><code>SmartPT Core:       C:\\inetpub\\wwwroot\\SmartPT-Core\\Main
-AD Control UI:      C:\\inetpub\\wwwroot\\PM-Frontend
-AD Control backend: C:\\inetpub\\wwwroot\\PM-Backend\\Dev\\Publish
-JIT Access UI:      C:\\inetpub\\wwwroot\\JIT-Frontend
-JIT Access backend: C:\\inetpub\\wwwroot\\JIT-Backend\\Dev\\Publish
-Verify service:     C:\\inetpub\\wwwroot\\SmartPT-Verify\\Publish</code></pre>
-    <h2>Local endpoints checked by final health</h2>
-    <pre><code>SmartPT Core:        /
-AD Control frontend: /pm
-AD Control backend:  /PM-Backend/api/auth/status
-JIT frontend:        /jit
-JIT backend:         /JIT-Backend/api/auth/status
-Verify service:      /Verify</code></pre>
-    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-post-install-jit-license.png" alt="JIT Access opens after SmartPT Core installation and licensing"><figcaption>After Core activation, product portals such as JIT Access can be opened and licensed users can be assigned according to the customer subscription.</figcaption></figure>
-    <div class="callout warning">Do not grant broad Domain Admin permissions to the application pool identity. Delegate only the AD actions required for the configured product features.</div>
+    <h2>Post-install validation</h2>\n    <p>After installation, confirm SmartPT Console opens, product portals are reachable, licensing is active, and product health checks pass.</p>\n    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-post-install-jit-license.png" alt="JIT Access opens after SmartPT Core installation and licensing"><figcaption>After Core activation, product portals such as JIT Access can be opened and licensed users can be assigned according to the customer subscription.</figcaption></figure>
+    <div class="callout warning">Do not grant broad Domain Admin permissions to the SmartPT service identity. Delegate only the AD actions required for the configured product features.</div>
   `),
   'licensing': page('Licensing', 'SmartPT Core', `
     <p class="lead">SmartPT Core uses server-bound license validation. Licensing is enforced before product access is granted.</p>
@@ -452,27 +438,23 @@ Verify service:      /Verify</code></pre>
       <tr><td>Installed product consoles</td><td>Opens JIT Access and AD Control.</td></tr>
     </tbody></table></div>
     <h2>Product status</h2>
-    <p>Product cards show whether each portal is reachable from the Core server. This is a fast operational check before entering JIT Access or AD Control.</p>
+    <p>Product cards show whether each product console is reachable. This is a fast operational check before entering JIT Access or AD Control.</p>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/product-status-highlight.png" alt="SmartPT Console product status highlighted"><figcaption>Product status confirms portal reachability.</figcaption></figure>
-    <p>If a product is unavailable, troubleshoot the product frontend/backend and IIS application before testing product workflows.</p>
-    <h2>Product app updates</h2>
-    <p>Core administrators can update AD Control and JIT Access from the product cards when the configured update source reports a newer package. Viewer users can open product consoles when their access allows it, but they cannot run product updates.</p>
-    <figure class="doc-screenshot"><img src="./docs/core/screenshots/product-update-available.png" alt="SmartPT Console product cards showing Update available for AD Control and JIT Access"><figcaption>Update available appears on product cards when Core detects a newer package for AD Control or JIT Access.</figcaption></figure>
+    <p>If a product is unavailable, confirm the product service is running before testing product workflows.</p>
+    <h2>Product updates</h2>
+    <p>Core administrators can update AD Control and JIT Access from the product cards when a newer product version is available. Viewer users can open product consoles when their access allows it, but they cannot run product updates.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/product-update-available.png" alt="SmartPT Console product cards showing Update available for AD Control and JIT Access"><figcaption>Update available appears on product cards when a newer AD Control or JIT Access version is available.</figcaption></figure>
     <ol>
-      <li>Core checks the update manifest from the configured update source.</li>
-      <li>Core compares the installed package state with the latest package version and SHA.</li>
-      <li>If a newer package exists, the product card shows <strong>Update available</strong>.</li>
-      <li>The administrator selects <strong>Update app</strong>.</li>
-      <li>Core downloads the product frontend and backend ZIP files.</li>
-      <li>Core verifies SHA256 before applying the package.</li>
-      <li>Core creates a local backup of the current application files.</li>
-      <li>Core stops the related IIS application pools.</li>
-      <li>Core replaces application files only.</li>
-      <li>Core restarts the application pools and checks frontend/backend health.</li>
+      <li>Open <strong>SmartPT Console</strong> with a Core administrator account.</li>
+      <li>Review the AD Control and JIT Access product cards.</li>
+      <li>If a product card shows <strong>Update available</strong>, select <strong>Update app</strong>.</li>
+      <li>Wait for the update to complete.</li>
+      <li>Confirm the product card returns to a healthy state.</li>
+      <li>Open the product console and verify the expected product version.</li>
     </ol>
-    <div class="callout info">Settings, license files, state, logs, and customer data are not overwritten by product updates. If an update fails, Core restores the previous files from the local backup and marks the update as failed or rolled back.</div>
+    <div class="callout info">Product updates do not overwrite customer settings, license information, logs, or customer data. If an update cannot complete, SmartPT keeps the previous product version available and shows the update result in the Console.</div>
     <h2>Recent activity</h2>
-    <p>Recent Activity shows sign-ins, settings changes, password resets, account unlocks, JIT assignments, session changes, and revoke events. Use it for quick operational review and correlation ID lookup.</p>
+    <p>Recent Activity shows sign-ins, settings changes, password resets, account unlocks, JIT assignments, session changes, and revoke events. Use it for quick operational review and audit lookup.</p>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/recent-activity-highlight.png" alt="SmartPT Console recent activity highlighted"><figcaption>Recent Activity gives administrators a short operational history across Core and product portals.</figcaption></figure>
     <h2>Settings</h2>
     <p>Settings is available only to Console administrators. It controls root portal access, Console session policy, shared two-factor reset, license visibility, support links, and subscription cancellation.</p>
@@ -482,7 +464,7 @@ Verify service:      /Verify</code></pre>
     <p class="lead">SmartPT Console shows the shared server subscription status. Product portals keep their own operational actions, but SmartPT Core license validation is checked before product access is allowed.</p>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/license-status-highlight.png" alt="SmartPT Console license and product status highlighted"><figcaption>The license panel shows active state, validation status, and subscription action.</figcaption></figure>
     <h2>License behavior</h2>
-    <p>The Console validates the SmartPT Core license before authenticated API access. If the license is not active, access fails closed and the user is directed to license recovery.</p>
+    <p>The Console validates the SmartPT Core license before product access is allowed. If the license is not active, access fails closed and the user is directed to license recovery.</p>
     <div class="table-wrap"><table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody>
       <tr><td>Status</td><td>Current Core license state. Product access should be tested only when this is ACTIVE.</td></tr>
       <tr><td>Serial</td><td>Server-bound subscription identifier. Do not expose this value in public screenshots.</td></tr>
@@ -491,7 +473,7 @@ Verify service:      /Verify</code></pre>
     </tbody></table></div>
     <h2>Product status</h2>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/product-status-highlight.png" alt="SmartPT Console product status highlighted"><figcaption>Portal reachability is checked from the Core server.</figcaption></figure>
-    <p>Product status confirms that the portal URL is reachable. It does not prove that every action can run. For action failures, check product health, backend service status, policy, permissions, and audit logs.</p>
+    <p>Product status confirms that the product console is reachable. It does not prove that every action can run. For action failures, check product health, policy, permissions, and audit logs.</p>
     <h2>License validation model</h2>
     <ul>
       <li>Runtime validation uses the configured license endpoint and installed license state.</li>
@@ -575,7 +557,7 @@ Verify service:      /Verify</code></pre>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/ad-control-product-overview.jpg" alt="AD Control product overview showing Tier 1, Tier 2, Tier 0 protection, OTP verification, and audit"><figcaption>AD Control summarizes the tier model: Tier 1 helpdesk actions, Tier 2 advanced support, Tier 0 protection, OTP verification, and audit records.</figcaption></figure>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/dashboard-jim-settings-access.jpg" alt="AD Control dashboard in dark mode"><figcaption>AD Control is role-aware. Jim has settings access for administration.</figcaption></figure>
     <h2>What AD Control solves</h2>
-    <ul><li>Tier 1 can reset passwords and unlock standard users through the SmartPT portal.</li><li>Tier 1 cannot change phone numbers, edit profile attributes, or manage groups.</li><li>OTP verification uses the phone number already stored in Active Directory.</li><li>Protected users, Protected Groups, and Tier 0 identities are blocked from Helpdesk actions.</li><li>Every password reset, unlock, profile update, group change, and settings change is written to audit logs with actor, target, result, and correlation ID.</li></ul>
+    <ul><li>Tier 1 can reset passwords and unlock standard users through the SmartPT portal.</li><li>Tier 1 cannot change phone numbers, edit profile attributes, or manage groups.</li><li>OTP verification uses the phone number already stored in Active Directory.</li><li>Protected users, Protected Groups, and Tier 0 identities are blocked from Helpdesk actions.</li><li>Every password reset, unlock, profile update, group change, and settings change is written to audit logs with actor, target, result, and audit detail.</li></ul>
     <h2>Documentation example users</h2>
     <div class="table-wrap"><table><thead><tr><th>User</th><th>Role</th><th>Purpose</th></tr></thead><tbody><tr><td>jim</td><td>Settings administrator</td><td>Full AD Control settings access.</td></tr><tr><td>david</td><td>Helpdesk (Tier 1)</td><td>Can support standard users such as avi.</td></tr><tr><td>sara</td><td>Advanced Support (Tier 2)</td><td>Can support standard users and use Tier 2 actions.</td></tr><tr><td>avi</td><td>Managed user</td><td>Target user. No AD Control license required.</td></tr><tr><td>joe</td><td>Protected user</td><td>Hidden from Tier operators after protection is configured.</td></tr></tbody></table></div>
     <div class="callout">Only operators need AD Control product licenses. Target users such as avi do not need a license to be managed.</div>
@@ -648,7 +630,7 @@ Verify service:      /Verify</code></pre>
     <p>The unlock button appears when the selected user is locked and the operator has account unlock permission.</p>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/avi-locked-status-highlight.jpg" alt="Avi locked status highlighted in AD Control"><figcaption>The unlock action appears only when the selected user is locked.</figcaption></figure>
     <h2>Direct unlock</h2>
-    <p>Direct unlock runs immediately when enabled by policy. It records the actor, target, result, and correlation ID.</p>
+    <p>Direct unlock runs immediately when enabled by policy. It records the actor, target, result, and audit detail.</p>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/avi-unlock-direct-modal.jpg" alt="Avi direct unlock modal in AD Control"><figcaption>Direct unlock runs without OTP when the policy allows direct unlock.</figcaption></figure>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/avi-unlock-direct-complete.jpg" alt="Avi unlock complete in AD Control"><figcaption>After unlock, Avi is available for standard Helpdesk actions.</figcaption></figure>
     <h2>Verified unlock flow</h2>
@@ -673,12 +655,12 @@ Verify service:      /Verify</code></pre>
     <h2>Operator cannot access AD Control</h2><ul><li>Confirm the user has an AD Control license assignment.</li><li>Confirm the user has one operator role.</li><li>Confirm the license has available seats.</li><li>Confirm the user is signing in with the expected AD identity.</li></ul>
     <h2>Target user does not appear in search</h2><ul><li>Confirm the target exists in Active Directory.</li><li>Confirm the target is not Tier 0.</li><li>Confirm the target is not a protected user.</li><li>Confirm the target is not a member of a protected group.</li></ul>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/sara-tier0-search-blocked.jpg" alt="Sara cannot manage a Tier 0 account in dark mode"><figcaption>Tier 0 and protected users are blocked from operator actions.</figcaption></figure>
-    <h2>IIS or backend issue</h2><p>Check that the AD Control frontend <code>/adc</code> and backend <code>/adc-backend</code> IIS applications are running. The backend is designed to run with the pre-installed gMSA/service identity.</p>
+    <h2>IIS or service issue</h2><p>Check that the AD Control portal <code>/adc</code> and service <code>/adc-service</code> IIS applications are running. The service is designed to run with the pre-installed gMSA/service identity.</p>
   `),
   'ad-control-security-model': page('AD Control Security Model', 'AD Control', `
     <p class="lead">AD Control lets operators perform approved password reset, unlock, profile, and group actions without giving every operator broad direct Active Directory permissions.</p>
     ${adControlArchitectureDiagram()}
-    <ul><li>Product license and role assignment for operators.</li><li>Server-side permission checks for every sensitive action.</li><li>Tier 0 and protected identity filtering.</li><li>OTP verification for password reset and account unlock when policy requires it.</li><li>AD-sourced email/mobile attributes for OTP delivery.</li><li>Audit records with actor, target, result, and correlation ID.</li><li>No OTP codes or generated passwords in audit logs.</li></ul>
+    <ul><li>Product license and role assignment for operators.</li><li>SmartPT permission checks for every sensitive action.</li><li>Tier 0 and protected identity filtering.</li><li>OTP verification for password reset and account unlock when policy requires it.</li><li>AD-sourced email/mobile attributes for OTP delivery.</li><li>Audit records with actor, target, action, and result.</li><li>No OTP codes or generated passwords in audit logs.</li></ul>
     <div class="callout success">Successful OTP verification does not bypass protected identity rules. Protection is enforced before sensitive actions run.</div>
   `),
   'ad-control-overview': page('AD Control overview', 'AD Control', `
@@ -879,7 +861,7 @@ Verify service:      /Verify</code></pre>
       <li>Role-based UI visibility backed by server authorization.</li>
       <li>Tier 0 and protected group exclusion from Helpdesk search and actions.</li>
       <li>OTP values and generated passwords are never stored in audit logs.</li>
-      <li>Every sensitive action includes a correlation ID and audit record.</li>
+      <li>Every sensitive action creates an audit record.</li>
     </ul>
     <h2>Tier and protection behavior</h2>
     <ul>
@@ -892,7 +874,7 @@ Verify service:      /Verify</code></pre>
     <ul>
       <li>OTP is sent only to contact details sourced from Active Directory.</li>
       <li>The operator cannot type a new phone number or email address for OTP delivery.</li>
-      <li>OTP values are validated by the backend and expire according to policy.</li>
+      <li>OTP values are validated by the service and expire according to policy.</li>
       <li>Successful verification does not bypass tier, protected identity, or role permissions.</li>
     </ul>
     <h2>Password handling</h2>
@@ -926,7 +908,7 @@ Verify service:      /Verify</code></pre>
       <li>The role does not grant access by itself. Access becomes active only through an assignment.</li>
     </ul>
     <h2>Temporary AD group membership</h2>
-    <p>When a JIT assignment becomes active, the backend can add the target user to the AD group mapped by the role. When the assignment expires, closes, or is revoked, the backend removes that group membership.</p>
+    <p>When a JIT assignment becomes active, SmartPT can add the target user to the AD group mapped by the role. When the assignment expires, closes, or is revoked, SmartPT removes that group membership.</p>
     <p>This gives operators a controlled way to provide privileged access without converting users into permanent members of sensitive AD groups.</p>
     <h2>Supported assignment types</h2>
     <div class="table-wrap"><table><thead><tr><th>Assignment type</th><th>Use case</th></tr></thead><tbody>
@@ -1058,7 +1040,7 @@ Verify service:      /Verify</code></pre>
     <ul>
       <li>Confirm the AD group already exists.</li>
       <li>Confirm the group is the correct privilege boundary.</li>
-      <li>Confirm the backend service identity can add and remove members from that group.</li>
+      <li>Confirm the SmartPT service identity can add and remove members from that group.</li>
       <li>Confirm the duration limits match the business task.</li>
       <li>Test with a non-production group before Tier 0 use.</li>
     </ul>
@@ -1101,7 +1083,7 @@ Verify service:      /Verify</code></pre>
     <p>Manual assignments activate immediately and expire automatically. Use them for urgent operational work, incident response, or one-time maintenance.</p>
     <figure class="doc-screenshot"><img src="./docs/jit/screenshots/assignment-create-manual.png" alt="Create manual JIT assignment in dark mode"><figcaption>Manual assignment uses a fixed duration.</figcaption></figure>
     <h2>Scheduled assignment</h2>
-    <p>Scheduled assignments are enforced by the backend service. Use them for recurring maintenance windows.</p>
+    <p>Scheduled assignments are enforced by SmartPT. Use them for recurring maintenance windows.</p>
     <figure class="doc-screenshot"><img src="./docs/jit/screenshots/assignment-create-scheduled.png" alt="Create scheduled JIT assignment in dark mode"><figcaption>Scheduled assignment defines days, time window, and validity dates.</figcaption></figure>
     <h2>Eligible assignment</h2>
     <p>Eligible assignments let approved users activate access themselves after OTP verification. Access starts only after successful verification and expires automatically.</p>
@@ -1123,9 +1105,9 @@ Verify service:      /Verify</code></pre>
     <p>Scheduled access is automatic access during defined time windows.</p>
     <ul>
       <li>Use for recurring maintenance windows.</li>
-      <li>Backend grants access inside the configured window.</li>
-      <li>Backend removes access outside the configured window.</li>
-      <li>State is reconciled after backend restart or missed enforcement cycles.</li>
+      <li>SmartPT service grants access inside the configured window.</li>
+      <li>SmartPT removes access outside the configured window.</li>
+      <li>State is reconciled after service restart or missed enforcement cycles.</li>
     </ul>
     <h2>Eligible OTP</h2>
     <p>Eligible access lets approved users activate access themselves after OTP verification.</p>
@@ -1188,14 +1170,14 @@ Verify service:      /Verify</code></pre>
     <p>After OTP verification, JIT Access creates an active JIT session. The administrator can confirm it under JIT Access > Active Sessions.</p>
     <figure class="doc-screenshot"><img src="./docs/jit/screenshots/eligible-admin-active-session.png" alt="Joe active JIT session visible to Jim in dark mode"><figcaption>Jim can monitor Joe's active eligible session and revoke access if needed.</figcaption></figure>
     <h2>What happens in Active Directory</h2>
-    <p>When OTP verification succeeds, JIT Access adds the user to the AD group mapped by the JIT role. When the session expires or is revoked, JIT Access removes the user from that AD group. The backend enforces this behavior server-side.</p>
+    <p>When OTP verification succeeds, JIT Access adds the user to the AD group mapped by the JIT role. When the session expires or is revoked, JIT Access removes the user from that AD group. SmartPT enforces this behavior from the configured session state.</p>
     <h2>No in-product approval queue</h2>
     <div class="callout warning">Eligible OTP does not collect approval requests in this release. The approval decision happens before activation when an administrator creates the eligible assignment.</div>
     <h2>Operational checks</h2>
     <div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
       <tr><td>Eligible access does not appear</td><td>Confirm product license assignment, Eligible assignment, enabled role, and matching samAccountName.</td></tr>
       <tr><td>OTP cannot be sent</td><td>Confirm AD mobile/mail attributes, enabled channel, SMTP fallback, and messaging service connectivity.</td></tr>
-      <tr><td>Activation succeeds but access is not visible</td><td>Confirm mapped AD group DN, backend service identity rights, Active Sessions, and audit events.</td></tr>
+      <tr><td>Activation succeeds but access is not visible</td><td>Confirm mapped AD group DN, SmartPT service identity rights, Active Sessions, and audit events.</td></tr>
     </tbody></table></div>
   `),
   'jit-sessions-revoke': page('Monitoring, Sessions, Extend, and Revoke', 'JIT Access', `
@@ -1255,7 +1237,7 @@ Verify service:      /Verify</code></pre>
     <div class="callout">Recommended practice: start with a small recipient list, verify delivery, and test notifications with a non-production role before relying on production session alerts.</div>
   `),
   'jit-troubleshooting': page('JIT Troubleshooting', 'JIT Access', `
-    <p class="lead">Use this page when JIT Portal access, eligible activation, OTP delivery, notifications, or backend enforcement does not behave as expected.</p>
+    <p class="lead">Use this page when JIT Portal access, eligible activation, OTP delivery, notifications, or session enforcement does not behave as expected.</p>
     <p>Start with the visible symptom, then check the related access layer. Most issues are caused by missing product assignment, missing JIT assignment, expired timing, OTP policy limits, or IIS application state.</p>
     <h2>User cannot access JIT Portal</h2>
     <p>If a user signs in but cannot access the JIT Portal, check product access first.</p>
@@ -1293,28 +1275,26 @@ Verify service:      /Verify</code></pre>
     <h2>SMTP or notification failures</h2>
     <ul>
       <li>Check SMTP host and port.</li>
-      <li>Check firewall rules between the JIT backend server and the SMTP relay.</li>
+      <li>Check firewall rules between the JIT service server and the SMTP relay.</li>
       <li>Confirm TLS or STARTTLS requirements.</li>
       <li>Confirm SMTP authentication settings and credential reference.</li>
       <li>Check MFA or conditional access on the SMTP account if enabled.</li>
       <li>Confirm notification recipients in JIT Settings.</li>
     </ul>
-    <div class="callout">If the relay requires MFA for interactive users, use a supported service account, application password, connector, or relay configuration that the backend can use non-interactively.</div>
-    <h2>Backend or service identity permissions</h2>
-    <p>By default, the JIT backend runs with the preinstalled gMSA service identity. Customers normally do not need to change this identity.</p>
+    <div class="callout">If the relay requires MFA for interactive users, use a supported service account, application password, connector, or relay configuration that SmartPT can use for automated delivery.</div>
+    <h2>SmartPT service or service identity permissions</h2>
+    <p>By default, JIT Access uses the preinstalled SmartPT service identity. Customers normally do not need to change this identity.</p>
     <p>Check service identity permissions only when group membership changes fail after the portal and assignment checks are correct.</p>
     <ul>
       <li>Read the target user and mapped group.</li>
       <li>Add the user to the mapped AD group when access starts.</li>
       <li>Remove the user from the mapped AD group when access expires or is revoked.</li>
     </ul>
-    <h2>IIS application pool state</h2>
-    <p>If the portal does not load, API requests fail, or the JIT UI shows stale or missing data, check IIS.</p>
+    <h2>Portal and service state</h2>
+    <p>If the portal does not load or the JIT UI shows stale or missing data, confirm the JIT portal and related SmartPT service are running.</p>
     <ul>
-      <li>Confirm the <code>jit</code> application pool is Started.</li>
-      <li>Confirm the <code>JIT-Backend</code> application pool is Started.</li>
-      <li>Confirm the JIT frontend site/application is reachable.</li>
-      <li>Confirm the JIT backend application is reachable.</li>
+      <li>Confirm the JIT portal is reachable.</li>
+      <li>Confirm the JIT service is healthy.</li>
       <li>Check Windows Event Viewer for IIS, ASP.NET Core, or authentication errors.</li>
     </ul>
     <h2>Quick escalation checklist</h2>
@@ -1323,8 +1303,8 @@ Verify service:      /Verify</code></pre>
       <li>User type: Domain Admin, JIT administrator, or eligible user.</li>
       <li>Role ID and assignment ID if available.</li>
       <li>Exact time of failure.</li>
-      <li>Error message or correlation ID.</li>
-      <li>IIS app pool status for jit and JIT-Backend.</li>
+      <li>Error message or audit detail.</li>
+      <li>JIT portal and service status.</li>
     </ul>
   `),
   'jit-admin': page('JIT admin guide', 'JIT Access', `
@@ -1397,7 +1377,7 @@ Verify service:      /Verify</code></pre>
       <tr><td>No eligible access is listed</td><td>The user does not have an eligible assignment or the role is disabled.</td></tr>
       <tr><td>OTP cannot be sent</td><td>Confirm the AD mobile or mail attribute exists and the channel is enabled.</td></tr>
       <tr><td>OTP expired</td><td>Send a new code. Only the current valid code can activate access.</td></tr>
-      <tr><td>Access did not appear in AD</td><td>Ask a JIT admin to check backend health, AD permissions, and audit correlation ID.</td></tr>
+      <tr><td>Access did not appear in AD</td><td>Ask a JIT admin to check service health, AD permissions, and audit details.</td></tr>
     </tbody></table></div>
     <div class="callout">OTP contact details come from Active Directory. Users cannot type their own phone or email in the activation flow.</div>
   `),
@@ -1436,7 +1416,7 @@ Verify service:      /Verify</code></pre>
       <li><b>Days of week:</b> days when access is allowed.</li>
       <li><b>Start and end time:</b> local daily access window.</li>
       <li><b>Valid from / valid until:</b> date range where the schedule is valid.</li>
-      <li><b>Enforcement:</b> backend service adds access inside the window and removes it outside the window.</li>
+      <li><b>Enforcement:</b> SmartPT adds access inside the window and removes it outside the window.</li>
     </ul>
     <h2>Eligible assignment settings</h2>
     <ul>
@@ -1453,40 +1433,40 @@ Verify service:      /Verify</code></pre>
     </div>
   `),
   'jit-security': page('JIT security model', 'JIT Access', `
-    <p class="lead">JIT is designed to keep privileged access temporary, auditable, and enforced by the backend.</p>
+    <p class="lead">JIT is designed to keep privileged access temporary, auditable, and enforced by the service.</p>
     <h2>Mandatory guarantees</h2>
     <ul>
-      <li>Frontend is never authoritative.</li>
+      <li>The visible UI does not grant access by itself.</li>
       <li>Unauthorized calls return 403 and are auditable.</li>
       <li>License and session enforcement are mandatory.</li>
       <li>OTP values are hashed at rest and never returned to the client.</li>
-      <li>Scheduled access is enforced by a backend hosted service, not Windows Scheduled Tasks.</li>
+      <li>Scheduled access is enforced by a service hosted service, not Windows Scheduled Tasks.</li>
       <li>Server restart triggers reconciliation so stale access does not remain.</li>
     </ul>
     <h2>Enforcement lifecycle</h2>
     <ol>
-      <li>Backend validates license, product session, and JIT authorization.</li>
-      <li>Backend validates the role, assignment type, duration, schedule, and OTP requirement.</li>
-      <li>For activation, backend adds the user to mapped AD groups.</li>
+      <li>SmartPT validates license, product session, and JIT authorization.</li>
+      <li>SmartPT validates the role, assignment type, duration, schedule, and OTP requirement.</li>
+      <li>For activation, service adds the user to mapped AD groups.</li>
       <li>Session state records start time, end time, assignment type, actor, and target.</li>
       <li>Background enforcement removes membership on expiration, schedule close, revoke, role disable, or startup reconciliation.</li>
     </ol>
     <h2>Administrative boundaries</h2>
     <ul>
-      <li>JIT backend must run under a dedicated service identity.</li>
+      <li>JIT service must run under a dedicated service identity.</li>
       <li>JIT permissions must be limited to the AD groups it manages.</li>
-      <li>JIT RBAC is enforced by the backend on each API request.</li>
+      <li>JIT RBAC is enforced by the service on each API request.</li>
       <li>AD group membership is used for privilege enforcement, not for granting arbitrary JIT admin UI rights.</li>
     </ul>
     <h2>Audit events</h2>
     <p>JIT audits role management, assignment creation, activation, expiration, revocation, OTP sent, OTP verified, OTP failed, and policy violations.</p>
   `),
   'security-model': page('Shared security model', 'Security', `
-    <p class="lead">SmartPT products share the same operating principle: customer-controlled on-prem deployment, AD-sourced identity data, Core license enforcement, shared MFA where enabled, server-side authorization, and auditability.</p>
+    <p class="lead">SmartPT products share the same operating principle: customer-controlled on-prem deployment, AD-sourced identity data, Core license enforcement, shared MFA where enabled, SmartPT authorization, and auditability.</p>
     <div class="cards">
-      <article class="card"><h3>On-prem control</h3><p>Product portals, backends, logs, and configuration run in the customer environment.</p></article>
+      <article class="card"><h3>On-prem control</h3><p>Product portals, services, logs, and configuration run in the customer environment.</p></article>
       <article class="card"><h3>AD as source</h3><p>Users, groups, phone, and email attributes come from Active Directory.</p></article>
-      <article class="card"><h3>Backend authority</h3><p>UI visibility does not replace backend authorization, license, MFA, and policy checks.</p></article>
+      <article class="card"><h3>SmartPT authorization</h3><p>UI visibility does not replace SmartPT authorization, license, MFA, and policy checks.</p></article>
     </div>
     <div class="diagram">
       <div class="diagram-grid five">
@@ -1494,17 +1474,17 @@ Verify service:      /Verify</code></pre>
         <div class="diagram-arrow">â†’</div>
         <div class="diagram-box"><strong>SmartPT Core</strong><span>License, root RBAC, shared MFA recovery, and product visibility.</span></div>
         <div class="diagram-arrow">â†’</div>
-        <div class="diagram-box good"><strong>Product backends</strong><span>JIT Access and AD Control enforce product roles, policy, actions, and audit.</span></div>
+        <div class="diagram-box good"><strong>Product services</strong><span>JIT Access and AD Control enforce product roles, policy, actions, and audit.</span></div>
       </div>
       <div class="diagram-note">SmartPT Core validates license state and product entry. Product portals still enforce product-specific privileged actions.</div>
     </div>
     <h2>Shared controls</h2>
     <ul>
       <li>Active Directory authentication and product sessions.</li>
-      <li>Role-based access and feature gating in each product backend.</li>
+      <li>Role-based access and feature gating in each product service.</li>
       <li>Core license validation before product use.</li>
       <li>Shared two-factor verification where enforced by SmartPT settings.</li>
-      <li>Correlation IDs in API responses and audit events.</li>
+      <li>Correlation IDs in product responses and audit events.</li>
       <li>No OTP code, generated password, SMTP secret, or authenticator secret in audit logs.</li>
     </ul>
     <h2>Shared MFA model</h2>
@@ -1517,10 +1497,10 @@ Verify service:      /Verify</code></pre>
       <li>MFA recovery should be treated as an administrative security action.</li>
     </ul>
     <h2>Logs and audit boundaries</h2>
-    <p>SmartPT logs should support investigation without exposing secrets. Use correlation IDs, actor, target, action, result, and timestamp to connect UI errors, backend decisions, and audit entries.</p>
+    <p>SmartPT logs should support investigation without exposing secrets. Use audit details, actor, target, action, result, and timestamp to connect UI errors, service decisions, and audit entries.</p>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/recent-activity-highlight.png" alt="SmartPT Console recent activity and audit visibility"><figcaption>Recent Activity provides quick operational visibility across Core and product portals.</figcaption></figure>
     <div class="table-wrap"><table><thead><tr><th>Area</th><th>What should be logged</th><th>What should not be logged</th></tr></thead><tbody>
-      <tr><td>Authentication</td><td>Sign-in success/failure, actor, result, timestamp, correlation ID.</td><td>Passwords or authenticator secrets.</td></tr>
+      <tr><td>Authentication</td><td>Sign-in success/failure, actor, result, timestamp, audit detail.</td><td>Passwords or authenticator secrets.</td></tr>
       <tr><td>MFA</td><td>Enrollment complete, verification result, reset action, actor, target.</td><td>TOTP code, shared signing key, QR secret.</td></tr>
       <tr><td>JIT Access</td><td>Role, assignment, activation, extension, revoke, expiration, OTP events.</td><td>OTP value or privileged credentials.</td></tr>
       <tr><td>AD Control</td><td>Password reset, unlock, profile update, group changes, OTP events.</td><td>Generated password value after the shown-once moment.</td></tr>
@@ -1534,7 +1514,7 @@ Verify service:      /Verify</code></pre>
     <p class="lead">Audit records help administrators review sensitive actions, configuration changes, and enforcement results.</p>
     <h2>Audit principles</h2>
     <ul>
-      <li>Every sensitive action should record actor, target, action, result, timestamp, and correlation ID.</li>
+      <li>Every sensitive action should record actor, target, action, result, timestamp, and audit detail.</li>
       <li>Generated passwords, OTP codes, and SMTP secrets are not logged.</li>
       <li>Configuration changes should be recorded with a safe diff summary.</li>
       <li>Audit export can use JSONL or CSV when enabled for administrators.</li>
@@ -1547,14 +1527,14 @@ Verify service:      /Verify</code></pre>
     </tbody></table></div>
   `),
   'troubleshooting': page('Troubleshooting', 'Operations', `
-    <p class="lead">Use diagnostics, correlation IDs, and audit logs to isolate issues quickly.</p>
+    <p class="lead">Use diagnostics, audit details, and audit logs to isolate issues quickly.</p>
     <h2>Common checks</h2>
     <div class="table-wrap"><table><thead><tr><th>Issue</th><th>Check</th></tr></thead><tbody>
       <tr><td>Access not assigned</td><td>Confirm the user has a license assignment and exactly one operator role for the product.</td></tr>
       <tr><td>Session expired</td><td>Sign in again and confirm idle timeout policy.</td></tr>
       <tr><td>OTP not received</td><td>Confirm AD mail/mobile attributes, delivery channel settings, resend limits, and messaging service connectivity.</td></tr>
       <tr><td>Protected user not visible</td><td>This is expected for Tier 0, protected users, and members of protected groups.</td></tr>
-      <tr><td>JIT access not removed</td><td>Check backend health, background enforcement service, role mapping, and audit events.</td></tr>
+      <tr><td>JIT access not removed</td><td>Check product health, role mapping, and audit events.</td></tr>
       <tr><td>License inactive</td><td>Check Core license status, server binding, activation state, and subscription state.</td></tr>
     </tbody></table></div>
     <h2>Useful evidence</h2>
@@ -1567,7 +1547,7 @@ Verify service:      /Verify</code></pre>
     </ul>
   `),
   'release-notes': page('Release notes', 'Operations', `
-    <p class="lead">This documentation site was generated from the current JIT Access and AD Control implementation and docs available on ${releaseDate}.</p>
+    <p class="lead">This documentation site was generated from the current JIT Access and AD Control product documentation available on ${releaseDate}.</p>
     <h2>Included in this documentation release</h2>
     <ul>
       <li>SmartPT Core installation and licensing guide.</li>
@@ -1612,7 +1592,7 @@ Verify service:      /Verify</code></pre>
     <ul>
       <li>Customers are responsible for Active Directory permissions, service identities, delegated rights, backup, recovery, and operational approval processes.</li>
       <li>Customers should not map high-privilege AD groups to JIT roles until add/remove behavior has been tested.</li>
-      <li>Customers should not grant broad Domain Admin permissions to application pool identities when delegated rights can meet the product requirement.</li>
+      <li>Customers should not grant broad Domain Admin permissions to SmartPT service identities when delegated rights can meet the product requirement.</li>
     </ul>
     <h2>Downloads</h2>
     <p>Installer packages and setup files should be downloaded only from SmartPT-approved sources. Verify release version, source, and checksum when release metadata is provided.</p>
@@ -1627,7 +1607,7 @@ Verify service:      /Verify</code></pre>
     <ul>
       <li>No Google Analytics, Meta Pixel, Hotjar, session replay, advertising pixel, or newsletter tracking script is included in this docs site.</li>
       <li>The docs app stores navigation state in the URL hash only.</li>
-      <li>The search function runs in the browser and does not send search terms to a backend service.</li>
+      <li>The search function runs in the browser and does not send search terms to a SmartPT service.</li>
     </ul>
     <h2>Essential hosting logs</h2>
     <p>The hosting provider may create server logs for security, diagnostics, and availability. These are not controlled by a browser cookie banner.</p>
@@ -1702,7 +1682,7 @@ function adControlDiagram() {
         <div class="diagram-box"><strong>Search user</strong><span>Operators only see users allowed by tier and protection rules.</span></div>
         <div class="diagram-box"><strong>Verify when required</strong><span>OTP can be sent to AD-sourced email, mobile, or both.</span></div>
         <div class="diagram-box"><strong>Run action</strong><span>Reset, unlock, profile update, or controlled group operation.</span></div>
-        <div class="diagram-box"><strong>Audit</strong><span>Action, target, actor, result, and correlation ID are recorded.</span></div>
+        <div class="diagram-box"><strong>Audit</strong><span>Action, target, actor, result, and audit detail are recorded.</span></div>
       </div>
     </div>
   `;
@@ -1715,11 +1695,11 @@ function adControlArchitectureDiagram() {
       <div class="diagram-grid five">
         <div class="diagram-box"><strong>Operators</strong><span>David and Sara sign in with Active Directory identity.</span></div>
         <div class="diagram-box accent"><strong>AD Control Portal</strong><span>Shows Dashboard, support console, and Settings according to role.</span></div>
-        <div class="diagram-box accent"><strong>Backend</strong><span>Enforces license, RBAC, protection rules, OTP policy, and action settings.</span></div>
+        <div class="diagram-box accent"><strong>SmartPT service</strong><span>Enforces license, RBAC, protection rules, OTP policy, and action settings.</span></div>
         <div class="diagram-box good"><strong>Active Directory</strong><span>Source of users, groups, contact attributes, lock state, and password operations.</span></div>
-        <div class="diagram-box"><strong>Audit and delivery</strong><span>Writes correlation IDs and sends OTP or notifications through configured channels.</span></div>
+        <div class="diagram-box"><strong>Audit and delivery</strong><span>Writes audit details and sends OTP or notifications through configured channels.</span></div>
       </div>
-      <div class="diagram-note">The browser never decides access. The backend validates every sensitive action before touching Active Directory.</div>
+      <div class="diagram-note">SmartPT validates every sensitive action before changing Active Directory.</div>
     </div>
   `;
 }
@@ -1762,8 +1742,8 @@ function adControlResetFlowDiagram() {
         <div class="diagram-box"><strong>Search</strong><span>Operator searches for a standard, non-protected user.</span></div>
         <div class="diagram-box"><strong>Select action</strong><span>Choose direct reset or verified reset based on policy.</span></div>
         <div class="diagram-box accent"><strong>Verify OTP</strong><span>Verified reset sends OTP to AD-sourced email or mobile.</span></div>
-        <div class="diagram-box good"><strong>Reset</strong><span>Backend resets the password and shows the generated value once.</span></div>
-        <div class="diagram-box"><strong>Audit</strong><span>Actor, target, result, reason, and correlation ID are recorded.</span></div>
+        <div class="diagram-box good"><strong>Reset</strong><span>SmartPT service resets the password and shows the generated value once.</span></div>
+        <div class="diagram-box"><strong>Audit</strong><span>Actor, target, result, reason, and audit detail are recorded.</span></div>
       </div>
     </div>
   `;
@@ -1777,8 +1757,8 @@ function adControlUnlockFlowDiagram() {
         <div class="diagram-box"><strong>Search</strong><span>Operator searches and selects a locked standard user.</span></div>
         <div class="diagram-box warning"><strong>Locked state</strong><span>Unlock appears only when the target account is locked.</span></div>
         <div class="diagram-box accent"><strong>Direct or verified</strong><span>Policy decides whether unlock can run now or requires OTP.</span></div>
-        <div class="diagram-box good"><strong>Unlock</strong><span>Backend unlocks the AD account using delegated service identity.</span></div>
-        <div class="diagram-box"><strong>Audit</strong><span>Actor, target, method, result, and correlation ID are recorded.</span></div>
+        <div class="diagram-box good"><strong>Unlock</strong><span>SmartPT service unlocks the AD account using delegated service identity.</span></div>
+        <div class="diagram-box"><strong>Audit</strong><span>Actor, target, method, result, and audit detail are recorded.</span></div>
       </div>
     </div>
   `;
@@ -1793,7 +1773,7 @@ function adControlOperatorFlowDiagram() {
         <div class="diagram-box warning"><strong>Protection check</strong><span>Tier 0, protected users, and protected group members are hidden or blocked.</span></div>
         <div class="diagram-box"><strong>Selected user</strong><span>Allowed targets show status, lock state, contact details, and password age.</span></div>
         <div class="diagram-box accent"><strong>Allowed actions</strong><span>Tier 1 sees reset/unlock. Tier 2 also sees profile and groups.</span></div>
-        <div class="diagram-box good"><strong>Audit</strong><span>Searches and sensitive actions are recorded with correlation IDs.</span></div>
+        <div class="diagram-box good"><strong>Audit</strong><span>Searches and sensitive actions are recorded with audit details.</span></div>
       </div>
     </div>
   `;
@@ -1807,7 +1787,7 @@ function adControlTier2FlowDiagram() {
         <div class="diagram-box"><strong>Sara signs in</strong><span>Advanced Support role enables Tier 2 actions.</span></div>
         <div class="diagram-box"><strong>Select Avi</strong><span>Avi is a standard, non-protected target user.</span></div>
         <div class="diagram-box accent"><strong>Update fields</strong><span>Phone, mobile, title, department, company, office, and description.</span></div>
-        <div class="diagram-box good"><strong>Audit result</strong><span>Backend records the update action and correlation ID.</span></div>
+        <div class="diagram-box good"><strong>Audit result</strong><span>SmartPT records the update action.</span></div>
       </div>
     </div>
   `;
@@ -1820,9 +1800,9 @@ function adControlGroupFlowDiagram() {
       <div class="diagram-grid five">
         <div class="diagram-box"><strong>Sara signs in</strong><span>Tier 2 role allows approved group membership changes.</span></div>
         <div class="diagram-box"><strong>Select Avi</strong><span>Target must not be Tier 0 or protected.</span></div>
-        <div class="diagram-box accent"><strong>Allowed group check</strong><span>Backend permits only configured non-protected groups.</span></div>
-        <div class="diagram-box good"><strong>Add or remove</strong><span>Backend updates Active Directory group membership.</span></div>
-        <div class="diagram-box"><strong>Audit</strong><span>Group, actor, target, result, and correlation ID are recorded.</span></div>
+        <div class="diagram-box accent"><strong>Allowed group check</strong><span>SmartPT service permits only configured non-protected groups.</span></div>
+        <div class="diagram-box good"><strong>Add or remove</strong><span>SmartPT service updates Active Directory group membership.</span></div>
+        <div class="diagram-box"><strong>Audit</strong><span>Group, actor, target, result, and audit detail are recorded.</span></div>
       </div>
     </div>
   `;
@@ -1836,7 +1816,7 @@ function jitDiagram() {
         <div class="diagram-box"><strong>Role</strong><span>Maps to one or more existing AD privileged groups.</span></div>
         <div class="diagram-box"><strong>Assignment</strong><span>Manual, Scheduled, or Eligible self-service.</span></div>
         <div class="diagram-box"><strong>Session</strong><span>Temporary AD membership with max duration and optional OTP.</span></div>
-        <div class="diagram-box"><strong>Removal</strong><span>Backend removes access automatically or by admin revoke.</span></div>
+        <div class="diagram-box"><strong>Removal</strong><span>SmartPT removes access automatically or by admin revoke.</span></div>
       </div>
     </div>
   `;
@@ -1863,11 +1843,11 @@ function jitArchitectureDiagram() {
       <div class="diagram-grid five">
         <div class="diagram-box"><strong>Users and admins</strong><span>JIT administrators, eligible users, and operators sign in with AD identity.</span></div>
         <div class="diagram-box accent"><strong>JIT Portal</strong><span>Shows roles, assignments, active sessions, activation, and settings based on license and RBAC.</span></div>
-        <div class="diagram-box accent"><strong>JIT Backend</strong><span>Validates license, RBAC, assignment timing, OTP, session state, and audit records.</span></div>
-        <div class="diagram-box"><strong>Delivery and audit</strong><span>OTP delivery, SMTP notifications, activity records, and correlation IDs support operations.</span></div>
+        <div class="diagram-box accent"><strong>JIT Service</strong><span>Validates license, RBAC, assignment timing, OTP, session state, and audit records.</span></div>
+        <div class="diagram-box"><strong>Delivery and audit</strong><span>OTP delivery, SMTP notifications, activity records, and audit details support operations.</span></div>
         <div class="diagram-box good"><strong>Active Directory</strong><span>Existing groups remain the privilege boundary. JIT adds and removes temporary membership.</span></div>
       </div>
-      <div class="diagram-note">The browser is not the authority for privileged access. Enforcement happens in the backend and Active Directory.</div>
+      <div class="diagram-note">SmartPT enforces privileged access through the configured policy and Active Directory state.</div>
     </div>
   `;
 }

@@ -12,7 +12,7 @@ Confirm:
 
 - The AD group already exists.
 - The group is the correct privilege boundary.
-- The backend service identity has delegated rights to add and remove members from that group.
+- The SmartPT service identity has delegated rights to add and remove members from that group.
 - The role duration limits are appropriate for the business task.
 - The role will be tested with a non-production group before Tier 0 use.
 

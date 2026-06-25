@@ -33,10 +33,10 @@ Use Scheduled when:
 
 Key behavior:
 
-- Evaluated by the backend background service.
+- Evaluated automatically by SmartPT.
 - Grants access inside the configured day and time window.
 - Removes access outside the configured window.
-- Reconciles state after backend restart or missed enforcement cycles.
+- Keeps access state aligned with the configured schedule.
 
 This phase does not support holiday calendars or cross-midnight schedules.
 

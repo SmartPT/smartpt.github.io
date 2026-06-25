@@ -45,12 +45,12 @@ Check:
 - Whether the mail system requires MFA or interactive authentication.
 - Auditor email and notification settings.
 
-## IIS Or Backend Issue
+## Portal Or Service Issue
 
-Check that the AD Control frontend and backend IIS applications are running:
+Check that AD Control is reachable and the related service is running:
 
-- AD Control frontend: `/adc`
-- AD Control backend: `/adc-backend`
+- AD Control portal: `/adc`
+- AD Control service status is healthy
 
-The backend is designed to run with the pre-installed gMSA/service identity. Do not change the application pool identity unless deployment guidance requires it.
+AD Control uses the pre-installed SmartPT service identity. Do not change the service identity unless deployment guidance requires it.
 

@@ -86,7 +86,7 @@ The active session view shows:
 
 When OTP verification succeeds, JIT Access adds the user to the AD group mapped by the JIT role.
 
-When the session expires or is revoked, JIT Access removes the user from that AD group. The backend enforces this behavior server-side. The browser is not the authority for access.
+When the session expires or is revoked, JIT Access removes the user from that AD group. SmartPT enforces access from the configured session state.
 
 ## No Approval Workflow
 
@@ -110,11 +110,11 @@ If OTP cannot be sent, check:
 - The AD user has the required mobile or mail attribute.
 - The requested channel is enabled.
 - Notification and SMTP settings are valid where email fallback is used.
-- The backend can reach the configured messaging service.
+- SmartPT can reach the configured messaging service.
 
 If activation succeeds but access is not visible, check:
 
 - The mapped AD group DN is correct.
-- The backend service identity can add and remove group membership.
+- The SmartPT service identity can add and remove group membership.
 - Active Sessions shows the user and role.
 - Audit logs include OTP verification and session activation events.

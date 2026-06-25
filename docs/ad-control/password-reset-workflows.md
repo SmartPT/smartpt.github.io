@@ -37,4 +37,4 @@ Generated passwords are shown once after reset. Copy or deliver the password imm
 
 ![Generated password shown once](./screenshots/avi-reset-generated-password-once.jpg)
 
-Audit records should include the action, actor, target, result, and correlation ID, but not the generated password or OTP code.
+Audit records should include the action, actor, target, result, and audit detail, but not the generated password or OTP code.

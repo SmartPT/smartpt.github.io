@@ -1,6 +1,6 @@
 # JIT Troubleshooting
 
-Use this page when JIT Portal access, eligible activation, OTP delivery, notifications, or backend enforcement does not behave as expected.
+Use this page when JIT Portal access, eligible activation, OTP delivery, notifications, or session enforcement does not behave as expected.
 
 Start with the visible symptom, then check the related access layer. Most issues are caused by missing product assignment, missing JIT assignment, expired timing, OTP policy limits, or IIS application state.
 
@@ -63,22 +63,22 @@ If session notifications or email fallback do not work, check delivery infrastru
 Check:
 
 - SMTP host and port.
-- Firewall rules between the JIT backend server and the SMTP relay.
+- Firewall rules between the SmartPT server and the SMTP relay.
 - TLS or STARTTLS requirements.
 - SMTP authentication settings.
 - Credential reference if authentication is required.
 - MFA or conditional access on the SMTP account if enabled.
 - Notification recipients in JIT Settings.
 
-If the relay requires MFA for interactive users, use a supported service account, application password, connector, or relay configuration that the backend can use non-interactively.
+If the relay requires MFA for interactive users, use a supported service account, application password, connector, or relay configuration that SmartPT can use for automated delivery.
 
-## Backend or Service Identity Permissions
+## Service Identity Permissions
 
-By default, the JIT backend runs with the preinstalled gMSA service identity. Customers normally do not need to change this identity.
+By default, JIT Access uses the preinstalled SmartPT service identity. Customers normally do not need to change this identity.
 
 Check service identity permissions only when group membership changes fail after the portal and assignment checks are correct.
 
-The backend service identity must be able to:
+The SmartPT service identity must be able to:
 
 - Read the target user and mapped group.
 - Add the user to the mapped AD group when access starts.
@@ -86,22 +86,16 @@ The backend service identity must be able to:
 
 Do not change the gMSA unless deployment support confirms the service identity is wrong or missing required delegation.
 
-## IIS Application Pool State
+## Portal and Service State
 
-If the portal does not load, API requests fail, or the JIT UI shows stale or missing data, check IIS.
+If the portal does not load or the JIT UI shows stale or missing data, check the SmartPT service state.
 
-In IIS Manager, confirm both application pools are running:
-
-- **jit**
-- **JIT-Backend**
-
-Both should show **Started**. If one is stopped, start it and reload the JIT Portal.
+Confirm the JIT portal and related SmartPT service are running, then reload the JIT Portal.
 
 Also check:
 
-- The JIT frontend site/application is reachable.
-- The JIT backend application is reachable.
-- The application pool identity is correct.
+- The JIT portal is reachable.
+- The JIT service is reachable.
 - Recent Windows Event Viewer errors for IIS, ASP.NET Core, or authentication.
 
 ## Quick Escalation Checklist
@@ -112,7 +106,7 @@ Collect this evidence before escalation:
 - Whether the user is a Domain Admin, JIT administrator, or eligible user.
 - Role ID and assignment ID if available.
 - Exact time of failure.
-- Error message or correlation ID.
+- Error message or audit detail.
 - Screenshot of the relevant JIT Portal page.
-- IIS app pool status for **jit** and **JIT-Backend**.
-- Relevant backend or Windows Event Viewer errors.
+- JIT portal and service status.
+- Relevant SmartPT or Windows Event Viewer errors.

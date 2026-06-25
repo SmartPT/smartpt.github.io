@@ -102,7 +102,7 @@ Use Active Sessions to confirm:
 - When access should expire.
 - Whether an operator should revoke access early.
 
-Revoking a session should remove the user from the mapped role AD group immediately, subject to backend enforcement and directory connectivity.
+Revoking a session should remove the user from the mapped role AD group immediately, subject to directory connectivity.
 
 ## Settings
 

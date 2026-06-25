@@ -19,7 +19,7 @@ The role does not grant access by itself. Access becomes active only through an 
 
 ## Temporary AD Group Membership
 
-When a JIT assignment becomes active, the backend can add the target user to the AD group mapped by the role. When the assignment expires, closes, or is revoked, the backend removes that group membership.
+When a JIT assignment becomes active, SmartPT can add the target user to the AD group mapped by the role. When the assignment expires, closes, or is revoked, SmartPT removes that group membership.
 
 This gives operators a controlled way to provide privileged access without converting users into permanent members of sensitive AD groups.
 
@@ -50,7 +50,7 @@ Use this order when onboarding administrators:
 5. **Creating JIT Roles** - map controlled roles to existing AD groups.
 6. **Creating JIT Assignments** - assign users to roles and define access windows.
 7. **Assignment Types** - understand Manual, Scheduled, and Eligible OTP behavior.
-8. **Troubleshooting** - use audit records, correlation IDs, and backend health checks.
+8. **Troubleshooting** - use audit records, visible errors, and product health checks.
 
 ## What to Configure Next
 

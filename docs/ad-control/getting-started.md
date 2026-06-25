@@ -9,11 +9,11 @@ The business problem is simple: password reset and account unlock are common hel
 ```mermaid
 flowchart LR
   Operator["Tier 1 / Tier 2 operator"] --> Portal["AD Control portal"]
-  Portal --> Backend["AD Control backend"]
-  Backend --> Policy["License, RBAC, OTP, protection policy"]
-  Backend --> AD["Active Directory"]
-  Backend --> Audit["Audit records and correlation IDs"]
-  Policy --> Backend
+  Portal --> Service["AD Control service"]
+  Service --> Policy["License, RBAC, OTP, protection policy"]
+  Service --> AD["Active Directory"]
+  Service --> Audit["Audit records"]
+  Policy --> Service
 ```
 
 ![AD Control dashboard in dark mode](./screenshots/dashboard-jim-settings-access.jpg)
@@ -25,7 +25,7 @@ flowchart LR
 - Password reset and account unlock should be direct only when policy allows it.
 - Verified actions should use OTP sent to AD-sourced contact details.
 - Profile and group changes should be limited to approved Tier 2 workflows.
-- Sensitive actions should create audit records with correlation IDs.
+- Sensitive actions should create audit records.
 
 ## Core Model
 

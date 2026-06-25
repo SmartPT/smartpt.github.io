@@ -45,7 +45,7 @@ The reason is important. It gives the audit trail enough context to explain why 
 
 Use **Revoke** when access should stop before the scheduled or configured end time.
 
-Revoking a session ends the active JIT session and removes the user from the AD group mapped by the role. The backend performs the removal server-side; the browser is only the operator interface.
+Revoking a session ends the active JIT session and removes the user from the AD group mapped by the role.
 
 Do not revoke a production session unless the user has completed the task, the access was opened by mistake, or there is a security reason to stop it immediately.
 

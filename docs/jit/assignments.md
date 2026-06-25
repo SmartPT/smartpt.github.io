@@ -24,7 +24,7 @@ Every assignment requires:
 | Type | Behavior |
 | --- | --- |
 | Eligible | User is approved to activate access with OTP. Access starts only after successful verification. |
-| Scheduled | Backend grants and removes access automatically during configured time windows. |
+| Scheduled | SmartPT grants and removes access automatically during configured time windows. |
 | Manual | Administrator grants immediate access for a fixed duration. |
 
 ## Manual Assignment
@@ -37,11 +37,11 @@ Use manual assignments for urgent operational work, incident response, or one-ti
 
 ## Scheduled Assignment
 
-Scheduled assignments are enforced by the backend service.
+Scheduled assignments are enforced by SmartPT.
 
 ![Create scheduled assignment](./screenshots/assignment-create-scheduled.png)
 
-Use scheduled assignments for recurring maintenance windows. The backend adds membership during the allowed window and removes it outside the window.
+Use scheduled assignments for recurring maintenance windows. SmartPT adds membership during the allowed window and removes it outside the window.
 
 ## Eligible Assignment
 

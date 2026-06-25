@@ -4,7 +4,7 @@ SmartPT Console owns the shared server subscription view. The product portals ke
 
 ## License Behavior
 
-The Console validates the SmartPT Core license before authenticated API access. If the license is not active, access fails closed and the user is directed to license recovery.
+The Console validates the SmartPT Core license before product access is allowed. If the license is not active, access fails closed and the user is directed to license recovery.
 
 ![License and product status highlighted](./screenshots/license-status-highlight.png)
 
@@ -18,19 +18,19 @@ The Console validates the SmartPT Core license before authenticated API access. 
 
 ## Product Status
 
-SmartPT Console probes the local product URLs and reports whether the portals are reachable.
+SmartPT Console checks whether the product portals are reachable.
 
 ![Product status highlighted](./screenshots/product-status-highlight.png)
 
-Product status confirms portal reachability. It does not prove that every product workflow is fully healthy. For workflow failures, check the product-specific health, backend service, policy, and audit logs.
+Product status confirms portal reachability. It does not prove that every product workflow is fully healthy. For workflow failures, check product health, policy, permissions, and audit logs.
 
 ## License Validation Model
 
-SmartPT Core uses server-bound license validation against the configured license endpoint. Runtime validation checks license state and subscription status before product access is granted.
+SmartPT Core validates the license state before product access is granted.
 
 If license validation becomes unhealthy:
 
 - Confirm the license state is present in SmartPT Console.
-- Confirm outbound connectivity to the license validation endpoint.
-- Check the license validation result and application logs.
+- Confirm the SmartPT server has the required outbound connectivity for license validation.
+- Check the visible license validation result and product logs.
 
