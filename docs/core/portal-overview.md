@@ -24,6 +24,27 @@ Product cards show whether each portal is reachable from the Core server. This i
 
 If a product is unavailable, troubleshoot the product frontend/backend and IIS application before testing product workflows.
 
+## Product App Updates
+
+Core administrators can update AD Control and JIT Access from the product cards when the configured update source reports a newer package. Viewer users can open product consoles when their access allows it, but they cannot run product updates.
+
+![Product update available](./screenshots/product-update-available.png)
+
+Update behavior:
+
+1. Core checks the update manifest from the configured update source.
+2. Core compares the installed package state with the latest package version and SHA.
+3. If a newer package exists, the product card shows **Update available**.
+4. The administrator selects **Update app**.
+5. Core downloads the product frontend and backend ZIP files.
+6. Core verifies SHA256 before applying the package.
+7. Core creates a local backup of the current application files.
+8. Core stops the related IIS application pools.
+9. Core replaces application files only.
+10. Core restarts the application pools and checks frontend/backend health.
+
+Settings, license files, state, logs, and customer data are not overwritten by product updates. If an update fails, Core restores the previous files from the local backup and marks the update as failed or rolled back.
+
 ## Recent Activity
 
 Recent Activity shows sign-ins, settings changes, password resets, account unlocks, JIT assignments, session changes, and revoke events. Use it for quick operational review and correlation ID lookup.

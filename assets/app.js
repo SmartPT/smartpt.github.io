@@ -95,7 +95,7 @@ const pageMeta = {
   licensing: 'SmartPT Core licensing, server-bound activation, license validation behavior, subscription states, and add-on user unit guidance.',
   downloads: 'Download SmartPT Core activation wizard packages and review release packaging guidance for customer deployments.',
   'core-getting-started': 'Getting started with SmartPT Console, the on-prem portal for product status, Core license, shared 2FA, RBAC, and product entry.',
-  'core-portal-overview': 'SmartPT Console portal overview covering Overview, product status, Recent Activity, and administrator-only Settings.',
+  'core-portal-overview': 'SmartPT Console portal overview covering Overview, product status, product app updates, Recent Activity, and administrator-only Settings.',
   'core-license-status': 'SmartPT Console license, product status, license validation, subscription state, and fail-closed access behavior.',
   'core-access-model': 'SmartPT Console access model covering Domain Admin fallback, administrative groups, viewer groups, and session policy.',
   'core-settings-overview': 'SmartPT Console Settings overview for root RBAC, shared 2FA reset, license visibility, license status, and subscription action.',
@@ -454,6 +454,23 @@ Verify service:      /Verify</code></pre>
     <h2>Product status</h2>
     <p>Product cards show whether each portal is reachable from the Core server. This is a fast operational check before entering JIT Access or AD Control.</p>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/product-status-highlight.png" alt="SmartPT Console product status highlighted"><figcaption>Product status confirms portal reachability.</figcaption></figure>
+    <p>If a product is unavailable, troubleshoot the product frontend/backend and IIS application before testing product workflows.</p>
+    <h2>Product app updates</h2>
+    <p>Core administrators can update AD Control and JIT Access from the product cards when the configured update source reports a newer package. Viewer users can open product consoles when their access allows it, but they cannot run product updates.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/product-update-available.png" alt="SmartPT Console product cards showing Update available for AD Control and JIT Access"><figcaption>Update available appears on product cards when Core detects a newer package for AD Control or JIT Access.</figcaption></figure>
+    <ol>
+      <li>Core checks the update manifest from the configured update source.</li>
+      <li>Core compares the installed package state with the latest package version and SHA.</li>
+      <li>If a newer package exists, the product card shows <strong>Update available</strong>.</li>
+      <li>The administrator selects <strong>Update app</strong>.</li>
+      <li>Core downloads the product frontend and backend ZIP files.</li>
+      <li>Core verifies SHA256 before applying the package.</li>
+      <li>Core creates a local backup of the current application files.</li>
+      <li>Core stops the related IIS application pools.</li>
+      <li>Core replaces application files only.</li>
+      <li>Core restarts the application pools and checks frontend/backend health.</li>
+    </ol>
+    <div class="callout info">Settings, license files, state, logs, and customer data are not overwritten by product updates. If an update fails, Core restores the previous files from the local backup and marks the update as failed or rolled back.</div>
     <h2>Recent activity</h2>
     <p>Recent Activity shows sign-ins, settings changes, password resets, account unlocks, JIT assignments, session changes, and revoke events. Use it for quick operational review and correlation ID lookup.</p>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/recent-activity-highlight.png" alt="SmartPT Console recent activity highlighted"><figcaption>Recent Activity gives administrators a short operational history across Core and product portals.</figcaption></figure>
