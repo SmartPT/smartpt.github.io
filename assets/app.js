@@ -238,6 +238,7 @@ const pages = {
     <ul>
       <li>Configure SMTP when email delivery is used for OTP, notifications, or temporary password delivery.</li>
       <li>Confirm AD mail and mobile attributes before enabling OTP-verified password reset, account unlock, or Eligible OTP activation.</li>
+      <li>Mobile OTP requires a phone number in the Active Directory <code>mobile</code> attribute. The number can include <code>+</code>, but it is not required. Israel numbers can be stored without <code>972</code>; other countries should include the country prefix, for example <code>62</code> or <code>+62</code>.</li>
       <li>Validate firewall rules and MFA requirements on the SMTP path before production use.</li>
     </ul>
     <h2>Audit log storage</h2>
@@ -557,7 +558,7 @@ const pages = {
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/ad-control-product-overview.jpg" alt="AD Control product overview showing Tier 1, Tier 2, Tier 0 protection, OTP verification, and audit"><figcaption>AD Control summarizes the tier model: Tier 1 helpdesk actions, Tier 2 advanced support, Tier 0 protection, OTP verification, and audit records.</figcaption></figure>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/dashboard-jim-settings-access.jpg" alt="AD Control dashboard in dark mode"><figcaption>AD Control is role-aware. Jim has settings access for administration.</figcaption></figure>
     <h2>What AD Control solves</h2>
-    <ul><li>Tier 1 can reset passwords and unlock standard users through the SmartPT portal.</li><li>Tier 1 cannot change phone numbers, edit profile attributes, or manage groups.</li><li>OTP verification uses the phone number already stored in Active Directory.</li><li>Protected users, Protected Groups, and Tier 0 identities are blocked from Helpdesk actions.</li><li>Every password reset, unlock, profile update, group change, and settings change is written to audit logs with actor, target, result, and audit detail.</li></ul>
+    <ul><li>Tier 1 can reset passwords and unlock standard users through the SmartPT portal.</li><li>Tier 1 cannot change phone numbers, edit profile attributes, or manage groups.</li><li>OTP verification uses the phone number already stored in the Active Directory <code>mobile</code> attribute.</li><li>Protected users, Protected Groups, and Tier 0 identities are blocked from Helpdesk actions.</li><li>Every password reset, unlock, profile update, group change, and settings change is written to audit logs with actor, target, result, and audit detail.</li></ul>
     <h2>Documentation example users</h2>
     <div class="table-wrap"><table><thead><tr><th>User</th><th>Role</th><th>Purpose</th></tr></thead><tbody><tr><td>jim</td><td>Settings administrator</td><td>Full AD Control settings access.</td></tr><tr><td>david</td><td>Helpdesk (Tier 1)</td><td>Can support standard users such as avi.</td></tr><tr><td>sara</td><td>Advanced Support (Tier 2)</td><td>Can support standard users and use Tier 2 actions.</td></tr><tr><td>avi</td><td>Managed user</td><td>Target user. No AD Control license required.</td></tr><tr><td>joe</td><td>Protected user</td><td>Hidden from Tier operators after protection is configured.</td></tr></tbody></table></div>
     <div class="callout">Only operators need AD Control product licenses. Target users such as avi do not need a license to be managed.</div>
@@ -620,7 +621,7 @@ const pages = {
     ${adControlResetFlowDiagram()}
     <h2>Direct reset</h2><p>Direct reset is an administrator-approved helpdesk action. It runs immediately and is audited.</p>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/david-reset-password-direct.jpg" alt="David direct password reset modal in dark mode"><figcaption>Direct reset runs immediately when policy allows it.</figcaption></figure>
-    <h2>Verified reset</h2><p>Verified reset requires OTP before the password reset completes. OTP delivery uses AD-sourced contact attributes.</p>
+    <h2>Verified reset</h2><p>Verified reset requires OTP before the password reset completes. OTP delivery uses AD-sourced contact attributes. For mobile OTP, the target user must have a phone number in the Active Directory <code>mobile</code> attribute. Israel numbers can be stored without <code>972</code>; other countries should include the country prefix, for example <code>62</code> or <code>+62</code>.</p>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/david-reset-password-otp.jpg" alt="David verified password reset OTP modal in dark mode"><figcaption>Verified reset requires the operator to send and enter OTP before reset.</figcaption></figure>
     <div class="callout warning">Generated passwords are shown once. Copy or deliver the password immediately using the approved customer process.</div>
   `),
@@ -655,12 +656,13 @@ const pages = {
     <h2>Operator cannot access AD Control</h2><ul><li>Confirm the user has an AD Control license assignment.</li><li>Confirm the user has one operator role.</li><li>Confirm the license has available seats.</li><li>Confirm the user is signing in with the expected AD identity.</li></ul>
     <h2>Target user does not appear in search</h2><ul><li>Confirm the target exists in Active Directory.</li><li>Confirm the target is not Tier 0.</li><li>Confirm the target is not a protected user.</li><li>Confirm the target is not a member of a protected group.</li></ul>
     <figure class="doc-screenshot"><img src="./docs/ad-control/screenshots/sara-tier0-search-blocked.jpg" alt="Sara cannot manage a Tier 0 account in dark mode"><figcaption>Tier 0 and protected users are blocked from operator actions.</figcaption></figure>
+    <h2>OTP cannot be sent</h2><ul><li>Confirm AD <code>mail</code> and <code>mobile</code> attributes exist for the target user.</li><li>For mobile OTP, confirm the target user has a phone number in the Active Directory <code>mobile</code> attribute.</li><li>The mobile number must include the required country prefix. The <code>+</code> sign is supported but not required. Israel numbers can be stored without <code>972</code>; other countries should include the prefix, for example <code>62</code> or <code>+62</code>.</li><li>Confirm the selected delivery channel is enabled.</li><li>Confirm OTP send limits and resend windows have not been reached.</li></ul>
     <h2>IIS or service issue</h2><p>Check that the AD Control portal <code>/adc</code> and service <code>/adc-service</code> IIS applications are running. The service is designed to run with the pre-installed gMSA/service identity.</p>
   `),
   'ad-control-security-model': page('AD Control Security Model', 'AD Control', `
     <p class="lead">AD Control lets operators perform approved password reset, unlock, profile, and group actions without giving every operator broad direct Active Directory permissions.</p>
     ${adControlArchitectureDiagram()}
-    <ul><li>Product license and role assignment for operators.</li><li>SmartPT permission checks for every sensitive action.</li><li>Tier 0 and protected identity filtering.</li><li>OTP verification for password reset and account unlock when policy requires it.</li><li>AD-sourced email/mobile attributes for OTP delivery.</li><li>Audit records with actor, target, action, and result.</li><li>No OTP codes or generated passwords in audit logs.</li></ul>
+    <ul><li>Product license and role assignment for operators.</li><li>SmartPT permission checks for every sensitive action.</li><li>Tier 0 and protected identity filtering.</li><li>OTP verification for password reset and account unlock when policy requires it.</li><li>AD-sourced email/mobile attributes for OTP delivery.</li><li>Mobile OTP uses the Active Directory <code>mobile</code> attribute. International numbers should include the country prefix; the <code>+</code> sign is optional.</li><li>Audit records with actor, target, action, and result.</li><li>No OTP codes or generated passwords in audit logs.</li></ul>
     <div class="callout success">Successful OTP verification does not bypass protected identity rules. Protection is enforced before sensitive actions run.</div>
   `),
   'ad-control-overview': page('AD Control overview', 'AD Control', `
@@ -874,6 +876,7 @@ const pages = {
     <ul>
       <li>OTP is sent only to contact details sourced from Active Directory.</li>
       <li>The operator cannot type a new phone number or email address for OTP delivery.</li>
+      <li>Mobile OTP uses the target user's Active Directory <code>mobile</code> attribute. The <code>+</code> sign is optional, but non-Israel numbers should include the country prefix.</li>
       <li>OTP values are validated by the service and expire according to policy.</li>
       <li>Successful verification does not bypass tier, protected identity, or role permissions.</li>
     </ul>
@@ -1115,6 +1118,7 @@ const pages = {
       <li>The user sees only their own eligible assignments.</li>
       <li>OTP is sent to contact details sourced from Active Directory.</li>
       <li>Users cannot type their own phone number or email address.</li>
+      <li>Mobile OTP requires the user's Active Directory <code>mobile</code> attribute. International numbers should include the country prefix; the <code>+</code> sign is optional.</li>
       <li>Access starts only after successful verification and expires automatically.</li>
     </ul>
     <h2>Decision guide</h2>
@@ -1161,6 +1165,9 @@ const pages = {
     <ul>
       <li>OTP contact details come from Active Directory.</li>
       <li>The user cannot type a new phone number or email address.</li>
+      <li>Mobile OTP requires the AD user to have a value in the Active Directory <code>mobile</code> attribute.</li>
+      <li>The mobile value must include a country prefix for international numbers. The <code>+</code> sign is supported but not required.</li>
+      <li>Israel numbers can be stored without <code>972</code>. Other countries should include the country prefix, for example <code>62</code> or <code>+62</code>.</li>
       <li>WhatsApp/mobile delivery uses the configured mobile channel.</li>
       <li>Email can be used only when enabled and available.</li>
       <li>OTP verification starts the privileged session.</li>
@@ -1176,7 +1183,7 @@ const pages = {
     <h2>Operational checks</h2>
     <div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
       <tr><td>Eligible access does not appear</td><td>Confirm product license assignment, Eligible assignment, enabled role, and matching samAccountName.</td></tr>
-      <tr><td>OTP cannot be sent</td><td>Confirm AD mobile/mail attributes, enabled channel, SMTP fallback, and messaging service connectivity.</td></tr>
+      <tr><td>OTP cannot be sent</td><td>Confirm AD <code>mobile</code>/<code>mail</code> attributes, enabled channel, SMTP fallback, and messaging service connectivity. For mobile OTP, the <code>mobile</code> value must include the required country prefix unless the number is local Israeli format.</td></tr>
       <tr><td>Activation succeeds but access is not visible</td><td>Confirm mapped AD group DN, SmartPT service identity rights, Active Sessions, and audit events.</td></tr>
     </tbody></table></div>
   `),
@@ -1265,6 +1272,8 @@ const pages = {
       <li>OTP time-to-live.</li>
       <li>Allowed delivery channel.</li>
       <li>AD mobile or mail attributes.</li>
+      <li>For mobile OTP, the AD user must have a phone number in the <code>mobile</code> attribute.</li>
+      <li>The mobile number must include the required country prefix. The <code>+</code> sign is supported but not required. Israel numbers can be stored without <code>972</code>; other countries should include the prefix, for example <code>62</code> or <code>+62</code>.</li>
       <li>Messaging service connectivity.</li>
       <li>SMTP fallback if email is enabled.</li>
     </ul>
@@ -1375,11 +1384,11 @@ const pages = {
     <h2>If activation fails</h2>
     <div class="table-wrap"><table><thead><tr><th>Message or symptom</th><th>What to check</th></tr></thead><tbody>
       <tr><td>No eligible access is listed</td><td>The user does not have an eligible assignment or the role is disabled.</td></tr>
-      <tr><td>OTP cannot be sent</td><td>Confirm the AD mobile or mail attribute exists and the channel is enabled.</td></tr>
+      <tr><td>OTP cannot be sent</td><td>Confirm the AD mobile or mail attribute exists and the channel is enabled. For mobile OTP, the AD <code>mobile</code> value must include the required country prefix unless the number is local Israeli format.</td></tr>
       <tr><td>OTP expired</td><td>Send a new code. Only the current valid code can activate access.</td></tr>
       <tr><td>Access did not appear in AD</td><td>Ask a JIT admin to check service health, AD permissions, and audit details.</td></tr>
     </tbody></table></div>
-    <div class="callout">OTP contact details come from Active Directory. Users cannot type their own phone or email in the activation flow.</div>
+    <div class="callout">OTP contact details come from Active Directory. Users cannot type their own phone or email in the activation flow. Mobile OTP uses the Active Directory <code>mobile</code> attribute. The <code>+</code> sign is optional, but non-Israel numbers should include the country prefix.</div>
   `),
   'jit-settings': page('JIT roles and assignments', 'JIT Access', `
     <p class="lead">JIT uses one role model with three assignment types: Manual, Scheduled, and Eligible.</p>
@@ -1532,7 +1541,7 @@ const pages = {
     <div class="table-wrap"><table><thead><tr><th>Issue</th><th>Check</th></tr></thead><tbody>
       <tr><td>Access not assigned</td><td>Confirm the user has a license assignment and exactly one operator role for the product.</td></tr>
       <tr><td>Session expired</td><td>Sign in again and confirm idle timeout policy.</td></tr>
-      <tr><td>OTP not received</td><td>Confirm AD mail/mobile attributes, delivery channel settings, resend limits, and messaging service connectivity.</td></tr>
+      <tr><td>OTP not received</td><td>Confirm AD <code>mail</code>/<code>mobile</code> attributes, delivery channel settings, resend limits, and messaging service connectivity. For mobile OTP, verify the country prefix in the AD <code>mobile</code> value.</td></tr>
       <tr><td>Protected user not visible</td><td>This is expected for Tier 0, protected users, and members of protected groups.</td></tr>
       <tr><td>JIT access not removed</td><td>Check product health, role mapping, and audit events.</td></tr>
       <tr><td>License inactive</td><td>Check Core license status, server binding, activation state, and subscription state.</td></tr>
@@ -1568,7 +1577,7 @@ const pages = {
       <li>Downloads may appear in standard web server logs, including IP address, timestamp, user agent, requested file, and response status.</li>
     </ul>
     <h2>Product data</h2>
-    <p>SmartPT Core, JIT Access, and AD Control run in the customer environment. Product data such as Active Directory users, groups, phone attributes, email attributes, audit logs, OTP state, and configuration files remains under the customer deployment unless a customer chooses to share logs or support evidence with SmartPT.</p>
+    <p>SmartPT Core, JIT Access, and AD Control run in the customer environment. Product data such as Active Directory users, groups, mobile phone attributes, email attributes, audit logs, OTP state, and configuration files remains under the customer deployment unless a customer chooses to share logs or support evidence with SmartPT.</p>
     <h2>External links</h2>
     <ul>
       <li>The docs may link to <code>smartpt.co.il</code>, the SmartPT YouTube channel, LinkedIn, WhatsApp, public documentation resources, or release downloads.</li>
@@ -1680,7 +1689,7 @@ function adControlDiagram() {
       <div class="eyebrow">AD Control flow</div>
       <div class="diagram-grid">
         <div class="diagram-box"><strong>Search user</strong><span>Operators only see users allowed by tier and protection rules.</span></div>
-        <div class="diagram-box"><strong>Verify when required</strong><span>OTP can be sent to AD-sourced email, mobile, or both.</span></div>
+        <div class="diagram-box"><strong>Verify when required</strong><span>OTP can be sent to AD-sourced email, mobile, or both. Mobile OTP uses the AD mobile attribute.</span></div>
         <div class="diagram-box"><strong>Run action</strong><span>Reset, unlock, profile update, or controlled group operation.</span></div>
         <div class="diagram-box"><strong>Audit</strong><span>Action, target, actor, result, and audit detail are recorded.</span></div>
       </div>
@@ -1859,7 +1868,7 @@ function eligibleOtpFlowDiagram() {
       <div class="diagram-grid five">
         <div class="diagram-box"><strong>Admin prepares</strong><span>Assign product license, create Eligible assignment, and map the role to an AD group.</span></div>
         <div class="diagram-box"><strong>Joe signs in</strong><span>Joe sees only Activate Access and his own eligible assignment.</span></div>
-        <div class="diagram-box accent"><strong>OTP verify</strong><span>OTP is sent through configured channels using AD-sourced contact attributes.</span></div>
+        <div class="diagram-box accent"><strong>OTP verify</strong><span>OTP is sent through configured channels using AD-sourced contact attributes. Mobile OTP uses the AD mobile attribute.</span></div>
         <div class="diagram-box good"><strong>Session active</strong><span>JIT Access starts a time-limited session and adds Joe to the mapped AD group.</span></div>
         <div class="diagram-box"><strong>Monitor/remove</strong><span>Jim monitors the session. Expiry or revoke removes group membership.</span></div>
       </div>

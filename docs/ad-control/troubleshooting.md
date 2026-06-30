@@ -31,6 +31,8 @@ This is expected for protected accounts such as joe or Tier 0 accounts such as j
 Check:
 
 - AD mail and mobile attributes exist for the target user.
+- For mobile OTP, the target user has a phone number in the Active Directory `mobile` attribute.
+- The mobile number includes the required country prefix. The `+` sign is supported but not required. Israel numbers can be stored without `972`; other countries should include the prefix, for example `62` or `+62`.
 - The selected delivery channel is enabled.
 - SMTP is configured when using email.
 - WhatsApp/mobile delivery is enabled when using mobile.
@@ -53,4 +55,3 @@ Check that AD Control is reachable and the related service is running:
 - AD Control service status is healthy
 
 AD Control uses the pre-installed SmartPT service identity. Do not change the service identity unless deployment guidance requires it.
-

@@ -23,7 +23,7 @@ flowchart LR
 - Helpdesk users should not need broad Active Directory rights.
 - Tier 0 and protected identities should not appear in routine support workflows.
 - Password reset and account unlock should be direct only when policy allows it.
-- Verified actions should use OTP sent to AD-sourced contact details.
+- Verified actions should use OTP sent to AD-sourced contact details. Mobile OTP requires the target user's Active Directory `mobile` attribute.
 - Profile and group changes should be limited to approved Tier 2 workflows.
 - Sensitive actions should create audit records.
 

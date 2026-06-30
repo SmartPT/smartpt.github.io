@@ -43,6 +43,8 @@ Check:
 - OTP time-to-live.
 - Allowed delivery channel.
 - AD mobile or mail attributes.
+- For mobile OTP, the AD user must have a phone number in the `mobile` attribute.
+- The mobile number must include the required country prefix. The `+` sign is supported but not required. Israel numbers can be stored without `972`; other countries should include the prefix, for example `62` or `+62`.
 - Messaging service connectivity.
 - SMTP fallback if email is enabled.
 

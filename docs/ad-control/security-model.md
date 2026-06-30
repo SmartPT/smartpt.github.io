@@ -9,6 +9,7 @@ AD Control is designed to reduce unsafe helpdesk operations without giving every
 - Tier 0 and protected identity filtering.
 - OTP verification for verified reset and unlock workflows.
 - AD-sourced email/mobile attributes for OTP delivery.
+- Mobile OTP uses the Active Directory `mobile` attribute. International numbers should include the country prefix; the `+` sign is optional.
 - Audit records with actor, target, action, and result.
 - No OTP codes or generated passwords in audit logs.
 
@@ -21,4 +22,3 @@ Successful OTP verification does not bypass protected identity rules.
 ## SmartPT Enforcement
 
 SmartPT validates role permissions, protection rules, settings policy, and AD operation results before allowing sensitive actions.
-

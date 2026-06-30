@@ -31,6 +31,8 @@ The operator selects an available delivery channel, sends OTP, enters the code p
 
 OTP delivery uses AD-sourced contact attributes. Operators cannot type arbitrary delivery addresses or phone numbers in the reset dialog.
 
+For mobile OTP, the target user must have a phone number in the Active Directory `mobile` attribute. The number does not need a `+` sign, but it must be routable. Israel numbers can be stored without `972`. For other countries, include the country prefix, for example `62` or `+62`.
+
 ## Password Handling
 
 Generated passwords are shown once after reset. Copy or deliver the password immediately using the approved workflow.

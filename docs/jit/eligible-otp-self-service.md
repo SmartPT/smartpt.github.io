@@ -60,6 +60,9 @@ Important behavior:
 
 - OTP contact details come from Active Directory.
 - The user cannot type a new phone number or email address.
+- Mobile OTP requires the AD user to have a value in the Active Directory `mobile` attribute.
+- The mobile value must include a country prefix for international numbers. The `+` sign is supported but not required.
+- Israel numbers can be stored without `972`. Other countries should include the country prefix, for example `62` or `+62`.
 - WhatsApp/mobile delivery uses the configured mobile channel.
 - Email can be used only when enabled and available.
 - OTP verification starts the privileged session.
@@ -107,7 +110,8 @@ If eligible activation does not appear for the user, check:
 
 If OTP cannot be sent, check:
 
-- The AD user has the required mobile or mail attribute.
+- The AD user has the required `mobile` or `mail` attribute.
+- For mobile OTP, the AD `mobile` value includes the required country prefix for the user's country.
 - The requested channel is enabled.
 - Notification and SMTP settings are valid where email fallback is used.
 - SmartPT can reach the configured messaging service.

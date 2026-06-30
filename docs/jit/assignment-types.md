@@ -55,6 +55,7 @@ Key behavior:
 - The user sees only their own eligible assignments.
 - OTP is sent to contact details sourced from Active Directory.
 - Users cannot type their own phone number or email address.
+- Mobile OTP requires the user's Active Directory `mobile` attribute. International numbers should include the country prefix; the `+` sign is optional.
 - Access starts only after successful verification.
 - Access expires automatically.
 
