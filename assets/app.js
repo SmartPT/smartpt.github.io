@@ -381,12 +381,12 @@ const pages = {
       <article class="card">
         <h3>SmartPT Setup.exe</h3>
         <p>Windows x64 setup executable for SmartPT Core activation, IIS configuration, product deployment, and post-install health checks.</p>
-        <p><a class="button primary" href="./downloads/SmartPT-Core-ActivationWizard-win-x64.zip">Download setup package</a></p>
+        <p><a class="button primary" href="https://smartpt.co.il/downloads/core/Setup.exe">Download SmartPT Core Setup.exe</a></p>
       </article>
       <article class="card">
         <h3>Customer delivery</h3>
-        <p>For customer installation, provide the executable only unless SmartPT support asks for a full release package.</p>
-        <p><a class="button secondary" href="./downloads/SmartPT-Core-ActivationWizard-win-x64.zip">Download release package</a></p>
+        <p>For customer installation, provide the SmartPT Core executable unless SmartPT support asks for a different release package.</p>
+        <p><a class="button secondary" href="https://smartpt.co.il/downloads/core/Setup.exe">Download Setup.exe</a></p>
       </article>
       <article class="card">
         <h3>Release guidance</h3>
