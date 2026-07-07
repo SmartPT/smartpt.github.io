@@ -93,7 +93,7 @@ const pageMeta = {
   'active-directory-permissions': 'Active Directory permission guidance for SmartPT service identities, delegated AD Control actions, JIT group membership management, Tier 0 protection, and staging validation.',
   installation: 'Install SmartPT Core on IIS with Local Active Directory integration, product portals, SmartPT services, service identity, and activation guidance.',
   licensing: 'SmartPT Core licensing, server-bound activation, license validation behavior, subscription states, and add-on user unit guidance.',
-  downloads: 'Download SmartPT Core activation wizard packages and review release packaging guidance for customer deployments.',
+  downloads: 'Download the SmartPT Core setup executable and review installation validation guidance.',
   'core-getting-started': 'Getting started with SmartPT Console, the on-prem portal for product status, Core license, shared 2FA, RBAC, and product entry.',
   'core-portal-overview': 'SmartPT Console portal overview covering Overview, product status, product updates, Recent Activity, and administrator-only Settings.',
   'core-license-status': 'SmartPT Console license, product status, license validation, subscription state, and fail-closed access behavior.',
@@ -101,7 +101,7 @@ const pageMeta = {
   'core-settings-overview': 'SmartPT Console Settings overview for root RBAC, shared 2FA reset, license visibility, license status, and subscription action.',
   'core-shared-2fa-reset': 'Shared 2FA and reset MFA guide for searching a user, reviewing enrollment state, and forcing re-enrollment.',
   'jit-overview': 'Getting started with JIT Access, standing privilege risk, temporary Active Directory group membership, roles, assignments, and supported access types.',
-  'jit-access-model': 'JIT Access model covering product license assignment, internal RBAC roles, JIT roles, and JIT assignments.',
+  'jit-access-model': 'JIT Access model covering product license assignment, SmartPT RBAC roles, JIT roles, and JIT assignments.',
   'jit-portal-overview': 'JIT portal overview covering dashboard status cards, quick actions, JIT Access overview, roles, assignments, active sessions, and settings.',
   'jit-settings-overview': 'JIT settings overview covering licensed users, RBAC role assignments, product settings, notifications, SMTP, and session policy.',
   'jit-roles': 'Create JIT roles that map to existing Active Directory groups and define allowed access methods, OTP, and duration limits.',
@@ -221,7 +221,7 @@ const pages = {
     <h2>Directory and identity</h2>
     <ul>
       <li>SmartPT is designed for Local Active Directory environments.</li>
-      <li>The user running setup must have directory rights for installation. The wizard checks for Domain Admins or Account Operators membership.</li>
+      <li>The user running setup must have the directory rights required to prepare the SmartPT installation.</li>
       <li>The wizard creates or reuses a SmartPT gMSA for approved Active Directory actions, authorizes the server to retrieve its password, and validates the account locally.</li>
       <li>SmartPT uses the configured service identity for approved Active Directory actions.</li>
       <li>After installation, delegate only the AD permissions required by the enabled customer policy.</li>
@@ -229,7 +229,7 @@ const pages = {
     </ul>
     <h2>Network access</h2>
     <ul>
-      <li>Operators must be able to reach the internal SmartPT portals from the customer network.</li>
+      <li>Operators must be able to reach the SmartPT portals from the customer network.</li>
       <li>The SmartPT server must be able to reach domain controllers for directory lookup and delegated AD actions.</li>
       <li>The setup wizard checks reachability to the SmartPT activation service before installation.</li>
       <li>License activation and validation require outbound access to the SmartPT activation endpoint used for the customer deployment.</li>
@@ -251,12 +251,12 @@ const pages = {
     <div class="callout warning">Validate SmartPT in staging before production. Test with non-production users, non-production AD groups, delegated permissions, SMTP delivery, OTP limits, audit records, and session expiration.</div>
   `),
   'deployment-overview': page('Deployment Overview', 'Architecture', `
-    <p class="lead">SmartPT runs inside the customer environment. The portals are internal customer-facing portals, and SmartPT services enforce authorization before any directory action is performed.</p>
+    <p class="lead">SmartPT runs inside the customer environment. The portals are customer-facing administrative portals, and SmartPT services enforce authorization before any directory action is performed.</p>
     ${architectureDiagram()}
     <h2>Deployment model</h2>
     <ul>
       <li>SmartPT Core, AD Control, JIT Access, and SmartPT services run on customer-controlled infrastructure.</li>
-      <li>Operators access internal portals rather than connecting directly to Active Directory management tools.</li>
+      <li>Operators access SmartPT portals rather than connecting directly to Active Directory management tools.</li>
       <li>Product portals rely on SmartPT authorization, license state, role assignment, and customer policy.</li>
       <li>Operators do not need direct AD permissions for supported actions.</li>
     </ul>
@@ -305,16 +305,16 @@ const pages = {
   `),
   'installation': page('Installation', 'SmartPT Core', `
     <p class="lead">SmartPT Core is installed on a customer-controlled Windows server and integrates with Local Active Directory. The product portals run locally and SmartPT enforces permissions before sensitive actions are allowed.</p>
-    <h2>Customer package</h2>
-    <p>Customers receive the SmartPT setup executable. Run <code>Setup.exe</code> directly on the target Windows server. The executable includes the wizard, the required setup components for the server installation.</p>
-    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-consent.png" alt="SmartPT Core setup wizard consent step"><figcaption>The setup wizard starts with deployment consent and confirms the administrator is authorized to prepare IIS, Active Directory, gMSA, licensing, logging, and product configuration.</figcaption></figure>
+    <h2>SmartPT Core setup</h2>
+    <p>Download the current SmartPT Core setup executable and run <code>Setup.exe</code> directly on the target Windows server.</p>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-consent.png" alt="SmartPT Core setup wizard consent step"><figcaption>The setup wizard starts with deployment consent and confirms the administrator is authorized to prepare IIS, Active Directory integration, licensing, logging, and product configuration.</figcaption></figure>
     <h2>Where to start</h2>
     <ol>
       <li>Copy <code>Setup.exe</code> to the target Windows Server 2019 or newer machine.</li>
       <li>Run <code>Setup.exe</code> as Administrator.</li>
       <li>Confirm the server is domain joined and the setup account has the required installation rights.</li>
       <li>Enter the license serial received after subscription purchase.</li>
-      <li>Let the wizard install prerequisites, prepare the gMSA, deploy product packages, and configure IIS.</li>
+      <li>Let the wizard install prerequisites, prepare the SmartPT service identity, install the product portals, and configure IIS.</li>
       <li>Validate and activate the license after server preparation succeeds.</li>
       <li>Open the local portal and confirm license health.</li>
     </ol>
@@ -323,18 +323,18 @@ const pages = {
       <tr><td>Consent</td><td>Confirms the deployment scope and customer authorization before setup begins.</td></tr>
       <tr><td>Pre-checks</td><td>Checks Windows Server OS, Windows Server 2019 or newer, administrator elevation, domain join, directory rights, and SmartPT API reachability.</td></tr>
       <tr><td>Server prerequisites</td><td>Installs or verifies IIS and AD PowerShell features, .NET 8 SDK, .NET 8 runtime, ASP.NET Core Hosting Bundle, WebAdministration module, and ActiveDirectory module.</td></tr>
-      <tr><td>gMSA preparation</td><td>Creates or reuses the SmartPT gMSA, creates a KDS root key if needed, allows this server to retrieve the managed password, installs the gMSA locally, validates it, and adds it to Account Operators for installation.</td></tr>
+      <tr><td>Service identity preparation</td><td>Prepares the SmartPT service identity used for approved Active Directory actions.</td></tr>
       <tr><td>IIS installation</td><td>Installs required IIS role services, Windows authentication, IIS management tools, scripting tools, and RSAT Active Directory PowerShell.</td></tr>
-      <tr><td>Deploy packages</td><td>Installs SmartPT Console, AD Control, JIT Access, and Verify components.</td></tr>
+      <tr><td>Product portal installation</td><td>Installs SmartPT Console, AD Control, JIT Access, and Verify components.</td></tr>
       <tr><td>IIS configuration</td><td>Configures IIS applications, required permissions, service identity, and service startup.</td></tr>
       <tr><td>License activation</td><td>Validates the license serial, stores activation state, configures product access, and stamps installed configuration.</td></tr>
       <tr><td>Final health</td><td>Checks the local Console, AD Control, JIT Access, Verify, and product health checks.</td></tr>
     </tbody></table></div>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-pre-checks.png" alt="SmartPT Core setup wizard pre-checks"><figcaption>Pre-checks confirm the server, elevation, domain join, directory rights, and SmartPT activation service reachability before setup continues.</figcaption></figure>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-server-prerequisites.png" alt="SmartPT Core setup wizard server prerequisites"><figcaption>Server prerequisites confirm IIS PowerShell, ActiveDirectory PowerShell, .NET 8 SDK, .NET 8 runtime, and ASP.NET Core Hosting Bundle.</figcaption></figure>
-    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-gmsa-preparation.png" alt="SmartPT Core setup wizard gMSA preparation"><figcaption>The wizard prepares the SmartPT service identity used for approved Active Directory operations.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-gmsa-preparation.png" alt="SmartPT Core setup wizard service identity preparation"><figcaption>The wizard prepares the SmartPT service identity used for approved Active Directory operations.</figcaption></figure>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-iis-installation.png" alt="SmartPT Core setup wizard IIS installation"><figcaption>IIS installation validates required role services, Windows authentication, management tools, and AD PowerShell support.</figcaption></figure>
-    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-deploy-packages.png" alt="SmartPT Core setup wizard deploy packages"><figcaption>Deploy packages installs the bundled Console, AD Control, JIT Access, and Verify components.</figcaption></figure>
+    <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-deploy-packages.png" alt="SmartPT Core setup wizard product portal installation"><figcaption>The setup wizard installs SmartPT Console, AD Control, JIT Access, and Verify components.</figcaption></figure>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-iis-configuration.png" alt="SmartPT Core setup wizard IIS configuration"><figcaption>IIS configuration prepares the local SmartPT applications and starts the required services.</figcaption></figure>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-license-validation.png" alt="SmartPT Core setup wizard license validation"><figcaption>License validation confirms the SmartPT Core license is ready before activation.</figcaption></figure>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/installer-license-activation-active.png" alt="SmartPT Core setup wizard license activation complete"><figcaption>After activation, SmartPT Core returns ACTIVE license status.</figcaption></figure>
@@ -376,21 +376,21 @@ const pages = {
     </tbody></table></div>
   `),
   'downloads': page('Downloads', 'Installation package', `
-    <p class="lead">Use this page for customer release downloads. Customers should receive the SmartPT setup executable for the current release.</p>
+    <p class="lead">Download the current SmartPT Core setup executable for customer installation.</p>
     <div class="cards">
       <article class="card">
-        <h3>SmartPT Setup.exe</h3>
-        <p>Windows x64 setup executable for SmartPT Core activation, IIS configuration, product deployment, and post-install health checks.</p>
-        <p><a class="button primary" href="https://smartpt.co.il/downloads/core/Setup.exe">Download SmartPT Core Setup.exe</a></p>
+        <h3>SmartPT Core Setup.exe</h3>
+        <p>Windows x64 setup executable for SmartPT Core installation, activation, IIS configuration, product portal setup, and post-install health checks.</p>
+        <p><a class="button primary" href="https://smartpt.co.il/downloads/core/Setup.exe">Download Setup.exe</a></p>
       </article>
       <article class="card">
-        <h3>Customer delivery</h3>
-        <p>For customer installation, provide the SmartPT Core executable unless SmartPT support asks for a different release package.</p>
-        <p><a class="button secondary" href="https://smartpt.co.il/downloads/core/Setup.exe">Download Setup.exe</a></p>
+        <h3>Before installation</h3>
+        <p>Install on a domain-joined Windows Server 2019 or newer machine. Run setup as Administrator and confirm the server can reach the required domain controllers and SmartPT activation service.</p>
+        <p><a class="button secondary" href="#requirements">Review requirements</a></p>
       </article>
       <article class="card">
-        <h3>Release guidance</h3>
-        <p>Validate the package in staging before sharing with customers. Keep checksums and version notes with each production release.</p>
+        <h3>Validation</h3>
+        <p>Validate installation in a staging environment before production. Confirm Console access, license status, product portal health, and audit log creation.</p>
       </article>
     </div>
   `),
@@ -1556,17 +1556,17 @@ const pages = {
     </ul>
   `),
   'release-notes': page('Release notes', 'Operations', `
-    <p class="lead">This documentation site was generated from the current JIT Access and AD Control product documentation available on ${releaseDate}.</p>
+    <p class="lead">This documentation release reflects the current SmartPT Core, AD Control, and JIT Access customer guidance available on ${releaseDate}.</p>
     <h2>Included in this documentation release</h2>
     <ul>
       <li>SmartPT Core installation and licensing guide.</li>
       <li>AD Control admin, operator, settings, and security guides.</li>
       <li>JIT admin, user, role, assignment, and security guides.</li>
       <li>Audit and troubleshooting guidance.</li>
-      <li>Activation wizard download package section.</li>
+      <li>SmartPT Core setup download and installation validation guidance.</li>
     </ul>
-    <h2>Maintainer note</h2>
-    <p>Update this site when product settings, routes, role names, license behavior, or installer packaging changes.</p>
+    <h2>Documentation scope</h2>
+    <p>This documentation covers customer installation, configuration, operation, and troubleshooting guidance for SmartPT Core, AD Control, and JIT Access.</p>
   `),
   'privacy': page('Privacy notice', 'Policy', `
     <p class="lead">This documentation site is a static customer guide for SmartPT Core, JIT Access, and AD Control. It does not process customer Active Directory data by itself.</p>
@@ -1587,7 +1587,6 @@ const pages = {
     <p>For privacy, correction, deletion, or access requests related to the documentation site, contact SmartPT through the official website or WhatsApp contact channel listed on <code>smartpt.co.il</code>. Customer product records inside an on-prem deployment should be handled by the customer's administrator.</p>
     <h2>Last updated</h2>
     <p>${releaseDate}</p>
-    <div class="callout warning">This notice is operational guidance for the documentation site. Customer legal teams should review privacy language before public production launch.</div>
   `),
   'terms': page('Terms of use', 'Policy', `
     <p class="lead">These documentation terms explain how SmartPT customer guides, installation materials, and product references should be used.</p>
@@ -1604,7 +1603,7 @@ const pages = {
       <li>Customers should not grant broad Domain Admin permissions to SmartPT service identities when delegated rights can meet the product requirement.</li>
     </ul>
     <h2>Downloads</h2>
-    <p>Installer packages and setup files should be downloaded only from SmartPT-approved sources. Verify release version, source, and checksum when release metadata is provided.</p>
+    <p>Setup files should be downloaded only from SmartPT-approved sources. Verify the release version and source before installing in production.</p>
     <h2>No legal or security guarantee</h2>
     <p>The documentation supports deployment and operations, but it does not replace customer security review, legal review, change control, or incident response procedures.</p>
     <h2>Last updated</h2>
@@ -1650,7 +1649,7 @@ const pages = {
     <ul>
       <li>Some diagrams are HTML/CSS visual summaries. Equivalent text is provided near the diagrams.</li>
       <li>The current docs site is English-only.</li>
-      <li>Final WCAG conformance should be confirmed with manual keyboard, screen reader, zoom, and mobile testing before public launch.</li>
+      <li>Accessibility should be reviewed with manual keyboard, screen reader, zoom, and mobile testing as part of regular documentation QA.</li>
     </ul>
     <h2>Report an accessibility issue</h2>
     <p>Contact SmartPT through the official website or WhatsApp contact channel listed on <code>smartpt.co.il</code>. Include the page, browser, device, assistive technology if used, and a short description of the issue.</p>
