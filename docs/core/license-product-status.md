@@ -1,36 +1,37 @@
-# License and Product Status
+# Review license and product status
 
-SmartPT Console owns the shared server subscription view. The product portals keep their own operational workflows, but Core license validation is the first gate before access is allowed.
-
-## License Behavior
-
-The Console validates the SmartPT Core license before product access is allowed. If the license is not active, access fails closed and the user is directed to license recovery.
+Use this page to confirm that the Core license is active and each installed product portal is reachable.
 
 ![License and product status highlighted](./screenshots/license-status-highlight.png)
 
-| Field | Meaning |
+## License fields
+
+| Field | Description |
 | --- | --- |
-| Status | Current Core license state. Product access should be tested only when this is ACTIVE. |
-| Serial | Server-bound subscription identifier. Do not expose this value in public screenshots. |
-| License validation | Server-bound license validation status. |
-| Last validated | Last successful runtime license check. |
-| Validation result | Last validation time and current license result. |
+| **Status** | Current Core license state. Product access requires an active license. |
+| **Serial** | Server-bound subscription identifier. Do not expose it in public screenshots. |
+| **License validation** | Current server-bound validation state. |
+| **Last validated** | Time and result of the last successful validation. |
 
-## Product Status
+## Expected behavior
 
-SmartPT Console checks whether the product portals are reachable.
+SmartPT Core checks the license before allowing access to JIT Access or AD Control. If the Core license is inactive, cancelled, expired, or cannot be validated, product access is blocked.
+
+## Verify product status
 
 ![Product status highlighted](./screenshots/product-status-highlight.png)
 
-Product status confirms portal reachability. It does not prove that every product workflow is fully healthy. For workflow failures, check product health, policy, permissions, and audit logs.
+1. Open **SmartPT Console**.
+2. Confirm the Core license shows **ACTIVE**.
+3. Confirm the last validation result is current.
+4. Check that the JIT Access and AD Control product cards show a healthy status.
+5. Open each product portal.
 
-## License Validation Model
+## If validation fails
 
-SmartPT Core validates the license state before product access is granted.
+Check the visible license state, activation status, outbound connectivity to the configured activation service, and SmartPT application logs.
 
-If license validation becomes unhealthy:
+## Related pages
 
-- Confirm the license state is present in SmartPT Console.
-- Confirm the SmartPT server has the required outbound connectivity for license validation.
-- Check the visible license validation result and product logs.
-
+- [SmartPT Console portal overview](./portal-overview.md)
+- [SmartPT Console settings](./settings-overview.md)

@@ -1,124 +1,63 @@
-# Eligible OTP Self-Service
+# Activate Eligible OTP access
 
-Eligible OTP access lets an approved user activate temporary privileged access without holding standing membership in the target Active Directory group.
+Eligible OTP lets an assigned user verify their identity and start temporary access to the Active Directory groups mapped by a JIT role.
 
-The administrator prepares the access path. The user activates it only when needed, verifies with OTP, and receives a time-limited session. JIT Access then removes access automatically when the session expires or when an administrator revokes it.
+> **Important:** Eligible OTP is not an approval workflow. The administrator authorizes access by creating the assignment. OTP verifies the user during activation.
 
-## What This Flow Solves
+## Before you begin
 
-Eligible access is useful when a user is trusted for a privileged role but should not remain a permanent member of the AD group.
-
-For example, an operator may be allowed to use an IT administration role during support work, but the account should not sit permanently in the mapped AD group. Eligible OTP keeps the user inactive until they explicitly start a verified session.
-
-## End-to-End Flow
-
-1. A JIT administrator assigns a product license to the user.
-2. The administrator creates or confirms a JIT role that allows **Eligible** access and requires OTP.
-3. The administrator creates an Eligible assignment for the user.
-4. The user signs in to the JIT portal.
-5. The user opens **Activate Access** and starts the assigned role.
-6. JIT Access sends OTP to an AD-sourced delivery channel, such as WhatsApp/mobile.
-7. The user verifies the OTP.
-8. JIT Access activates the session and adds the user to the mapped AD group.
-9. A JIT administrator monitors the active session.
-10. Access expires automatically or can be revoked early.
-
-## Administrator Setup
-
-The administrator must prepare both product access and JIT access.
-
-Required setup:
+The administrator must:
 
 - Assign the user a JIT product license.
-- Create or confirm a JIT role.
-- Enable **Allow eligible** on the role.
+- Assign **JitEligibleUser** access where required.
+- Create an enabled JIT role with **Allow eligible**.
 - Enable **OTP required** when verification is required.
-- Map the role to the existing AD group that should be controlled.
-- Create an Eligible assignment for the target user.
+- Map the role to the required existing Active Directory groups.
+- Create an active Eligible assignment for the user's `samAccountName`.
 
 ![Eligible JIT role](./screenshots/eligible-admin-role-list.png)
 
-The role should clearly show Eligible and OTP behavior. Keep the role purpose narrow and use a short maximum duration for privileged access.
+![Eligible assignment](./screenshots/eligible-admin-assignment-list.png)
 
-![Eligible assignment for user](./screenshots/eligible-admin-assignment-list.png)
+## Activate access
 
-The assignment connects the user to the role. The assignment remains inactive until the user verifies and activates it.
+1. Sign in to JIT Access with the eligible user account.
+2. Open **Activate Access**.
+3. Find the assigned role and click **Activate**.
+4. Select an available OTP delivery channel.
+5. Send the OTP.
+6. Enter the code and confirm activation.
 
-## User Activation
+![Eligible user activation](./screenshots/eligible-joe-activation-only.png)
 
-The user signs in with their own account and sees only the access they are allowed to activate.
+The eligible user sees only their own activation options. Roles, assignments, active-session administration, and settings are not available.
 
-![Joe activation-only portal](./screenshots/eligible-joe-activation-only.png)
+## OTP contact data
 
-Joe does not see administrator settings, roles, assignments, or session management. His portal is limited to **Activate Access**, product links, docs, support, and sign out.
+- Contact values come from Active Directory.
+- Mobile delivery uses the `mobile` attribute.
+- International mobile numbers must include the country prefix; `+` is optional.
+- Israel numbers may be stored without `972`.
+- Email is available only when enabled and present in the configured Active Directory attribute.
 
-![Joe active eligible access](./screenshots/eligible-joe-access-active.png)
+## Expected result
 
-When the role is inactive, the user sees an **Activate** option. Opening it shows the OTP activation dialog. The user selects the allowed delivery channel, sends OTP, enters the code, and verifies.
+JIT Access creates an active session and adds the user to the Active Directory groups mapped by the role.
 
-Important behavior:
+![Eligible access active](./screenshots/eligible-joe-access-active.png)
 
-- OTP contact details come from Active Directory.
-- The user cannot type a new phone number or email address.
-- Mobile OTP requires the AD user to have a value in the Active Directory `mobile` attribute.
-- The mobile value must include a country prefix for international numbers. The `+` sign is supported but not required.
-- Israel numbers can be stored without `972`. Other countries should include the country prefix, for example `62` or `+62`.
-- WhatsApp/mobile delivery uses the configured mobile channel.
-- Email can be used only when enabled and available.
-- OTP verification starts the privileged session.
-- OTP does not create a permanent AD group membership.
+## Verify activation
 
-## Active Session Monitoring
+1. Sign in as a JIT administrator.
+2. Open **JIT Access > Active Sessions**.
+3. Confirm the user, role, assignment type, start time, expiration time, and status.
+4. Verify the mapped Active Directory group membership where required.
+5. Review the OTP and activation audit records.
 
-After OTP verification, JIT Access creates an active JIT session. The administrator can confirm it under **JIT Access > Active Sessions**.
+![Eligible active session](./screenshots/eligible-admin-active-session.png)
 
-![Joe active session visible to Jim](./screenshots/eligible-admin-active-session.png)
+Expiration or administrator revocation removes the temporary group membership.
 
-The active session view shows:
+## If activation is unavailable
 
-- User.
-- JIT role.
-- Assignment type.
-- Start time.
-- End time.
-- Remaining time.
-- Status.
-- Available actions such as extend or revoke, depending on permissions and assignment type.
-
-## What Happens in Active Directory
-
-When OTP verification succeeds, JIT Access adds the user to the AD group mapped by the JIT role.
-
-When the session expires or is revoked, JIT Access removes the user from that AD group. SmartPT enforces access from the configured session state.
-
-## No Approval Workflow
-
-Eligible OTP is not an approval workflow in this release.
-
-The approval decision happens before the user activates access: an administrator creates the eligible assignment. OTP verifies the user at activation time, but it does not request approval from a manager or security team.
-
-## Operational Checks
-
-If eligible activation does not appear for the user, check:
-
-- The user has a JIT product license assignment.
-- The user has an active Eligible JIT assignment.
-- The role is enabled.
-- The role allows Eligible access.
-- The role has OTP configured as expected.
-- The user is signing in with the same `samAccountName` used in the assignment.
-
-If OTP cannot be sent, check:
-
-- The AD user has the required `mobile` or `mail` attribute.
-- For mobile OTP, the AD `mobile` value includes the required country prefix for the user's country.
-- The requested channel is enabled.
-- Notification and SMTP settings are valid where email fallback is used.
-- SmartPT can reach the configured messaging service.
-
-If activation succeeds but access is not visible, check:
-
-- The mapped AD group DN is correct.
-- The SmartPT service identity can add and remove group membership.
-- Active Sessions shows the user and role.
-- Audit logs include OTP verification and session activation events.
+Check the product license, RBAC role, Eligible assignment, assignment timing, role enabled state, **Allow eligible**, and assigned `samAccountName`.

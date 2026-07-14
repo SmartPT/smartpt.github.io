@@ -1,60 +1,44 @@
-# Creating JIT Assignments
+# Create a JIT assignment
 
-Assignments connect users to JIT roles. They define who can receive privileged access, how access starts, and when it ends.
-
-Open **JIT Access > Assignments** to review existing assignments or create a new one.
+Use an assignment to connect a target user to a JIT role and define how and when access becomes active.
 
 ![JIT assignments list](./screenshots/assignments-list.png)
 
-## Create Assignment
+## Before you begin
 
-Select **Create Assignment**.
+- Create and review the JIT role.
+- Confirm the target user's `samAccountName`.
+- Choose Manual, Scheduled, or Eligible OTP behavior.
+- Confirm the requested duration stays within the role limits.
 
-![Create eligible assignment](./screenshots/assignment-create-eligible.png)
+## Create the assignment
 
-Every assignment requires:
+1. Open **JIT Access > Assignments**.
+2. Click **Create Assignment**.
+3. Select the JIT role.
+4. Enter the target user's `samAccountName`.
+5. Select the assignment type.
+6. Enter the timing information required for that type.
+7. Enter a reason for the audit record.
+8. Save the assignment.
 
-- A JIT role.
-- A target user by `samAccountName`.
-- An assignment type.
-- A reason for audit.
+![Create Eligible assignment](./screenshots/assignment-create-eligible.png)
 
-## Assignment Types
+## Expected result
 
-| Type | Behavior |
-| --- | --- |
-| Eligible | User is approved to activate access with OTP. Access starts only after successful verification. |
-| Scheduled | SmartPT grants and removes access automatically during configured time windows. |
-| Manual | Administrator grants immediate access for a fixed duration. |
+The assignment appears in **Assignments**. Manual access starts immediately, Scheduled access follows its configured window, and Eligible OTP remains inactive until the user verifies and activates it.
 
-## Manual Assignment
+## Verify the assignment
 
-Manual assignments activate immediately and expire automatically.
+- Confirm the user, role, type, status, and timing.
+- For active access, check **Active Sessions**.
+- Confirm the audit record contains the assignment action and reason.
+- Where applicable, verify membership in the mapped Active Directory groups.
 
-![Create manual assignment](./screenshots/assignment-create-manual.png)
+> **Important:** Revoking active access removes the temporary Active Directory group membership. Revoking an inactive assignment prevents further use according to its current state.
 
-Use manual assignments for urgent operational work, incident response, or one-time maintenance where an administrator is intentionally granting access now.
+## Related pages
 
-## Scheduled Assignment
-
-Scheduled assignments are enforced by SmartPT.
-
-![Create scheduled assignment](./screenshots/assignment-create-scheduled.png)
-
-Use scheduled assignments for recurring maintenance windows. SmartPT adds membership during the allowed window and removes it outside the window.
-
-## Eligible Assignment
-
-Eligible assignments allow approved users to activate access themselves with OTP verification.
-
-Use eligible assignments when a user is trusted for a role but should not have active privilege until they explicitly verify and start a session.
-
-## Revoke
-
-Revoking an assignment immediately removes the user from the mapped AD group or prevents the assignment from being used again, depending on assignment state.
-
-Use revoke when access is no longer needed, was configured incorrectly, or must be stopped before the expected end time.
-
-## No Approval Workflow
-
-This release does not include an approval workflow. Assignment creation is an administrator action. Eligible OTP verifies the user before activation, but it is not a manager or security approval process.
+- [Assignment types](./assignment-types.md)
+- [Eligible OTP self-service](./eligible-otp-self-service.md)
+- [Sessions and revoke](./sessions-revoke.md)

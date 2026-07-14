@@ -1,62 +1,35 @@
-# Getting Started with AD Control
+# Get started with AD Control
 
-AD Control gives support teams a controlled way to reset passwords, unlock accounts, update selected user attributes, and manage approved group membership without exposing Tier 0 accounts to routine helpdesk work.
+AD Control lets authorized operators reset passwords, unlock accounts, update approved attributes, and manage permitted group memberships without direct Active Directory permissions for those actions.
 
-The business problem is simple: password reset and account unlock are common helpdesk actions, but they are also common social-engineering targets. AD Control reduces that risk by separating routine operators from protected identities, enforcing role-based workflows, and auditing sensitive actions.
+![AD Control product overview](./screenshots/ad-control-product-overview.jpg)
 
-![AD Control product overview showing Tier 1, Tier 2, Tier 0 protection, OTP verification, and audit](./screenshots/ad-control-product-overview.jpg)
+## Access model
 
-```mermaid
-flowchart LR
-  Operator["Tier 1 / Tier 2 operator"] --> Portal["AD Control portal"]
-  Portal --> Service["AD Control service"]
-  Service --> Policy["License, RBAC, OTP, protection policy"]
-  Service --> AD["Active Directory"]
-  Service --> Audit["Audit records"]
-  Policy --> Service
-```
+| Role or object | Purpose |
+| --- | --- |
+| Helpdesk (Tier 1) | Resets passwords and unlocks standard users. |
+| Advanced Support (Tier 2) | Includes Tier 1 actions plus approved profile and group actions. |
+| Settings administrator | Manages licenses, roles, protected identities, OTP, SMTP, and session policy. |
+| Protected user | Hidden from Tier 1 and Tier 2 search and actions. |
+| Protected group | Protects direct and nested members from operator workflows. |
+| Target user | Active Directory user managed by an operator. Does not require an AD Control license. |
 
-![AD Control dashboard in dark mode](./screenshots/dashboard-jim-settings-access.jpg)
+Only operators require AD Control product licenses.
 
-## What AD Control Solves
+## Before you configure operators
 
-- Helpdesk users should not need broad Active Directory rights.
-- Tier 0 and protected identities should not appear in routine support workflows.
-- Password reset and account unlock should be direct only when policy allows it.
-- Verified actions should use OTP sent to AD-sourced contact details. Mobile OTP requires the target user's Active Directory `mobile` attribute.
-- Profile and group changes should be limited to approved Tier 2 workflows.
-- Sensitive actions should create audit records.
+- Confirm the AD Control license is active.
+- Identify the Tier 1 and Tier 2 operators.
+- Configure protected users and groups before operator rollout.
+- Review direct and OTP-verified reset and unlock policy.
+- Confirm OTP contact attributes and delivery settings.
+- Test with a non-production target user.
 
-## Core Model
+## Recommended order
 
-| Area | Purpose |
-|---|---|
-| Tier 1 | Routine helpdesk actions such as password reset and account unlock. |
-| Tier 2 | Advanced support actions such as profile updates and controlled group management. |
-| Protected users | Specific accounts hidden from Tier 1 and Tier 2 search and actions. |
-| Protected groups | Groups whose members, including nested members, are treated as protected. |
-| Settings access | Administrative access for license assignment, RBAC, protection, OTP, SMTP, and policy. |
-
-## Demo Roles Used In This Documentation
-
-| User | Role | Purpose |
-|---|---|---|
-| jim | Settings administrator | Full AD Control settings access. |
-| david | Helpdesk (Tier 1) | Can support standard users such as avi. |
-| sara | Advanced Support (Tier 2) | Can support standard users and use Tier 2 actions. |
-| avi | Managed user | Target user for operator workflows. No AD Control license required. |
-| joe | Protected user | Hidden from Tier operators after protection is configured. |
-
-Only operators need AD Control product licenses. Target users such as avi do not need a license to be managed.
-
-## Recommended Learning Order
-
-1. Access Model, Licensing, and RBAC
-2. Portal Overview
-3. Settings Overview
-4. Protected Users and Groups
-5. Operator Support Console
-6. Password Reset Workflows
-7. Profile Updates
-8. Controlled Group Management
-9. Troubleshooting
+1. [Configure licensing and RBAC](./access-model-licensing-rbac.md).
+2. [Review Settings](./settings-overview.md).
+3. [Configure protected users and groups](./protected-users-groups.md).
+4. [Review the operator console](./operator-console.md).
+5. Test [password reset](./password-reset-workflows.md) and [account unlock](./account-unlock-workflows.md).

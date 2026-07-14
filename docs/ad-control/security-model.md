@@ -1,24 +1,25 @@
-# AD Control Security Model
+# AD Control security model
 
-AD Control is designed to reduce unsafe helpdesk operations without giving every operator broad Active Directory permissions.
+AD Control checks operator licensing, RBAC, protection rules, action policy, and verification before running supported Active Directory actions.
 
-## Controls
+## Control sequence
 
-- Product license and role assignment for operators.
-- SmartPT permission checks for every sensitive action.
-- Tier 0 and protected identity filtering.
-- OTP verification for verified reset and unlock workflows.
-- AD-sourced email/mobile attributes for OTP delivery.
-- Mobile OTP uses the Active Directory `mobile` attribute. International numbers should include the country prefix; the `+` sign is optional.
-- Audit records with actor, target, action, and result.
-- No OTP codes or generated passwords in audit logs.
+1. Confirm the signed-in operator.
+2. Confirm the operator license and role.
+3. Check whether the target is Tier 0 or protected.
+4. Check whether the requested action is enabled.
+5. Require OTP when the selected method uses verification.
+6. Run the supported Active Directory action.
+7. Write the action result to the audit log.
 
-## Protection Boundary
+## Protection boundary
 
-Protected users and protected groups are enforced before reset, unlock, profile update, and group management actions run.
+Protected users and direct or nested members of protected groups are excluded before password reset, account unlock, profile update, or group management runs. Successful OTP verification does not bypass protection.
 
-Successful OTP verification does not bypass protected identity rules.
+## OTP data
 
-## SmartPT Enforcement
+OTP uses configured Active Directory contact attributes. Mobile delivery uses the `mobile` attribute. International numbers must include the country prefix; `+` is optional. Israel numbers may omit `972`.
 
-SmartPT validates role permissions, protection rules, settings policy, and AD operation results before allowing sensitive actions.
+## Audit data
+
+Audit records include the actor, target, action, result, and available detail. OTP codes and generated passwords must not appear in audit logs.

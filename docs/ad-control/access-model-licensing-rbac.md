@@ -1,56 +1,41 @@
-# Access Model, Licensing, and RBAC
+# AD Control licensing and RBAC
 
-AD Control separates product access from target-user management.
-
-Operators need a product license and one AD Control role. The users they manage do not need a license.
-
-```mermaid
-flowchart LR
-  License["Operator license"] --> Role["One AD Control role"]
-  Role --> Tier1["Helpdesk (Tier 1)"]
-  Role --> Tier2["Advanced Support (Tier 2)"]
-  Tier1 --> Actions1["Password reset and unlock"]
-  Tier2 --> Actions2["Reset, unlock, profile, and groups"]
-  Target["Target user such as avi"] -. "No product license required" .-> Actions1
-```
+AD Control assigns licenses and product roles to operators. Target users do not require a product license.
 
 ![Access assignments highlighted](./screenshots/settings-access-assignments-highlight.jpg)
 
-![Tier role options](./screenshots/settings-tier-role-options.jpg)
-
-## Access Layers
+## Access layers
 
 | Layer | What it controls |
-|---|---|
-| Product license | Whether the operator consumes an AD Control seat. |
-| Role assignment | What the operator can do in the portal. |
-| Settings access | Who can manage AD Control configuration. |
-| Protection rules | Which users and groups are blocked from routine support workflows. |
+| --- | --- |
+| Product license | Allows an operator to use AD Control and consumes an operator seat. |
+| Operator role | Defines Tier 1 or Tier 2 actions. |
+| Settings access | Allows product configuration and license administration. |
+| Protection rules | Excludes Tier 0, protected users, and protected group members from operator workflows. |
 
-## Operator Examples
+## Operator roles
 
-- david has a license and the Helpdesk (Tier 1) role.
-- sara has a license and the Advanced Support (Tier 2) role.
-- avi does not need a license because avi is only the managed target user.
-- jim has settings access and can manage protected users, protected groups, roles, and policy.
+![Tier role options](./screenshots/settings-tier-role-options.jpg)
 
-## Built-In Role Behavior
+| Role | Available actions |
+| --- | --- |
+| **Helpdesk (Tier 1)** | Password reset and account unlock for standard users. Cannot change phone numbers, edit profile attributes, or manage groups. |
+| **Advanced Support (Tier 2)** | Tier 1 actions plus approved profile updates and controlled group membership. |
 
-| Role | Typical capabilities |
-|---|---|
-| Helpdesk (Tier 1) | Password reset and account unlock for standard users. |
-| Advanced Support (Tier 2) | Tier 1 actions plus profile updates and controlled group management. |
-| Settings administrator | License assignment, RBAC, protected identities, OTP, SMTP, and session policy. |
+Assign one active AD Control role to each operator.
 
-## Tier Options
+## Assign operator access
 
-When assigning a user, the administrator chooses one role:
+1. Open **Settings > Access Assignments**.
+2. Select the Active Directory user.
+3. Assign an AD Control product license.
+4. Select **Helpdesk (Tier 1)** or **Advanced Support (Tier 2)**.
+5. Save the assignment.
 
-- **Helpdesk (Tier 1)** for routine support operators.
-- **Advanced Support (Tier 2)** for operators who also need profile updates and controlled group management.
+## Expected result
 
-A user should have one active AD Control role at a time. Change the role from Settings when moving an operator between tiers.
+The operator can enter AD Control and sees only the actions allowed by the assigned role. Standard target users remain manageable without consuming licenses.
 
-## Operational Rule
+## Verify access
 
-Assign the operator license and role deliberately. Do not license target users just because they are being managed through AD Control.
+Sign in as each operator role and compare the available actions. Confirm **Settings** is visible only to settings administrators.

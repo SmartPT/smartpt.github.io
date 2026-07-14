@@ -7,8 +7,8 @@ const navGroups = [
   {
     title: 'Start',
     items: [
-      ['overview', 'Documentation Home'],
-      ['getting-started', 'Getting Started'],
+      ['overview', 'Documentation home'],
+      ['getting-started', 'Getting started'],
       ['requirements', 'Requirements'],
       ['installation', 'Installation'],
       ['licensing', 'Licensing'],
@@ -18,61 +18,61 @@ const navGroups = [
   {
     title: 'Architecture',
     items: [
-      ['deployment-overview', 'Deployment Overview'],
-      ['active-directory-permissions', 'Active Directory Permissions']
+      ['deployment-overview', 'Deployment overview'],
+      ['active-directory-permissions', 'Active Directory permissions']
     ]
   },
   {
     title: 'SmartPT Console',
     items: [
-      ['core-getting-started', 'Getting Started'],
-      ['core-portal-overview', 'Portal Overview'],
-      ['core-license-status', 'License and Product Status'],
-      ['core-access-model', 'Access Model'],
-      ['core-settings-overview', 'Settings Overview'],
-      ['core-shared-2fa-reset', 'Shared 2FA Reset']
+      ['core-getting-started', 'Getting started'],
+      ['core-portal-overview', 'Portal overview'],
+      ['core-license-status', 'License and product status'],
+      ['core-access-model', 'Access model'],
+      ['core-settings-overview', 'Settings overview'],
+      ['core-shared-2fa-reset', 'Shared 2FA reset']
     ]
   },
   {
     title: 'AD Control',
     items: [
-      ['ad-control-getting-started', 'Getting Started'],
-      ['ad-control-access-model', 'Access Model'],
-      ['ad-control-portal-overview', 'Portal Overview'],
-      ['ad-control-settings-overview', 'Settings Overview'],
-      ['ad-control-protected-identities', 'Protected Users and Groups'],
-      ['ad-control-operator-console', 'Operator Console'],
-      ['ad-control-password-reset', 'Password Reset'],
-      ['ad-control-account-unlock', 'Account Unlock'],
-      ['ad-control-profile-updates', 'Profile Updates'],
-      ['ad-control-group-management', 'Group Management'],
+      ['ad-control-getting-started', 'Getting started'],
+      ['ad-control-access-model', 'Access model'],
+      ['ad-control-portal-overview', 'Portal overview'],
+      ['ad-control-settings-overview', 'Settings overview'],
+      ['ad-control-protected-identities', 'Protected users and groups'],
+      ['ad-control-operator-console', 'Operator console'],
+      ['ad-control-password-reset', 'Password reset'],
+      ['ad-control-account-unlock', 'Account unlock'],
+      ['ad-control-profile-updates', 'Profile updates'],
+      ['ad-control-group-management', 'Group management'],
       ['ad-control-troubleshooting', 'Troubleshooting'],
-      ['ad-control-security-model', 'Security Model']
+      ['ad-control-security-model', 'Security model']
     ]
   },
   {
     title: 'JIT Access',
     items: [
-      ['jit-overview', 'Getting Started'],
-      ['jit-access-model', 'Access Model'],
-      ['jit-portal-overview', 'Portal Overview'],
-      ['jit-settings-overview', 'Settings Overview'],
-      ['jit-roles', 'Creating Roles'],
-      ['jit-assignments', 'Creating Assignments'],
-      ['jit-assignment-types', 'Assignment Types'],
+      ['jit-overview', 'Getting started'],
+      ['jit-access-model', 'Access model'],
+      ['jit-portal-overview', 'Portal overview'],
+      ['jit-settings-overview', 'Settings overview'],
+      ['jit-roles', 'Create roles'],
+      ['jit-assignments', 'Create assignments'],
+      ['jit-assignment-types', 'Assignment types'],
       ['jit-eligible-otp', 'Eligible OTP'],
-      ['jit-sessions-revoke', 'Sessions and Revoke'],
-      ['jit-notifications-session-policy', 'Notifications and Policy'],
+      ['jit-sessions-revoke', 'Active sessions'],
+      ['jit-notifications-session-policy', 'Notifications and policy'],
       ['jit-troubleshooting', 'Troubleshooting']
     ]
   },
   {
     title: 'Operations',
     items: [
-      ['security-model', 'Shared Security Model'],
-      ['audit', 'Audit and Compliance'],
+      ['security-model', 'Shared security model'],
+      ['audit', 'Audit records'],
       ['troubleshooting', 'Troubleshooting'],
-      ['release-notes', 'Release Notes']
+      ['release-notes', 'Release notes']
     ]
   },
   {
@@ -80,7 +80,7 @@ const navGroups = [
     items: [
       ['privacy', 'Privacy'],
       ['terms', 'Terms'],
-      ['cookie-policy', 'Cookie Policy'],
+      ['cookie-policy', 'Cookie policy'],
       ['accessibility', 'Accessibility']
     ]
   }
@@ -88,6 +88,7 @@ const navGroups = [
 
 const pageMeta = {
   overview: 'SmartPT documentation for installing and operating SmartPT Core, JIT Access, and AD Control in on-prem Active Directory environments.',
+  'getting-started': 'Follow the recommended order for installing SmartPT Core, activating licensing, and configuring AD Control and JIT Access.',
   requirements: 'SmartPT requirements for Windows Server, IIS, .NET hosting, Local Active Directory, service identity, network access, SMTP, audit storage, browsers, and staging validation.',
   'deployment-overview': 'SmartPT deployment overview for customer-controlled on-prem portals, service authorization, Active Directory actions, audit logs, and operator access boundaries.',
   'active-directory-permissions': 'Active Directory permission guidance for SmartPT service identities, delegated AD Control actions, JIT group membership management, Tier 0 protection, and staging validation.',
@@ -132,14 +133,17 @@ const pageMeta = {
   'ad-control-operator': 'AD Control operator guide for searching users, resetting passwords, unlocking accounts, updating profile attributes, and controlled group management.',
   'ad-control-settings': 'AD Control settings reference for password options, unlock options, OTP delivery, password delivery, protected identities, notifications, SMTP, and session policy.',
   'ad-control-security': 'AD Control security model for tier boundaries, protected identity exclusion, OTP-verified reset and unlock actions, role enforcement, and audit records.',
-  'security-model': 'Shared SmartPT security model for on-prem operation, AD-sourced identity data, service authorization, Core license and license validation enforcement, shared MFA, logs, and auditability.',
-  audit: 'Audit and compliance guidance for SmartPT Core, JIT Access, AD Control, audit details, sensitive event records, and logs that exclude secrets.',
+  'security-model': 'Shared SmartPT security model for on-prem operation, Active Directory identity data, service authorization, Core license validation, shared MFA, and audit records.',
+  audit: 'Review audit records for SmartPT Core, JIT Access, and AD Control without exposing passwords, OTP codes, or other secrets.',
   troubleshooting: 'Troubleshooting guide for SmartPT access assignment, sessions, OTP delivery, protected users, JIT removal, and license validation.',
+  'release-notes': 'Review the SmartPT Core, AD Control, and JIT Access customer documentation included in the current documentation release.',
   privacy: 'SmartPT documentation site privacy notice covering static docs use, downloads, external links, and customer-controlled product data.',
   terms: 'SmartPT documentation site terms for using customer guides, downloads, release materials, and product documentation.',
   'cookie-policy': 'SmartPT documentation cookie policy explaining current cookie usage and future consent handling for docs.smartpt.co.il.',
   accessibility: 'SmartPT documentation accessibility statement for WCAG 2.1 AA, WCAG 2.2 AA, and Israeli Standard 5568 readiness.'
 };
+
+Object.assign(pageMeta, window.smartptMetaOverrides || {});
 
 const pages = {
   'overview': {
@@ -377,6 +381,7 @@ const pages = {
   `),
   'downloads': page('Downloads', 'Installation package', `
     <p class="lead">Download the current SmartPT Core setup executable for customer installation.</p>
+    <h2>Download SmartPT Core</h2>
     <div class="cards">
       <article class="card">
         <h3>SmartPT Core Setup.exe</h3>
@@ -410,9 +415,9 @@ const pages = {
     <div class="diagram">
       <div class="diagram-grid five">
         <div class="diagram-box accent"><strong>Administrator</strong><span>Signs in with an AD account.</span></div>
-        <div class="diagram-arrow">â†’</div>
+        <div class="diagram-arrow">&rarr;</div>
         <div class="diagram-box"><strong>SmartPT Console</strong><span>Shows Core status, access, 2FA, and product entry.</span></div>
-        <div class="diagram-arrow">â†’</div>
+        <div class="diagram-arrow">&rarr;</div>
         <div class="diagram-box good"><strong>Product portals</strong><span>JIT Access and AD Control keep privileged actions in dedicated consoles.</span></div>
       </div>
       <div class="diagram-note">The Console organizes the environment. JIT Access and AD Control still enforce their own roles, policies, and audit logs.</div>
@@ -525,9 +530,9 @@ const pages = {
     <div class="diagram">
       <div class="diagram-grid five">
         <div class="diagram-box accent"><strong>User signs in</strong><span>Core or product portal starts the session.</span></div>
-        <div class="diagram-arrow">â†’</div>
+        <div class="diagram-arrow">&rarr;</div>
         <div class="diagram-box"><strong>Shared 2FA</strong><span>SmartPT Verify handles TOTP enrollment or verification.</span></div>
-        <div class="diagram-arrow">â†’</div>
+        <div class="diagram-arrow">&rarr;</div>
         <div class="diagram-box good"><strong>Continue</strong><span>Successful verification allows the user to continue to the permitted portal.</span></div>
       </div>
       <div class="diagram-note">Passing 2FA does not grant product permission. Product RBAC and licensing are still enforced separately.</div>
@@ -1471,7 +1476,8 @@ const pages = {
     <p>JIT audits role management, assignment creation, activation, expiration, revocation, OTP sent, OTP verified, OTP failed, and policy violations.</p>
   `),
   'security-model': page('Shared security model', 'Security', `
-    <p class="lead">SmartPT products share the same operating principle: customer-controlled on-prem deployment, AD-sourced identity data, Core license enforcement, shared MFA where enabled, SmartPT authorization, and auditability.</p>
+    <p class="lead">SmartPT runs in the customer environment, uses Active Directory identity data, checks license and product permissions, and records sensitive actions.</p>
+    <h2>Operating boundaries</h2>
     <div class="cards">
       <article class="card"><h3>On-prem control</h3><p>Product portals, services, logs, and configuration run in the customer environment.</p></article>
       <article class="card"><h3>AD as source</h3><p>Users, groups, phone, and email attributes come from Active Directory.</p></article>
@@ -1480,9 +1486,9 @@ const pages = {
     <div class="diagram">
       <div class="diagram-grid five">
         <div class="diagram-box accent"><strong>Active Directory</strong><span>Identity, groups, mail, and mobile attributes.</span></div>
-        <div class="diagram-arrow">â†’</div>
+        <div class="diagram-arrow">&rarr;</div>
         <div class="diagram-box"><strong>SmartPT Core</strong><span>License, root RBAC, shared MFA recovery, and product visibility.</span></div>
-        <div class="diagram-arrow">â†’</div>
+        <div class="diagram-arrow">&rarr;</div>
         <div class="diagram-box good"><strong>Product services</strong><span>JIT Access and AD Control enforce product roles, policy, actions, and audit.</span></div>
       </div>
       <div class="diagram-note">SmartPT Core validates license state and product entry. Product portals still enforce product-specific privileged actions.</div>
@@ -1519,7 +1525,7 @@ const pages = {
     <p>If Core license validation is not active, SmartPT access should fail closed. Administrators should restore license state from SmartPT Console before validating JIT Access or AD Control actions.</p>
     <figure class="doc-screenshot"><img src="./docs/core/screenshots/license-status-highlight.png" alt="SmartPT Console license and product status highlighted"><figcaption>License validation is a shared platform check before product use.</figcaption></figure>
   `),
-  'audit': page('Audit and compliance', 'Operations', `
+  'audit': page('Audit records', 'Operations', `
     <p class="lead">Audit records help administrators review sensitive actions, configuration changes, and enforcement results.</p>
     <h2>Audit principles</h2>
     <ul>
@@ -1556,7 +1562,7 @@ const pages = {
     </ul>
   `),
   'release-notes': page('Release notes', 'Operations', `
-    <p class="lead">This documentation release reflects the current SmartPT Core, AD Control, and JIT Access customer guidance available on ${releaseDate}.</p>
+    <p class="lead">This documentation release reflects the current SmartPT Core, AD Control, and JIT Access customer guidance available on July 14, 2026.</p>
     <h2>Included in this documentation release</h2>
     <ul>
       <li>SmartPT Core installation and licensing guide.</li>
@@ -1586,7 +1592,7 @@ const pages = {
     <h2>Rights and requests</h2>
     <p>For privacy, correction, deletion, or access requests related to the documentation site, contact SmartPT through the official website or WhatsApp contact channel listed on <code>smartpt.co.il</code>. Customer product records inside an on-prem deployment should be handled by the customer's administrator.</p>
     <h2>Last updated</h2>
-    <p>${releaseDate}</p>
+    <p>July 14, 2026</p>
   `),
   'terms': page('Terms of use', 'Policy', `
     <p class="lead">These documentation terms explain how SmartPT customer guides, installation materials, and product references should be used.</p>
@@ -1607,7 +1613,7 @@ const pages = {
     <h2>No legal or security guarantee</h2>
     <p>The documentation supports deployment and operations, but it does not replace customer security review, legal review, change control, or incident response procedures.</p>
     <h2>Last updated</h2>
-    <p>${releaseDate}</p>
+    <p>July 14, 2026</p>
   `),
   'cookie-policy': page('Cookie policy', 'Policy', `
     <p class="lead">The SmartPT documentation site is currently a static site and does not set analytics, advertising, or marketing cookies.</p>
@@ -1626,7 +1632,7 @@ const pages = {
       <li>The policy should list the cookie name, provider, purpose, duration, and category.</li>
     </ul>
     <h2>Last updated</h2>
-    <p>${releaseDate}</p>
+    <p>July 14, 2026</p>
   `),
   'accessibility': page('Accessibility statement', 'Policy', `
     <p class="lead">SmartPT aims for this documentation site to be usable with keyboard navigation, screen readers, mobile devices, and browser zoom.</p>
@@ -1654,7 +1660,7 @@ const pages = {
     <h2>Report an accessibility issue</h2>
     <p>Contact SmartPT through the official website or WhatsApp contact channel listed on <code>smartpt.co.il</code>. Include the page, browser, device, assistive technology if used, and a short description of the issue.</p>
     <h2>Last updated</h2>
-    <p>${releaseDate}</p>
+    <p>July 14, 2026</p>
   `)
 };
 
@@ -1663,6 +1669,17 @@ pages['ad-control-admin'] = pages['ad-control-settings-overview'];
 pages['ad-control-operator'] = pages['ad-control-operator-console'];
 pages['ad-control-settings'] = pages['ad-control-settings-overview'];
 pages['ad-control-security'] = pages['ad-control-security-model'];
+
+Object.assign(pages, window.smartptContentOverrides || {});
+pages['ad-control-overview'] = pages['ad-control-getting-started'];
+pages['ad-control-admin'] = pages['ad-control-settings-overview'];
+pages['ad-control-operator'] = pages['ad-control-operator-console'];
+pages['ad-control-settings'] = pages['ad-control-settings-overview'];
+pages['ad-control-security'] = pages['ad-control-security-model'];
+pages['jit-admin'] = pages['jit-roles'];
+pages['jit-user'] = pages['jit-eligible-otp'];
+pages['jit-settings'] = pages['jit-settings-overview'];
+pages['jit-security'] = pages['security-model'];
 
 function page(title, eyebrow, body) {
   return { title, eyebrow, body: `<section class="doc"><div class="eyebrow">${eyebrow}</div><h1>${title}</h1>${body}</section>` };
@@ -2149,10 +2166,11 @@ function render() {
 
   app.innerHTML = `
     <div class="layout">
+      ${routeTargetsHtml()}
       <header class="topbar">
         <div class="shell topbar-inner">
           <a class="brand" href="#overview">
-            <span class="brand-mark" aria-hidden="true">âœ“</span>
+            <span class="brand-mark" aria-hidden="true">PT</span>
             <span><span class="brand-word">Smart<span>PT</span></span> Docs<small>Customer documentation for SmartPT Core, AD Control, and JIT Access</small></span>
           </a>
           <div class="top-actions">
@@ -2167,7 +2185,6 @@ function render() {
           </div>
         </div>
       </header>
-      ${routeTargetsHtml()}
       <button class="drawer-backdrop ${navOpen ? 'open' : ''}" id="drawerBackdrop" type="button" aria-label="Close docs menu"></button>
       <div class="shell docs-shell">
         <aside class="sidebar ${navOpen ? 'open' : ''}" id="sidebar" aria-label="Documentation navigation">
@@ -2199,7 +2216,7 @@ function render() {
       </div>
       <footer class="footer">
         <div class="shell footer-inner">
-          <span>SmartPT documentation. Last updated ${releaseDate}. Product behavior can vary by version and configuration.</span>
+          <span>SmartPT documentation. Last updated July 14, 2026. Product behavior can vary by version and configuration.</span>
           <span class="footer-links">
             <a href="#privacy">Privacy</a>
             <a href="#terms">Terms</a>

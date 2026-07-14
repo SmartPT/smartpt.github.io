@@ -1,37 +1,36 @@
-# Access Model, RBAC, and Admin Groups
+# Configure SmartPT Console access
 
-SmartPT Console access is controlled by Active Directory identity, group membership, and the built-in Domain Admin fallback.
+SmartPT Console uses Active Directory groups to assign administrator or viewer access.
 
-## Access Levels
+## Access levels
 
-| Access level | Who gets it | What it can do |
+| Access level | Assigned through | Available actions |
 | --- | --- | --- |
-| Administrator | Domain Admins or configured Administrative groups | View products, view activity, manage settings, reset shared 2FA, view license status, and run product app updates. |
-| Viewer | Configured Viewer groups | View the Console and open product consoles when allowed, without managing settings or running updates. |
-| None | Users outside allowed groups | Access is denied. |
+| Administrator | Domain Admins or configured administrative groups | View products and activity, manage Console settings, reset shared 2FA, review license status, and run product updates. |
+| Viewer | Configured viewer groups | View the Console and open product portals when separately authorized. Cannot change Console settings or run updates. |
+| None | User is not in an allowed group | Console access is denied. |
 
-Domain Admins always retain administrative access. This prevents lockout during initial setup, but day-to-day administration should use approved AD groups.
+Domain Admins retain Console administrator access. Use a dedicated Active Directory group for normal Console administration.
 
 ![RBAC and session settings highlighted](./screenshots/settings-rbac-session-highlight.png)
 
-## Administrative Groups
+## Add an administrative group
 
-Add an AD group when non-Domain Admin operators should administer SmartPT Console. For example, an `it-admin` group can be granted Console administrator access.
+1. Open **Settings**.
+2. Find **Administrative groups**.
+3. Search for the Active Directory group.
+4. Select the group and save the settings.
 
 ![it-admin group search highlighted](./screenshots/rbac-it-admin-highlight.png)
 
-Recommended practice:
+## Expected result
 
-- Use a dedicated AD group for SmartPT Console administrators.
-- Keep product-specific roles inside JIT Access and AD Control.
-- Do not use Console access as a substitute for product RBAC.
-- Review group membership regularly.
+Members of the configured group can open **Settings** and perform Console administrator actions. Product permissions are still assigned separately in JIT Access and AD Control.
 
-## Viewer Groups
+## Verify access
 
-Viewer groups are useful for operators who need visibility into product status and recent activity but should not reset 2FA, change settings, or manage license actions.
+Sign in with a group member and confirm the Console shows **Administrator**. Then use a viewer account to confirm **Settings** and **Update app** are not available.
 
-## Session Policy
+## Session policy
 
-Console session limits are enforced for SmartPT Console only. Product portals keep their own session configuration.
-
+Console session lifetime and idle timeout apply only to SmartPT Console. JIT Access and AD Control use their own session settings.

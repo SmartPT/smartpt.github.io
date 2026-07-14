@@ -1,52 +1,38 @@
-# Getting Started with SmartPT Console
+# Get started with SmartPT Core
 
-SmartPT Console is the root portal for a SmartPT server. It gives administrators one place to confirm product availability, review license and product status, manage root portal access, reset shared two-factor enrollment, and open the product consoles.
-
-SmartPT Console does not replace JIT Access or AD Control. Product actions stay inside the product portals. The Console is the root entry point for license status, product access, administrator access, and shared MFA recovery.
+Use SmartPT Core to confirm the server license, open JIT Access and AD Control, and manage Console access.
 
 ![SmartPT Console overview](./screenshots/console-overview.png)
 
-## What Problem This Solves
+## Before you begin
 
-SmartPT deployments include multiple local product portals and SmartPT services. Without a root console, administrators need to check each product separately to answer basic operational questions:
+- SmartPT Core must be installed on the customer server.
+- You need SmartPT Console administrator access.
+- The Core license must be activated before operators can open product portals.
 
-- Is the server license active?
-- Are JIT Access and AD Control reachable?
-- Who can administer the root portal?
-- Is shared two-factor enrollment working?
-- Is the Core license active?
-- Where do operators go next?
+## Configure SmartPT Core
 
-SmartPT Console gives administrators a single operational starting point before they enter product-specific workflows.
+1. Sign in to **SmartPT Console**.
+2. Confirm the Core license shows **ACTIVE**.
+3. Confirm JIT Access and AD Control are reachable.
+4. Open **Settings** and add the approved Active Directory administrative group.
+5. Add viewer groups only for users who need read-only Console access.
+6. Review the Console session lifetime and idle timeout.
+7. Test shared two-factor enrollment with a non-production user.
 
-## How SmartPT Console Fits
+## Expected result
 
-```mermaid
-flowchart LR
-  Admin["Administrator"] --> Console["SmartPT Console"]
-  Console --> License["Core license"]
-  Console --> Access["Root RBAC and session policy"]
-  Console --> MFA["Shared 2FA reset"]
-  Console --> JIT["JIT Access"]
-  Console --> ADC["AD Control"]
-  JIT --> AD["Active Directory"]
-  ADC --> AD
-```
+Administrators can review Core status and open the installed product portals. Viewers can see Console information but cannot change settings or run product updates.
 
-## What To Configure First
+## Verify the configuration
 
-1. Confirm the Core license is **ACTIVE**.
-2. Confirm the last license validation is current.
-3. Confirm JIT Access and AD Control show as reachable.
-4. Add the correct administrative group for Console access.
-5. Configure viewer groups only if read-only operators need visibility.
-6. Review session lifetime and idle timeout.
-7. Test shared two-factor reset with a non-production user.
+- Check **License and Billing** for an active license and current validation result.
+- Check each product card for a healthy status.
+- Sign in with a member of the configured administrative group and confirm **Settings** is visible.
+- Sign in with a viewer account and confirm administrative actions are not available.
 
-Recommended order:
+## Next steps
 
-1. Console Portal Overview
-2. License and Product Status
-3. Access Model, RBAC, and Admin Groups
-4. Settings Overview
-5. Shared 2FA and Reset MFA
+- [Review the Console portal](./portal-overview.md)
+- [Configure Console access](./access-model-rbac.md)
+- [Review license and product status](./license-product-status.md)

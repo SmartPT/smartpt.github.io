@@ -1,10 +1,14 @@
-# Profile Updates
+# Update approved user profile fields
 
-Advanced Support (Tier 2) operators can update selected Active Directory profile attributes for standard users.
+Advanced Support (Tier 2) operators can update supported Active Directory attributes for standard users.
 
-![Sara profile update](./screenshots/sara-profile-update.jpg)
+## Before you begin
 
-## Supported Fields
+- The operator needs an AD Control license and **Advanced Support (Tier 2)**.
+- The target user must not be Tier 0 or protected.
+- Confirm that AD Control is the approved system for changing the selected attribute.
+
+## Supported fields
 
 - Phone
 - Mobile
@@ -14,9 +18,19 @@ Advanced Support (Tier 2) operators can update selected Active Directory profile
 - Office
 - Description
 
-## Operational Notes
+## Update the profile
 
-Profile updates are intended for support-maintained user attributes. They should not replace HR or identity-governance ownership where those systems are authoritative.
+1. Search for and select the target user.
+2. Open the profile update action.
+3. Change only the approved fields.
+4. Save the update.
 
-Protected users and Tier 0 identities remain blocked from this workflow.
+![Tier 2 profile update](./screenshots/sara-profile-update.jpg)
 
+## Expected result
+
+The selected Active Directory attributes show the saved values.
+
+## Verify the update
+
+Refresh the selected user and review the profile-update audit record. Protected users remain unavailable to this workflow.

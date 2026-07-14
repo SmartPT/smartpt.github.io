@@ -1,56 +1,47 @@
-# SmartPT Console Portal Overview
+# SmartPT Console portal overview
 
-The SmartPT Console portal is split into three main areas: **Overview**, **Recent Activity**, and **Settings**. The exact tabs depend on the signed-in user's access level.
-
-## Overview
-
-Overview is the first readiness view after sign-in. Use it to confirm the server is active, the signed-in user has the expected access level, and product consoles are reachable.
+Use the Console to check server status, open product portals, review recent activity, and manage shared settings.
 
 ![SmartPT Console overview](./screenshots/console-overview.png)
 
-| Area | Purpose |
-| --- | --- |
-| Products | Counts installed product portals visible from the Console. |
-| User | Shows the signed-in identity. |
-| Access | Shows whether the user is Administrator or Viewer. |
-| Architecture | Explains the Console boundary: root portal status and access, not product workflow execution. |
-| Installed product consoles | Opens JIT Access and AD Control. |
+## Console areas
 
-## Product Status
+| Area | Available to | Purpose |
+| --- | --- | --- |
+| **Overview** | Administrators and viewers | Shows the signed-in user, access level, and installed products. |
+| Product cards | Administrators and viewers | Open JIT Access or AD Control and show whether each portal is reachable. |
+| **Recent Activity** | Administrators and viewers | Shows recent sign-ins and product activity for operational review. |
+| **Settings** | Administrators | Manages Console groups, session limits, shared two-factor reset, and license information. |
 
-Product cards show whether each product console is reachable. This is a fast operational check before entering JIT Access or AD Control.
+## Product status
 
 ![Product status highlighted](./screenshots/product-status-highlight.png)
 
-If a product is unavailable, confirm the product service is running before testing product workflows.
+A healthy product card confirms that the portal is reachable. It does not verify every product action. If an action fails, check the product policy, Active Directory permissions, service health, and audit record.
 
-## Product Updates
+## Update a product
 
-Core administrators can update AD Control and JIT Access from the product cards when a newer product version is available. Viewer users can open product consoles when their access allows it, but they cannot run product updates.
+Core administrators can update JIT Access and AD Control when a product card shows **Update available**.
 
 ![Product update available](./screenshots/product-update-available.png)
 
-Admin workflow:
-
-1. Open **SmartPT Console** with a Core administrator account.
-2. Review the AD Control and JIT Access product cards.
-3. If a product card shows **Update available**, select **Update app**.
-4. Wait for the update to complete.
+1. Open **SmartPT Console** as an administrator.
+2. Find the product card marked **Update available**.
+3. Click **Update app**.
+4. Wait for the update result.
 5. Confirm the product card returns to a healthy state.
-6. Open the product console and verify the expected product version.
+6. Open the product portal and verify the expected version.
 
-Product updates do not overwrite customer settings, license information, logs, or customer data. If an update cannot complete, SmartPT keeps the previous product version available and shows the update result in the Console.
+Customer settings, license information, logs, and customer data remain unchanged during a product update. If the update fails, the Console shows the result and keeps the previous product version available.
 
-## Recent Activity
-
-Recent Activity shows sign-ins, settings changes, password resets, account unlocks, JIT assignments, session changes, and revoke events. Use it for quick operational review and audit lookup.
+## Recent activity
 
 ![Recent activity highlighted](./screenshots/recent-activity-highlight.png)
 
-Recent Activity is not a replacement for full audit retention. It is a quick view for administrators during support and validation.
+Use **Recent Activity** for a quick operational review. Use the product audit records for detailed investigation and retention.
 
-## Settings
+## Related pages
 
-Settings is available only to Console administrators. It controls root portal access, Console session policy, shared two-factor reset, license visibility, support links, and subscription cancellation.
-
-![Settings overview](./screenshots/settings-overview.png)
+- [License and product status](./license-product-status.md)
+- [Settings overview](./settings-overview.md)
+- [Shared 2FA reset](./shared-2fa-reset.md)

@@ -1,66 +1,38 @@
-# Settings Overview
+# AD Control settings
 
-AD Control Settings is the administrative area for product access, role assignment, protected identities, OTP policy, password/unlock behavior, SMTP, and session policy.
+Use **Settings** to configure operator access, protected identities, action methods, OTP, notifications, SMTP, and portal sessions.
 
-Only users with settings access should manage this page.
+![Access assignments](./screenshots/settings-access-assignments-highlight.jpg)
 
-```mermaid
-flowchart LR
-  Settings["AD Control Settings"] --> Access["Access assignments"]
-  Settings --> Protection["Protected users and groups"]
-  Settings --> Workflow["Reset and unlock methods"]
-  Settings --> OTP["OTP policy"]
-  Settings --> SMTP["Notifications and SMTP"]
-  Settings --> Session["Session policy"]
-```
+## Settings reference
 
-![Settings access assignments](./screenshots/settings-access-assignments-highlight.jpg)
+| Area | Purpose |
+| --- | --- |
+| **Access Assignments** | Assigns operator licenses and Tier 1 or Tier 2 roles. |
+| Support groups | Assigns configured AD Control view or settings permissions. |
+| Protected users | Hides named accounts from Tier 1 and Tier 2 workflows. |
+| Protected groups | Hides direct and nested group members from operator workflows. |
+| OTP policy | Sets code lifetime, send limits, resend windows, and failed-attempt limits. |
+| Password options | Controls direct reset, verified reset, change at next logon, complexity, and custom length. |
+| Unlock options | Controls direct and verified account unlock. |
+| Notifications | Configures auditor email and reset or unlock notifications. |
+| **Global Email (SMTP)** | Configures mail relay, sender, port, TLS, authentication reference, and timeout. |
+| **System / Session** | Sets maximum portal session and idle timeout. |
 
-## Settings Sections
+![Policy and delivery settings highlighted](./screenshots/settings-policy-delivery-highlight.jpg)
 
-| Section | Purpose |
-|---|---|
-| Access Assignments | Assign licenses and operator roles. |
-| AD Control View Settings | Configure support groups, protected users, and protected groups. |
-| OTP / verification policy | Control code lifetime, send limits, resend windows, and failed attempt limits. |
-| Password and unlock options | Enable or disable direct password reset, OTP-verified password reset, direct unlock, and OTP-verified unlock. |
-| Notifications | Configure auditor email and reset/unlock notifications. |
-| Global Email (SMTP) | Configure SMTP delivery for email-based workflows. |
-| System / Session | Control portal session duration and idle timeout. |
+## Configure AD Control
 
-## Settings Callouts
-
-Yellow callouts in the screenshots mark the areas administrators should review first.
-
-![Settings policy and delivery highlighted](./screenshots/settings-policy-delivery-highlight.jpg)
-
-![All important settings areas highlighted](./screenshots/settings-all-policy-areas-highlight.jpg)
-
-Recommended first pass:
-
-1. Confirm operator license and role assignments.
+1. Assign operator licenses and roles.
 2. Configure protected users and protected groups.
-3. Review direct vs verified reset and unlock methods.
-4. Configure OTP limits.
-5. Configure SMTP and auditor notifications.
-6. Test with a non-privileged AD user before production use.
+3. Select the allowed password reset and unlock methods.
+4. Configure OTP limits and delivery channels.
+5. Configure SMTP and auditor notifications where used.
+6. Review portal session limits.
+7. Test each enabled action with a non-production target user.
 
-## What Administrators Can Configure
+![Important settings highlighted](./screenshots/settings-all-policy-areas-highlight.jpg)
 
-| Setting area | What the administrator controls |
-|---|---|
-| Access Assignments | Operator license assignment, role selection, role changes, and removal. |
-| Support groups | AD groups that should receive AD Control view/settings permissions. |
-| Protected users | Specific accounts hidden from Tier 1 and Tier 2 workflows. |
-| Protected groups | Groups whose direct and nested members are treated as protected. |
-| OTP TTL and resend policy | How long OTP is valid and how often it can be resent. |
-| Verification limits | Send limits, policy window, and failed attempt limits. |
-| Password reset options | Direct reset, verified reset, change-at-next-logon, complexity, and custom length. |
-| Unlock options | Direct unlock and verified unlock availability. |
-| WhatsApp/mobile OTP | Whether mobile delivery is available for OTP workflows. |
-| Auditor email | Recipient for sensitive workflow notifications. |
-| Templates | Email subject and body text for verification messages. |
-| Session policy | Portal maximum session and idle timeout. |
-| SMTP | Mail relay, sender, port, TLS, authentication reference, and timeout. |
+## Expected result
 
-Settings changes affect production operator behavior. Review protected identities and OTP delivery before enabling broad operator access.
+Operators see only the actions allowed by their role and current policy. Protected identities do not appear in operator search.

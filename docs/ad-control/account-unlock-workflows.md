@@ -1,42 +1,40 @@
-# Account Unlock Workflows
+# Unlock an Active Directory account
 
-AD Control supports direct unlock and verified unlock for locked Active Directory users.
+Use direct or OTP-verified unlock for a locked standard user when the selected method is enabled in Settings.
 
-The unlock button appears when the selected user is locked and the operator has account unlock permission.
+![Locked user status highlighted](./screenshots/avi-locked-status-highlight.jpg)
 
-![Avi locked status highlighted](./screenshots/avi-locked-status-highlight.jpg)
+## Before you begin
 
-## Direct Unlock
+- The operator needs an AD Control license and an allowed Tier 1 or Tier 2 role.
+- The target user must be locked, standard, and not protected.
+- OTP-verified unlock requires a configured delivery channel and Active Directory contact value.
 
-Direct unlock runs immediately when enabled by policy. The operator should provide an operational reason when required.
+## Direct unlock
+
+1. Search for and select the locked user.
+2. Click the direct unlock action.
+3. Enter the required reason.
+4. Confirm the unlock.
 
 ![Direct unlock modal](./screenshots/avi-unlock-direct-modal.jpg)
 
-![Direct unlock complete](./screenshots/avi-unlock-direct-complete.jpg)
+## OTP-verified unlock
 
-## Verified Unlock
+1. Search for and select the locked user.
+2. Choose the verified unlock option.
+3. Select the delivery channel and send OTP.
+4. Enter the code provided by the user.
+5. Confirm the unlock.
 
-Verified unlock requires OTP before the unlock action completes.
+## Expected result
 
-The flow is:
+The account lock is cleared and the operator console shows the updated state.
 
-1. Search and select the locked user.
-2. Choose Unlock.
-3. Select the verification channel.
-4. Send OTP.
-5. Enter the OTP provided by the user.
-6. Verify and unlock.
+![Unlock completed](./screenshots/avi-unlock-direct-complete.jpg)
 
-```mermaid
-flowchart LR
-  Search["Search locked user"] --> Select["Select Avi"]
-  Select --> Direct["Run direct unlock"]
-  Select --> Verified["Verified unlock option"]
-  Verified --> OTP["Send and verify OTP"]
-  Direct --> Audit["Audit unlock result"]
-  OTP --> Audit
-```
+## Verify the unlock
 
-## Policy Control
+Refresh the selected user, confirm the locked state is cleared, and review the unlock audit record.
 
-Administrators can enable or disable direct unlock and verified unlock from Settings. At least one unlock method should remain available for operational continuity.
+The unlock action appears only when the account is locked and the operator has permission.

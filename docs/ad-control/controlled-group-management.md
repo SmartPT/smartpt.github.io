@@ -1,25 +1,27 @@
-# Controlled Group Management
+# Manage approved group membership
 
-Advanced Support (Tier 2) operators can manage approved group membership for standard users.
+Advanced Support (Tier 2) operators can add or remove standard users from groups allowed by AD Control policy.
 
-![Sara group management](./screenshots/sara-group-management.jpg)
+## Before you begin
 
-## What Operators See
+- The operator needs an AD Control license and **Advanced Support (Tier 2)**.
+- The target user must not be Tier 0 or protected.
+- The group must be allowed by AD Control and must not be protected.
 
-The group panel separates:
+## Change group membership
 
-- direct groups
-- nested/effective groups
-- available add/remove actions
+1. Search for and select the target user.
+2. Open the group management action.
+3. Review direct and nested or effective membership.
+4. Select an available add or remove action.
+5. Confirm the change.
 
-## Allowed Group Boundary
+![Tier 2 group management](./screenshots/sara-group-management.jpg)
 
-Administrators control which groups can be added or removed. Protected groups and privileged groups should not be available for routine Tier 2 operations.
+## Expected result
 
-## Recommended Practice
+Active Directory reflects the approved direct group-membership change. Nested or effective membership remains informational unless a supported direct action is available.
 
-- Keep the allowed group list narrow.
-- Do not include Tier 0 or privileged groups.
-- Test add/remove behavior with a non-production group first.
-- Review audit records after group changes.
+## Verify the change
 
+Refresh the group panel and review the group-management audit record. Test new group policy with a non-production group before operator rollout.

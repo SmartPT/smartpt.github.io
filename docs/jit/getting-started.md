@@ -1,63 +1,41 @@
-# Getting Started with JIT Access
+# Get started with JIT Access
 
-JIT Access reduces standing privilege in Active Directory by making privileged group membership temporary, visible, and controlled by policy.
+JIT Access adds a user to configured Active Directory groups for a limited time and removes the membership when the session expires or is revoked.
 
-In many environments, administrative users remain in sensitive groups such as Domain Admins because they may need that access later. That creates standing privilege: an account has high-impact access even when there is no active business need. If the account is compromised, the attacker inherits that privilege immediately.
+![JIT Access product overview](./screenshots/jit-product-overview.jpg)
 
-JIT changes the operating model. Instead of keeping users permanently in privileged AD groups, JIT Access adds group membership only when access is valid, then removes it automatically when the access window closes or an operator revokes it.
+## Main components
 
-![JIT Access product overview showing temporary access, licensed identities, audit, and automatic expiration](./screenshots/jit-product-overview.jpg)
-
-## How JIT Works
-
-JIT Access is built around two main objects:
-
-- **JIT roles** define the privileged access profile. A role maps to one or more existing Active Directory groups and defines which access methods are allowed.
-- **Assignments** define who can receive a role, how access is activated, and when access is valid.
-
-The role does not grant access by itself. Access becomes active only through an assignment.
-
-## Temporary AD Group Membership
-
-When a JIT assignment becomes active, SmartPT can add the target user to the AD group mapped by the role. When the assignment expires, closes, or is revoked, SmartPT removes that group membership.
-
-This gives operators a controlled way to provide privileged access without converting users into permanent members of sensitive AD groups.
-
-## Supported Assignment Types
-
-JIT Access supports three assignment models:
-
-| Assignment type | Use case |
+| Component | Purpose |
 | --- | --- |
-| Manual | Administrator-granted access for urgent work, incidents, or short operational tasks. |
-| Scheduled | Planned access during approved days and time windows, such as recurring maintenance. |
-| Eligible OTP | Self-service activation for approved users with OTP verification. |
+| JIT role | Maps temporary access to one or more existing Active Directory groups and defines allowed access methods. |
+| Assignment | Defines who may receive the role, how it activates, and when it is valid. |
+| Active session | Shows temporary access that is currently active. |
 
-## No Approval Workflow in This Release
+A JIT role does not activate access by itself. An assignment must become active before SmartPT adds the user to the mapped groups.
 
-This release does **not** include an approval workflow.
+## Assignment types
 
-Assignments are created and managed by administrators. Eligible OTP controls user activation and verification, but it is not an approval request process. If your process requires manager or security approval, keep that control outside the product for this release.
+| Type | Behavior |
+| --- | --- |
+| Manual | An administrator starts access immediately for a fixed duration. |
+| Scheduled | SmartPT starts and removes access during configured time windows. |
+| Eligible OTP | An assigned user verifies with OTP and starts a time-limited session. |
 
-## Recommended Learning Order
+> **Important:** JIT Access does not include an approval workflow in this release. Administrators create assignments. Eligible OTP verifies activation but does not create an approval request.
 
-Use this order when onboarding administrators:
+## Before you configure access
 
-1. **Getting Started with JIT Access** - understand the security model and terminology.
-2. **Access Model, Licensing, and RBAC** - understand the difference between product access, product permissions, JIT roles, and active privilege.
-3. **JIT Portal Overview** - learn the dashboard, workspace, and monitoring areas.
-4. **JIT Settings Overview** - review licensing, administrator access, OTP, notifications, SMTP, and shared settings.
-5. **Creating JIT Roles** - map controlled roles to existing AD groups.
-6. **Creating JIT Assignments** - assign users to roles and define access windows.
-7. **Assignment Types** - understand Manual, Scheduled, and Eligible OTP behavior.
-8. **Troubleshooting** - use audit records, visible errors, and product health checks.
+- Confirm the JIT license is active.
+- Assign product licenses and JIT RBAC roles to the required users.
+- Identify the existing Active Directory groups that JIT will manage.
+- Confirm the SmartPT service identity can add and remove members from those groups.
+- Test with a non-production user and group.
 
-## What to Configure Next
+## Recommended order
 
-After reading this page:
-
-1. Confirm the JIT portal is licensed and the signed-in administrator has JIT administration rights.
-2. Review the JIT dashboard and access workspace.
-3. Confirm which existing AD groups should be managed by JIT.
-4. Create roles only after the AD group mapping and duration limits are clear.
-5. Create assignments only after the intended operating model is known.
+1. [Review licensing and RBAC](./access-model-licensing-rbac.md).
+2. [Review JIT Settings](./settings-overview.md).
+3. [Create a JIT role](./roles.md).
+4. [Create an assignment](./assignments.md).
+5. [Monitor active sessions](./sessions-revoke.md).

@@ -1,52 +1,42 @@
-# Access Model, Licensing, and RBAC
+# JIT Access licensing and RBAC
 
-JIT Access separates product access from privileged access.
+JIT Access checks authentication, product licensing, RBAC, and assignment state separately.
 
-A user can authenticate to the portal and still be blocked from JIT actions if the license assignment or RBAC role is missing. This is intentional. JIT controls sensitive Active Directory group membership, so access is granted only after the product license, session, and SmartPT permissions are valid.
+## Access layers
 
-## Access Layers
-
-| Layer | Purpose |
+| Layer | What it controls |
 | --- | --- |
-| Authentication | Confirms the signed-in Active Directory user. |
-| License validation | Confirms the JIT product license is active and the user is assigned to the product. |
-| RBAC role assignment | Defines what the user can do inside JIT. |
-| JIT role and assignment | Defines which privileged AD group access can be activated and when. |
+| Authentication | Confirms the signed-in Active Directory identity. |
+| Product license | Allows the user to enter JIT Access. |
+| JIT RBAC | Defines the actions available inside the portal. |
+| JIT role | Defines the Active Directory groups and allowed access methods. |
+| Assignment | Defines the user, activation method, and validity period. |
 
-Successful sign-in does not mean the user can create roles, assign access, or activate eligible access. SmartPT checks the required permission before each privileged action.
+Signing in does not grant JIT administration or temporary Active Directory group membership.
 
-## Licensed Users
+## Licensed users
 
-Licensed Users in **Settings** controls who consumes a JIT product user license.
+Open **Settings > Licensed Users** to assign a JIT product license. Removing the license blocks product access even if the user still has an RBAC assignment.
 
-Use this area to assign product access to users who need to administer JIT or activate eligible access. Removing a license assignment blocks product access, even if the user still has an RBAC role assignment.
+## RBAC role assignments
 
-## RBAC Role Assignments
+Open **Settings > Role Assignments** to assign product permissions.
 
-Role Assignments in **Settings** controls what a licensed user can do.
+| Role | Purpose |
+| --- | --- |
+| **JitAdmin** | Manages JIT roles, assignments, active sessions, and settings. |
+| **JitEligibleUser** | Activates the user's own Eligible OTP assignments. |
 
-Common roles include:
+These roles do not add the user to Domain Admins or any other Active Directory group.
 
-- **JitAdmin** for managing roles, assignments, sessions, and settings.
-- **JitEligibleUser** for activating approved eligible access.
-
-RBAC roles are product permissions, not Active Directory privileged groups. They do not add the user to Domain Admins, Account Operators, or any mapped JIT role group.
-
-## JIT Roles Are Different
-
-A JIT role maps to one or more existing Active Directory groups. For example, a JIT role named **Domain Admins JIT** may map to the existing **Domain Admins** group.
-
-The JIT role only defines the privileged access profile. It does not grant access until an assignment activates it.
-
-## Recommended Setup Order
+## Configure access
 
 1. Confirm the JIT license is active.
-2. Assign a product license to the administrator.
-3. Assign the administrator the required JIT RBAC role.
-4. Create JIT roles that map to existing AD groups.
-5. Create assignments for users who should receive temporary access.
-6. Verify active sessions and automatic removal behavior.
+2. Assign a product license to the user.
+3. Assign the required JIT RBAC role.
+4. Create the required JIT role and assignment.
+5. Sign in as the user and verify only the intended pages and actions are available.
 
-## Operational Rule
+## Expected result
 
-Treat license assignment, RBAC role assignment, JIT role mapping, and JIT assignment as separate controls. This keeps product access, administrative permission, and privileged AD group membership clear and auditable.
+Administrators can manage JIT configuration. Eligible users can see only their own activation options. Active Directory membership changes only when an assignment becomes active.

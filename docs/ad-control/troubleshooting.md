@@ -1,57 +1,50 @@
-# AD Control Troubleshooting
+# Troubleshoot AD Control
 
-Use this page when access, search, OTP, reset, unlock, profile, group, SMTP, or settings behavior does not match expectations.
+Start with the affected operator, target user, action, and exact time. Then check licensing, RBAC, protection, OTP, delivery, Active Directory permissions, and service health.
 
-## Operator Cannot Access AD Control
+## Operator cannot access AD Control
 
-Check:
+1. Confirm the operator has an AD Control product license.
+2. Confirm one active Tier 1 or Tier 2 role.
+3. Confirm license capacity is available.
+4. Confirm the expected Active Directory identity is signed in.
 
-- The user has an AD Control license assignment.
-- The user has one operator role.
-- The license has available seats.
-- The user is signing in with the expected AD identity.
+Settings administrators may have Settings access without an operator license.
 
-Jim-style settings administrators may have Settings access without being licensed as an operator.
+## Target user does not appear
 
-## Target User Does Not Appear In Search
+Check that the user exists and is not Tier 0, a protected user, or a direct or nested member of a protected group. Missing protected identities are expected behavior.
 
-Check:
+![Tier 0 account blocked from search](./screenshots/sara-tier0-search-blocked.jpg)
 
-- The target exists in Active Directory.
-- The target is not Tier 0.
-- The target is not in protected users.
-- The target is not a direct or nested member of a protected group.
+## OTP is not received
 
-This is expected for protected accounts such as joe or Tier 0 accounts such as jim.
+### What to check
 
-![Sara cannot manage Tier 0 account](./screenshots/sara-tier0-search-blocked.jpg)
+1. Confirm the target user's configured Active Directory mail or `mobile` attribute.
+2. Confirm the selected delivery channel is enabled.
+3. Review OTP send, resend, expiry, and failed-attempt limits.
+4. For mobile delivery, include the country prefix; `+` is optional. Israel numbers may omit `972`.
+5. For email, check SMTP configuration and connectivity.
 
-## OTP Cannot Be Sent
+## Reset, unlock, profile, or group action fails
 
-Check:
+Confirm the action is enabled, the operator role permits it, the target is not protected, and the SmartPT service identity has the required delegated Active Directory permission. Review the action audit detail.
 
-- AD mail and mobile attributes exist for the target user.
-- For mobile OTP, the target user has a phone number in the Active Directory `mobile` attribute.
-- The mobile number includes the required country prefix. The `+` sign is supported but not required. Israel numbers can be stored without `972`; other countries should include the prefix, for example `62` or `+62`.
-- The selected delivery channel is enabled.
-- SMTP is configured when using email.
-- WhatsApp/mobile delivery is enabled when using mobile.
-- OTP send limits and resend windows have not been reached.
+## SMTP or notification fails
 
-## SMTP Or Notification Failure
+Check SMTP host, port, sender, TLS, authentication reference, firewall access, auditor email, and notification settings. Confirm the relay supports the configured non-interactive delivery method.
 
-Check:
+## Portal or service is unavailable
 
-- SMTP host, port, sender, TLS, and credential reference.
-- Firewall access from the AD Control server to the relay.
-- Whether the mail system requires MFA or interactive authentication.
-- Auditor email and notification settings.
+Check the AD Control portal at `/adc`, the related SmartPT service, IIS application state, and recent IIS or ASP.NET Core events.
 
-## Portal Or Service Issue
+Do not replace the preinstalled SmartPT service identity unless deployment guidance or SmartPT support confirms it is required.
 
-Check that AD Control is reachable and the related service is running:
+## Information for support
 
-- AD Control portal: `/adc`
-- AD Control service status is healthy
-
-AD Control uses the pre-installed SmartPT service identity. Do not change the service identity unless deployment guidance requires it.
+- Operator and target usernames.
+- Operator role and attempted action.
+- Exact time and error text.
+- Screenshot and audit detail.
+- Portal, service, and IIS status.

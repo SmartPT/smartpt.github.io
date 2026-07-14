@@ -1,51 +1,37 @@
-# JIT Settings Overview
+# JIT Access settings
 
-JIT Settings is the administrative area for product access, RBAC role assignment, notification behavior, and shared session policy.
-
-Open **Settings** after confirming the dashboard license status. Do this before creating production JIT roles or assignments.
+Use **Settings** to manage product licenses, JIT RBAC, product behavior, notifications, SMTP, and portal session limits.
 
 ![JIT settings overview](./screenshots/settings-overview.png)
 
-## Licensed Users
+## Settings reference
 
-Licensed Users defines which Active Directory users are assigned to the JIT product.
+| Area | Purpose |
+| --- | --- |
+| **Licensed Users** | Assigns JIT product licenses. A license does not grant JIT administration or Active Directory membership. |
+| **Role Assignments** | Assigns JIT product permissions such as **JitAdmin** and **JitEligibleUser**. |
+| **Eligible requester groups** | Limits eligible access to configured groups where enabled. |
+| **Notification recipients** | Defines recipients for selected JIT session emails. |
+| Session event notifications | Controls email for manual activation, eligible activation, extension, and revoke events. |
+| **System / Session** | Configures portal session limits, SMTP, and group-specific overrides. |
 
-Assigning a user license allows the user to consume one licensed JIT identity. It does not automatically make the user a JIT administrator and does not grant privileged AD group membership.
+## Configure settings
 
-Use this section to:
+1. Confirm the JIT license is active.
+2. Assign product licenses.
+3. Assign JIT RBAC roles.
+4. Review eligible requester groups.
+5. Configure notification recipients and event toggles.
+6. Configure SMTP when email delivery is used.
+7. Review portal session lifetime and idle timeout.
+8. Save and test with a non-production role.
 
-- Add users who need JIT product access.
-- Remove users who no longer need product access.
-- Monitor assigned users against the licensed user limit.
+## Expected result
 
-## Role Assignments
+Licensed users see only the pages and actions allowed by their JIT RBAC role. Notifications and portal sessions follow the saved product settings.
 
-Role Assignments define product permissions inside JIT.
+## Verify settings
 
-Use this section to assign roles such as **JitAdmin** or **JitEligibleUser**. A user normally needs both a product license and a matching role assignment before the portal enables the relevant workflow.
-
-## JIT Product Settings
-
-JIT Product Settings controls product behavior that applies across JIT workflows.
-
-Important settings include:
-
-- **Eligible requester groups** for limiting who can request or activate eligible access.
-- **Notification recipients** for administrative session notifications.
-- **JIT session email notifications** for selected session events.
-- Notification toggles for manual activation, eligible OTP activation, session extension, and session revoke.
-
-## System and Session Policy
-
-System / Session settings control portal session behavior and shared delivery settings.
-
-Use this area to review:
-
-- Maximum portal session duration.
-- Idle timeout.
-- Shared SMTP settings for notifications and OTP fallback.
-- Optional group-specific session overrides.
-
-## Recommended Practice
-
-Keep settings changes small and test them with a non-production role first. For production rollout, confirm that product licensing, RBAC, SMTP, and session policy are working before mapping highly privileged AD groups.
+- Sign in with a JIT administrator and an eligible user.
+- Trigger a non-production session event and confirm the expected notification.
+- Confirm session lifetime and idle behavior.

@@ -1,73 +1,34 @@
-# Assignment Types
+# Choose a JIT assignment type
 
-JIT Access supports three assignment types: Manual, Scheduled, and Eligible.
+Select the assignment type that matches when access should start and who starts it.
 
-Use the assignment type to match the operational need. The same JIT role can support more than one assignment type if the role allows it.
+| Requirement | Assignment type |
+| --- | --- |
+| Administrator grants immediate access | Manual |
+| Access follows a recurring day and time window | Scheduled |
+| Assigned user activates access after OTP verification | Eligible OTP |
+| Manager or security approval before activation | Not supported in this release |
 
 ## Manual
 
-Manual access is administrator-granted and starts immediately.
+Manual access starts when the administrator creates the assignment. It expires after the configured duration and can be revoked early.
 
-Use Manual when:
-
-- An administrator needs to grant access for an urgent task.
-- The work has a clear short duration.
-- The user should not be able to self-activate.
-
-Key behavior:
-
-- Starts when the assignment is created.
-- Expires automatically after the configured duration.
-- Can be revoked early.
-- Must stay within the role duration limits.
+![Create Manual assignment](./screenshots/assignment-create-manual.png)
 
 ## Scheduled
 
-Scheduled access is automatic access during defined time windows.
+Scheduled access starts and ends during configured day and time windows. It does not require user activation.
 
-Use Scheduled when:
+![Create Scheduled assignment](./screenshots/assignment-create-scheduled.png)
 
-- Access is needed for planned recurring work.
-- The same user needs access during predictable maintenance windows.
-- No user interaction should be required at start time.
-
-Key behavior:
-
-- Evaluated automatically by SmartPT.
-- Grants access inside the configured day and time window.
-- Removes access outside the configured window.
-- Keeps access state aligned with the configured schedule.
-
-This phase does not support holiday calendars or cross-midnight schedules.
+Holiday calendars and cross-midnight schedules are not supported in this release.
 
 ## Eligible OTP
 
-Eligible access lets approved users activate access themselves after OTP verification.
+Eligible OTP lets an assigned user activate the role after OTP verification. Contact details come from Active Directory; the user cannot enter a different phone number or email address.
 
-Use Eligible when:
+Mobile delivery requires the Active Directory `mobile` attribute. International numbers must include the country prefix. The `+` sign is optional. Israel numbers may be stored without `972`.
 
-- The user is approved for the role but should not hold standing privilege.
-- The access should start only when the user needs it.
-- The organization wants self-service activation without permanent AD group membership.
+## Verification
 
-Key behavior:
-
-- The user sees only their own eligible assignments.
-- OTP is sent to contact details sourced from Active Directory.
-- Users cannot type their own phone number or email address.
-- Mobile OTP requires the user's Active Directory `mobile` attribute. International numbers should include the country prefix; the `+` sign is optional.
-- Access starts only after successful verification.
-- Access expires automatically.
-
-## Decision Guide
-
-| Need | Use |
-| --- | --- |
-| Immediate administrator-granted access | Manual |
-| Recurring maintenance window | Scheduled |
-| Approved self-service activation | Eligible OTP |
-| Manager/security approval before activation | Not supported in this release |
-
-## Practical Recommendation
-
-Start with Manual for first validation, then add Scheduled for recurring operations, and use Eligible OTP only after license assignment, RBAC, OTP delivery, and session monitoring have been tested.
+After creating an assignment, confirm its type and status in **Assignments**. Use **Active Sessions** to verify active access and its expiration time.

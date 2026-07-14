@@ -1,37 +1,35 @@
-# Shared 2FA and Reset MFA
+# Reset shared two-factor enrollment
 
-SmartPT Console can reset a user's shared two-factor enrollment. This is used when a user loses the authenticator app, changes device, or must be forced to re-enroll.
+Use this procedure when a user loses the authenticator, changes device, or must enroll again.
 
-## How Shared 2FA Works
+## Before you begin
 
-```mermaid
-flowchart LR
-  User["User signs in"] --> Core["SmartPT Console or product portal"]
-  Core --> Challenge["Shared 2FA challenge"]
-  Challenge --> Verify["SmartPT Verify"]
-  Verify --> Cookie["Shared verification proof"]
-  Cookie --> Product["Continue to allowed portal"]
-```
+- You need SmartPT Console administrator access.
+- Confirm the target user and the customer's authorization for the reset.
+- Tell the user that a new enrollment is required at the next sign-in.
 
-The shared verification proof is separate from product authorization. Passing 2FA does not grant JIT or AD Control permissions by itself.
+Shared two-factor verification is separate from product authorization. A successful verification does not grant JIT Access or AD Control permissions.
 
-## Reset MFA For A User
+## Reset the enrollment
 
-1. Sign in to SmartPT Console as a Console administrator.
+1. Open **SmartPT Console**.
 2. Open **Settings**.
-3. In **Shared Two-Factor Access**, search for the AD user.
+3. In **Shared Two-Factor Access**, search for the Active Directory user.
 4. Select the user.
-5. Review enrollment status.
-6. Select **Reset two-factor** only when re-enrollment is required.
+5. Review the enrollment status.
+6. Click **Reset two-factor**.
 
 ![Shared 2FA reset highlighted](./screenshots/shared-2fa-avi-reset-highlight.png)
 
-After reset, the user must enroll again on the next sign-in. The reset is an administrative recovery action and should be audited.
+## Expected result
 
-## What To Check Before Reset
+The current shared two-factor enrollment is cleared. The user must enroll again during the next sign-in.
 
-- Confirm the target user is correct.
-- Confirm the request is approved by the customer's process.
-- Confirm the user understands they will need to enroll again.
-- Do not reset 2FA as a workaround for missing product RBAC or license assignment.
+## Verify the reset
 
+Ask the user to sign in and confirm that the enrollment screen appears. Do not use a two-factor reset to troubleshoot missing product licensing or RBAC assignments.
+
+## Related pages
+
+- [SmartPT Console settings](./settings-overview.md)
+- [Configure Console access](./access-model-rbac.md)

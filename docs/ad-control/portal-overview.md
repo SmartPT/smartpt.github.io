@@ -1,27 +1,31 @@
-# Portal Overview
+# AD Control portal overview
 
-The AD Control portal is split between the dashboard, the support console, and settings.
-
-The exact tabs depend on the signed-in user. Jim sees Settings. David and Sara see the AD Control operator console. Protected or unassigned users should not see administrative configuration.
+The AD Control portal shows the dashboard, operator console, or Settings according to the signed-in user's access.
 
 ## Dashboard
 
-The dashboard confirms the signed-in context and provides the next available action.
+![Tier 1 dashboard](./screenshots/david-dashboard.jpg)
 
-![David dashboard in dark mode](./screenshots/david-dashboard.jpg)
+The dashboard confirms the signed-in user and provides the available product actions.
 
-## Main Areas
+## Portal areas
 
-| Area | Purpose |
-|---|---|
-| Dashboard | Shows product status and quick entry into the user’s available workspace. |
-| AD Control | Operator support console for user search and allowed actions. |
-| Settings | Administrative configuration for licenses, RBAC, protected identities, OTP, SMTP, and session policy. |
-| Product / Docs / Support | Links back to SmartPT public product, documentation, and support resources. |
+| Area | Available to | Purpose |
+| --- | --- | --- |
+| **Dashboard** | Licensed users and administrators | Shows product status and available entry points. |
+| **AD Control** | Licensed Tier 1 and Tier 2 operators | Searches standard users and shows role-approved actions. |
+| **Settings** | Settings administrators | Manages access assignments, protected identities, OTP, action policy, SMTP, and sessions. |
+| **Product**, **Docs**, **Support** | Signed-in users | Opens SmartPT product, documentation, and support resources. |
 
-## Role-Based UI
+Tier 1 and Tier 2 operators do not see **Settings** unless they also have settings access. Settings access does not by itself assign an operator license.
 
-David and Sara do not see Settings. Jim can manage Settings but does not need an operator license if his job is only administration.
+## Verify portal access
 
-This is intentional. AD Control should expose only the workflow required by the signed-in user.
+- Sign in as a Tier 1 operator and confirm reset and unlock actions are available.
+- Sign in as a Tier 2 operator and confirm approved profile and group actions are also available.
+- Sign in as a settings administrator and confirm **Settings** is visible.
 
+## Related pages
+
+- [Operator console](./operator-console.md)
+- [Settings overview](./settings-overview.md)

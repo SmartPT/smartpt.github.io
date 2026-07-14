@@ -1,42 +1,43 @@
-# Password Reset Workflows
+# Reset an Active Directory password
 
-AD Control supports direct reset and verified reset. Administrators decide which methods are enabled in Settings.
+AD Control supports direct reset and OTP-verified reset when those methods are enabled in Settings.
 
-```mermaid
-flowchart LR
-  Search["Search standard user"] --> Select["Select Avi"]
-  Select --> Direct["Reset now"]
-  Select --> Verified["Verified reset option"]
-  Verified --> OTP["Send OTP to AD-sourced contact"]
-  Direct --> Generated["Generated password shown once"]
-  OTP --> Generated
-  Generated --> Audit["Audit reset result"]
-```
+## Before you begin
 
-## Direct Reset
+- The operator needs an AD Control license and an allowed Tier 1 or Tier 2 role.
+- The target user must be a standard, non-protected account.
+- OTP-verified reset requires an enabled delivery channel and the corresponding Active Directory contact attribute.
 
-Direct reset is an administrator-approved helpdesk action. It runs immediately and is audited.
+## Direct reset
 
-![Direct reset modal for Avi](./screenshots/avi-reset-direct-modal.jpg)
+1. Search for and select the target user.
+2. Click the direct password reset action.
+3. Review the target and required reason.
+4. Confirm the reset.
 
-Use direct reset when policy allows the operator to reset the target user without OTP verification.
+![Direct reset modal](./screenshots/avi-reset-direct-modal.jpg)
 
-## Verified Reset
+## OTP-verified reset
 
-Verified reset requires OTP before the password reset completes.
+1. Search for and select the target user.
+2. Choose the verified reset option.
+3. Select an available delivery channel.
+4. Send the OTP to the Active Directory contact value.
+5. Enter the code provided by the user.
+6. Confirm the reset.
 
-![Verified reset option for Avi](./screenshots/avi-reset-otp-option.jpg)
+![OTP reset option](./screenshots/avi-reset-otp-option.jpg)
 
-The operator selects an available delivery channel, sends OTP, enters the code provided by the user, and completes the reset.
+Operators cannot enter a different delivery address or phone number. Mobile OTP uses the Active Directory `mobile` attribute. International numbers require the country prefix; `+` is optional. Israel numbers may omit `972`.
 
-OTP delivery uses AD-sourced contact attributes. Operators cannot type arbitrary delivery addresses or phone numbers in the reset dialog.
+## Expected result
 
-For mobile OTP, the target user must have a phone number in the Active Directory `mobile` attribute. The number does not need a `+` sign, but it must be routable. Israel numbers can be stored without `972`. For other countries, include the country prefix, for example `62` or `+62`.
-
-## Password Handling
-
-Generated passwords are shown once after reset. Copy or deliver the password immediately using the approved workflow.
+AD Control resets the password and shows the generated password once.
 
 ![Generated password shown once](./screenshots/avi-reset-generated-password-once.jpg)
 
-Audit records should include the action, actor, target, result, and audit detail, but not the generated password or OTP code.
+Deliver the password through the customer's approved process. The generated password and OTP code must not appear in audit logs.
+
+## Verify the reset
+
+Confirm the success result in the portal and review the audit record for the actor, target, method, result, and available detail.

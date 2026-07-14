@@ -1,35 +1,36 @@
-# SmartPT Console Settings Overview
+# SmartPT Console settings
 
-Settings is the administrative area for root portal access, shared two-factor recovery, license visibility and subscription actions.
+Use **Settings** to manage Console access, session limits, shared two-factor recovery, and license information.
 
 ![Settings overview](./screenshots/settings-overview.png)
 
-## Portal Access Settings
+## Settings reference
 
-Portal Access Settings controls who can administer or view SmartPT Console.
+| Area | Purpose |
+| --- | --- |
+| **Administrative groups** | Active Directory groups that receive Console administrator access. |
+| **Viewer groups** | Active Directory groups that receive read-only Console access. |
+| **Maximum session lifetime** | Hard limit for a Console session. |
+| **Idle timeout** | Ends a Console session after inactivity. |
+| **Shared Two-Factor Access** | Shows enrollment state and provides the reset action. |
+| **License and Billing** | Shows license state, serial, last validation, support links, and subscription action. |
 
 ![RBAC and session settings highlighted](./screenshots/settings-rbac-session-highlight.png)
 
-| Setting | Purpose |
-| --- | --- |
-| Administrative groups | AD groups that receive Console administrator access. |
-| Viewer groups | AD groups that receive read-only Console visibility. |
-| Maximum session lifetime | Hard limit for a Console session. |
-| Idle timeout | Inactivity limit for a Console session. |
-
-## Shared Two-Factor Access
-
-Shared Two-Factor Access lets an administrator inspect and reset a user's shared authenticator enrollment. Use it when the authenticator is lost, replaced, or re-enrollment is required.
+## Shared two-factor recovery
 
 ![Shared 2FA reset highlighted](./screenshots/shared-2fa-avi-reset-highlight.png)
 
-Resetting two-factor does not grant product permission. It only clears the shared 2FA enrollment so the user must enroll again on the next sign-in.
+Resetting two-factor clears the user's shared enrollment. It does not assign a product license or product role.
 
-## License and Billing
+## License and billing
 
-License and Billing shows the Core license state, serial, last validation time, documentation links, and subscription cancellation action.
+![License and product status highlighted](./screenshots/license-status-highlight.png)
 
-![License and Product Status highlighted](./screenshots/license-status-highlight.png)
+> **Warning:** Cancelling the Core subscription can block access to JIT Access and AD Control when the license becomes inactive.
 
-Use subscription cancellation carefully. It affects the shared Core subscription and can block access to JIT Access and AD Control when the license is no longer active.
+## Verify settings
 
+- Confirm administrative and viewer groups resolve to the intended Active Directory groups.
+- Test the configured session limits with a non-production account.
+- Confirm the license shows **ACTIVE** and the validation result is current.

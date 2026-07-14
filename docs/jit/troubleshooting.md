@@ -1,114 +1,59 @@
-# JIT Troubleshooting
+# Troubleshoot JIT Access
 
-Use this page when JIT Portal access, eligible activation, OTP delivery, notifications, or session enforcement does not behave as expected.
+Start with the visible symptom, then check licensing, RBAC, assignment state, delivery settings, Active Directory permissions, and service health.
 
-Start with the visible symptom, then check the related access layer. Most issues are caused by missing product assignment, missing JIT assignment, expired timing, OTP policy limits, or IIS application state.
+## User cannot access JIT Access
 
-## User Cannot Access JIT Portal
+### What to check
 
-If a user signs in but cannot access the JIT Portal, check product access first.
+1. Confirm the user has a JIT product license.
+2. Confirm the required JIT RBAC assignment.
+3. Confirm the user is signing in with the expected Active Directory account.
 
-Required access:
+Domain Admins can access management areas without a separate JIT role assignment. Other users require explicit access.
 
-- The user must have a JIT product license assignment.
-- The user must have the correct JIT role assignment for administration, such as **JitAdmin**.
-- Domain Admins can access management areas without a separate JIT role assignment.
-- Normal users do not receive administrator access unless they are explicitly assigned.
+## Eligible activation does not appear
 
-If the user is not a Domain Admin and does not have a JIT role assignment, access is blocked by design.
+Check that the user has a product license, an active Eligible assignment for the same `samAccountName`, and the required eligible-user RBAC. Confirm the role is enabled, allows Eligible access, and the assignment is inside its validity period.
 
-## Eligible Activation Does Not Appear
+## OTP is not received
 
-If a Joe-style eligible user signs in but does not see the expected activation option, check the assignment.
+### Possible causes
 
-Common causes:
+- The required Active Directory `mobile` or mail attribute is empty.
+- The delivery channel is disabled.
+- The OTP send, retry, or expiry limit was reached.
+- The messaging service or SMTP relay is unavailable.
 
-- The user does not have a JIT product license.
-- The administrator has not created an Eligible assignment for the user.
-- The assignment was created for a different `samAccountName`.
-- The assigned role is disabled.
-- The role does not allow Eligible access.
-- The assignment has not started yet.
-- The assignment is no longer valid.
+### What to check
 
-The user should contact a JIT administrator and ask them to confirm the Eligible assignment, role, timing, and license assignment.
+1. Review OTP policy and resend limits in **Settings**.
+2. Confirm the Active Directory contact attribute.
+3. For mobile OTP, include the country prefix; `+` is optional. Israel numbers may omit `972`.
+4. Check delivery-service or SMTP connectivity.
 
-## OTP Send Is Limited
+## Eligible access cannot reactivate after revoke
 
-OTP delivery is controlled by JIT Settings.
+An administrator revoke may block activation of the same eligible role. This is expected behavior and is controlled by JIT Settings and session policy.
 
-Check:
+## Group membership does not change
 
-- OTP policy and resend limits.
-- OTP time-to-live.
-- Allowed delivery channel.
-- AD mobile or mail attributes.
-- For mobile OTP, the AD user must have a phone number in the `mobile` attribute.
-- The mobile number must include the required country prefix. The `+` sign is supported but not required. Israel numbers can be stored without `972`; other countries should include the prefix, for example `62` or `+62`.
-- Messaging service connectivity.
-- SMTP fallback if email is enabled.
+1. Confirm the mapped Active Directory group distinguished name.
+2. Confirm the user and group are readable.
+3. Confirm the SmartPT service identity can add and remove group members.
+4. Review the assignment and session audit details.
 
-If the user reaches an OTP send or retry limit, wait for the configured policy window or ask an administrator to review JIT Settings.
+Do not replace the preinstalled service identity unless SmartPT support confirms a deployment problem.
 
-## Eligible User Cannot Activate After Revoke
+## Portal or notifications are unavailable
 
-If an administrator revokes an active eligible session, the eligible user may be blocked from activating the same role again.
+Check the JIT portal and service state, IIS and ASP.NET Core events, SMTP host and port, firewall rules, TLS settings, authentication, credential reference, and configured recipients.
 
-This is by design. Revoke is treated as an administrative stop action, not just a normal session close.
+## Information for support
 
-Administrators can control this behavior through JIT Settings and session policy. Use it when revoked access should remain blocked for a defined period after the session is stopped.
-
-## SMTP or Notification Failures
-
-If session notifications or email fallback do not work, check delivery infrastructure before changing JIT roles.
-
-Check:
-
-- SMTP host and port.
-- Firewall rules between the SmartPT server and the SMTP relay.
-- TLS or STARTTLS requirements.
-- SMTP authentication settings.
-- Credential reference if authentication is required.
-- MFA or conditional access on the SMTP account if enabled.
-- Notification recipients in JIT Settings.
-
-If the relay requires MFA for interactive users, use a supported service account, application password, connector, or relay configuration that SmartPT can use for automated delivery.
-
-## Service Identity Permissions
-
-By default, JIT Access uses the preinstalled SmartPT service identity. Customers normally do not need to change this identity.
-
-Check service identity permissions only when group membership changes fail after the portal and assignment checks are correct.
-
-The SmartPT service identity must be able to:
-
-- Read the target user and mapped group.
-- Add the user to the mapped AD group when access starts.
-- Remove the user from the mapped AD group when access expires or is revoked.
-
-Do not change the gMSA unless deployment support confirms the service identity is wrong or missing required delegation.
-
-## Portal and Service State
-
-If the portal does not load or the JIT UI shows stale or missing data, check the SmartPT service state.
-
-Confirm the JIT portal and related SmartPT service are running, then reload the JIT Portal.
-
-Also check:
-
-- The JIT portal is reachable.
-- The JIT service is reachable.
-- Recent Windows Event Viewer errors for IIS, ASP.NET Core, or authentication.
-
-## Quick Escalation Checklist
-
-Collect this evidence before escalation:
-
-- Signed-in username.
-- Whether the user is a Domain Admin, JIT administrator, or eligible user.
-- Role ID and assignment ID if available.
-- Exact time of failure.
-- Error message or audit detail.
-- Screenshot of the relevant JIT Portal page.
-- JIT portal and service status.
-- Relevant SmartPT or Windows Event Viewer errors.
+- Signed-in username and expected JIT role.
+- Role ID and assignment ID when available.
+- Exact time and error text.
+- Screenshot of the affected page.
+- Portal and service status.
+- Relevant audit detail and Windows Event Viewer errors.

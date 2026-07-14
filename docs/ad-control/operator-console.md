@@ -1,39 +1,37 @@
-# Operator Support Console
+# Use the AD Control operator console
 
-Operators use the AD Control tab to search Active Directory users and run only the actions allowed by their assigned role.
+Use the operator console to find a standard Active Directory user and run only the actions available to your assigned role.
 
-![David selected Avi](./screenshots/david-avi-selected.jpg)
+![Tier 1 operator selected a target user](./screenshots/david-avi-selected.jpg)
 
-## Search
+## Search for a user
 
-Operators can search by samAccountName, UPN, or display name.
+1. Open **AD Control**.
+2. Search by `samAccountName`, UPN, or display name.
+3. Select the target user.
 
-Protected users and protected group members should not appear to Tier operators. If a user is missing from search, check protection rules before treating it as a directory issue.
+Protected users and protected group members do not appear to Tier 1 or Tier 2 operators.
 
-## Selected User Panel
+## Selected user information
 
-After selecting a user, the console shows:
+The selected-user panel can show identity, Active Directory email and phone attributes, enabled state, lock state, password-last-set time, and the actions allowed by the operator role.
 
-- target user identity
-- email, phone, and mobile attributes from Active Directory
-- enabled/disabled status
-- locked status
-- password last set time
-- available actions based on the operator role
+## Actions by role
 
-## Tier 1 vs Tier 2
+| Role | Available actions |
+| --- | --- |
+| **Helpdesk (Tier 1)** | Password reset and account unlock for standard users. |
+| **Advanced Support (Tier 2)** | Tier 1 actions plus approved profile updates and controlled group membership. |
 
-| User | Role | Visible workflow |
-|---|---|---|
-| david | Helpdesk (Tier 1) | Reset password and unlock standard users. |
-| sara | Advanced Support (Tier 2) | Reset/unlock plus profile and group actions. |
+## Verify the console
 
-```mermaid
-flowchart TB
-  Console["Operator console"] --> Search["Search user"]
-  Search --> Protection["Protection check"]
-  Protection -->|Standard user| Actions["Show allowed actions"]
-  Protection -->|Tier 0 or protected| Block["Hide or block target"]
-  Actions --> Tier1["Tier 1: reset and unlock"]
-  Actions --> Tier2["Tier 2: profile and groups"]
-```
+- Confirm Tier 1 cannot edit profile attributes, change phone numbers, or manage groups.
+- Confirm Tier 2 sees only the approved profile and group actions.
+- Confirm Tier 0 and protected identities are not searchable.
+- Review the audit record after a sensitive action.
+
+## Related pages
+
+- [Password reset](./password-reset-workflows.md)
+- [Account unlock](./account-unlock-workflows.md)
+- [Protected users and groups](./protected-users-groups.md)

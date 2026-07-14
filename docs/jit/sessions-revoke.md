@@ -1,70 +1,49 @@
-# Monitoring, Sessions, Extend, and Revoke
+# Monitor, extend, or revoke active access
 
-Active Sessions is the operations view for live privileged access.
+Use **Active Sessions** to review current temporary access and stop it before expiration when required.
 
-Use it when an administrator needs to confirm who is currently elevated, which JIT role is active, when access started, when it expires, and whether the session should be extended or revoked.
+![Active session actions](./screenshots/sessions-joe-active-actions.png)
 
-![Joe active session actions](./screenshots/sessions-joe-active-actions.png)
+## Session information
 
-## What This Page Solves
+| Column | Description |
+| --- | --- |
+| User | Active Directory user with active access. |
+| JIT role | Role that supplied the mapped group membership. |
+| Assignment type | Manual, Scheduled, or Eligible. |
+| Start and end | Session activation and expiration times. |
+| Remaining time | Time until expiration. |
+| Status | Current session state. |
+| Actions | Available extend or revoke actions. |
 
-Temporary access is only useful when operators can see it while it is active.
+## Extend a session
 
-The Active Sessions view closes that gap. It shows current privileged sessions and gives JIT administrators immediate action buttons for allowed sessions.
+1. Confirm the user still needs access for the approved task.
+2. Click **Extend** for the session.
+3. Enter the additional minutes.
+4. Enter the reason.
+5. Confirm the extension.
 
-## What Active Sessions Shows
+![Extend session](./screenshots/sessions-joe-extend-modal.png)
 
-The table shows:
+The extension must remain within the limits enforced for the role and session type.
 
-- User account.
-- JIT role.
-- Assignment type.
-- Start time.
-- End time.
-- Remaining time.
-- Current status.
-- Available actions.
+## Revoke a session
 
-For eligible and manual sessions, the administrator can extend the session when more time is required. For any active session shown to an authorized administrator, the administrator can revoke access.
+1. Confirm the user and JIT role.
+2. Click **Revoke**.
+3. Confirm the action.
 
-## Extend a Session
+> **Important:** Revoking an active session stops access before its configured end time and removes the temporary Active Directory group membership.
 
-Use **Extend** only when the business task is still active and the user still needs privileged access.
+## Expected result
 
-![Extend Joe session](./screenshots/sessions-joe-extend-modal.png)
+An extension updates the session expiration. A revoke removes the session from the active list or changes its status and removes the mapped group membership.
 
-The extend dialog records:
+## Verify the action
 
-- The target user.
-- Additional minutes.
-- Reason for the extension.
+- Refresh **Active Sessions** and confirm the new state.
+- Verify the user's Active Directory group membership when access was revoked.
+- Review the extension or revoke audit record.
 
-The reason is important. It gives the audit trail enough context to explain why the original access window was not enough.
-
-## Revoke a Session
-
-Use **Revoke** when access should stop before the scheduled or configured end time.
-
-Revoking a session ends the active JIT session and removes the user from the AD group mapped by the role.
-
-Do not revoke a production session unless the user has completed the task, the access was opened by mistake, or there is a security reason to stop it immediately.
-
-## Operational Checks
-
-Before extending:
-
-- Confirm the user is still working on the approved task.
-- Keep the extension short.
-- Enter a clear reason.
-- Confirm notification settings if administrators should be notified.
-
-Before revoking:
-
-- Confirm the correct user and role.
-- Confirm the business impact.
-- Expect access to be removed from the mapped AD group immediately.
-- Review the session list again after revoke.
-
-## Notes
-
-Scheduled sessions may be controlled by their schedule window. Manual and Eligible sessions are the primary session types that can be extended from the Active Sessions view.
+Scheduled sessions remain controlled by their schedule window. Extend is primarily available for eligible and manual sessions.
